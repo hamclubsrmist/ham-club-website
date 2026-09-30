@@ -1,0 +1,321 @@
+/* =========================
+EVENTS PAGE
+========================= */
+
+body{
+
+background:#f5f7fb;
+
+}
+
+/* Banner */
+
+.events-banner{
+
+background:#0B3C6D;
+
+padding:80px 20px;
+
+text-align:center;
+
+color:white;
+
+}
+
+.events-banner h1{
+
+font-size:52px;
+
+margin-bottom:15px;
+
+}
+
+.events-banner p{
+
+font-size:20px;
+
+}
+
+/* Two Cards */
+
+.events-home{
+
+max-width:1200px;
+
+margin:70px auto;
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:40px;
+
+padding:0 20px;
+
+}
+
+.event-option{
+
+background:white;
+
+border-radius:20px;
+
+overflow:hidden;
+
+text-align:center;
+
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+
+transition:.3s;
+
+}
+
+.event-option:hover{
+
+transform:translateY(-10px);
+
+}
+
+.event-option img{
+
+width:100%;
+
+height:280px;
+
+object-fit:cover;
+
+}
+
+.event-option h2{
+
+color:#0B3C6D;
+
+margin:25px 0 15px;
+
+font-size:34px;
+
+}
+
+.event-option p{
+
+padding:0 25px;
+
+font-size:18px;
+
+line-height:1.7;
+
+color:#555;
+
+}
+
+.event-btn{
+
+display:inline-block;
+
+margin:30px 0;
+
+padding:16px 40px;
+
+background:#0B3C6D;
+
+color:white;
+
+text-decoration:none;
+
+border-radius:8px;
+
+font-size:20px;
+
+font-weight:bold;
+
+transition:.3s;
+
+}
+
+.event-btn:hover{
+
+background:#FFC107;
+
+color:black;
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.events-home{
+
+grid-template-columns:1fr;
+
+}
+
+.events-banner h1{
+
+font-size:38px;
+
+}
+
+.event-option h2{
+
+font-size:28px;
+
+}
+
+}
+/* ===========================
+UPCOMING EVENTS
+=========================== */
+
+.events-section{
+
+padding:70px 20px;
+
+}
+
+.event-grid{
+    max-width:1000px;
+    margin:40px auto;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:30px;
+    padding:0 20px;
+}
+.event-card{
+    background:#fff;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.event-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.event-card h3{
+    margin:15px 0;
+    color:#0B3C6D;
+}
+
+.event-card p{
+    margin:15px 0;
+    line-height:1.7;
+}
+
+.event-btn{
+
+display:inline-block;
+
+margin-top:15px;
+
+padding:14px 32px;
+
+background:#0B3C6D;
+
+color:#fff;
+
+text-decoration:none;
+
+border-radius:8px;
+
+font-weight:bold;
+
+transition:.3s;
+
+}
+
+.event-btn:hover{
+
+background:#FFC107;
+
+color:#000;
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .event-grid{
+        grid-template-columns:1fr;
+        padding:0 15px;
+    }
+
+}
+
+.event-card{
+    padding:35px;
+}
+
+.event-card h3{
+
+font-size:24px;
+
+}
+
+.back-btn{
+    text-align:center;
+    margin:50px 0;
+}
+
+.back-btn a{
+    background:#0B3C6D;
+    color:#fff;
+    padding:12px 30px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.back-btn a:hover{
+    background:#d7b449;
+    color:#000;
+}
+/* ===========================
+EVENT NOTE
+=========================== */
+
+.event-note{
+
+    max-width:900px;
+
+    margin:0 auto 50px;
+
+    text-align:center;
+
+    font-size:18px;
+
+    color:#555;
+
+    line-height:1.8;
+
+}
+.coming-soon-card{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+.event-date{
+    background:#eed792;
+    color:#0B3C6D;
+}
+
+.coming-soon-card h3{
+    margin:20px 0;
+    color:#0B3C6D;
+}
+
+.coming-soon-card p{
+    line-height:1.8;
+    color:#555;
+}
+
+.coming-soon-card a{
+    color:#0B3C6D;
+    font-weight:600;
+    text-decoration:none;
+}

@@ -1,0 +1,402 @@
+/* =========================================================
+   HAM CLUB - COMMON WEBSITE ANIMATIONS
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE LOAD
+   ========================================================= */
+
+body {
+    animation: pageFadeIn 0.7s ease both;
+}
+
+@keyframes pageFadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.navbar {
+    animation: navDrop 0.7s ease both;
+}
+
+@keyframes navDrop {
+
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   NAVIGATION LINKS
+   ========================================================= */
+
+.navbar a {
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.navbar a:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero,
+.page-header,
+.hero-section {
+    animation: heroReveal 1s ease both;
+}
+
+@keyframes heroReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   HERO CONTENT
+   ========================================================= */
+
+.hero h1,
+.hero h2,
+.hero h3,
+.hero p {
+    animation: heroText 0.9s ease both;
+}
+
+.hero h1 {
+    animation-delay: 0.15s;
+}
+
+.hero h2 {
+    animation-delay: 0.3s;
+}
+
+.hero h3 {
+    animation-delay: 0.45s;
+}
+
+.hero p {
+    animation-delay: 0.6s;
+}
+
+@keyframes heroText {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button,
+.btn,
+.profile-btn {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+}
+
+button:hover,
+.btn:hover,
+.profile-btn:hover {
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+
+.section-heading,
+.section-title {
+    transition:
+        transform 0.7s ease,
+        opacity 0.7s ease;
+}
+
+
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(45px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   REVEAL FROM LEFT
+   ========================================================= */
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal-left.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* =========================================================
+   REVEAL FROM RIGHT
+   ========================================================= */
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal-right.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.card,
+.domain-card,
+.event-card,
+.member-card,
+.project-card,
+.gallery-item,
+.team-card {
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.card:hover,
+.domain-card:hover,
+.event-card:hover,
+.member-card:hover,
+.project-card:hover,
+.gallery-item:hover,
+.team-card:hover {
+    transform: translateY(-7px);
+}
+
+
+/* =========================================================
+   CARD IMAGES
+   ========================================================= */
+
+.card img,
+.event-card img,
+.member-card img,
+.project-card img,
+.gallery-item img,
+.team-card img {
+    transition:
+        transform 0.5s ease;
+}
+
+.card:hover img,
+.event-card:hover img,
+.member-card:hover img,
+.project-card:hover img,
+.gallery-item:hover img,
+.team-card:hover img {
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   IMAGES
+   ========================================================= */
+
+img {
+    transition:
+        transform 0.4s ease;
+}
+
+
+/* =========================================================
+   TEXT LINKS
+   ========================================================= */
+
+.text-link {
+    transition:
+        transform 0.3s ease,
+        letter-spacing 0.3s ease;
+}
+
+.text-link:hover {
+    transform: translateX(5px);
+}
+
+
+/* =========================================================
+   TEAM MEMBER CARDS
+   ========================================================= */
+
+.member-card {
+    animation: cardAppear 0.7s ease both;
+}
+
+@keyframes cardAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   STAGGER CARDS
+   ========================================================= */
+
+.card:nth-child(1),
+.member-card:nth-child(1),
+.domain-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.card:nth-child(2),
+.member-card:nth-child(2),
+.domain-card:nth-child(2) {
+    animation-delay: 0.10s;
+}
+
+.card:nth-child(3),
+.member-card:nth-child(3),
+.domain-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.card:nth-child(4),
+.member-card:nth-child(4),
+.domain-card:nth-child(4) {
+    animation-delay: 0.20s;
+}
+
+.card:nth-child(5),
+.member-card:nth-child(5),
+.domain-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.card:nth-child(6),
+.member-card:nth-child(6),
+.domain-card:nth-child(6) {
+    animation-delay: 0.30s;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    transition:
+        transform 0.4s ease;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .card:hover,
+    .domain-card:hover,
+    .event-card:hover,
+    .member-card:hover,
+    .project-card:hover,
+    .gallery-item:hover,
+    .team-card:hover {
+        transform: translateY(-4px);
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+}
