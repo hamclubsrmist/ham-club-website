@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HAM Club | Member Profile</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: #050505;
+            color: #ffffff;
+            font-family: "Inter", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           MAIN PAGE
+        ========================= */
+
+        .page {
+
+            width: min(100%, 1000px);
+
+            margin: 0 auto;
+
+            padding: 34px 60px 42px;
+
+            background: #050505;
+        }
+
+
+        /* =========================
+           TOP ROLE
+        ========================= */
+
+        .top-role {
+
+            width: max-content;
+
+            max-width: 100%;
+
+            margin: 0 auto 28px;
+
+            padding: 11px 42px;
+
+            border: 2px solid #d9a83d;
+
+            border-radius: 13px;
+
+            color: #f1c45c;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            letter-spacing: 5px;
+
+            text-transform: uppercase;
+
+            text-align: center;
+
+            box-shadow:
+                0 0 20px rgba(217, 168, 61, 0.16);
+        }
+
+
+        /* =========================
+           MEMBER NAME
+        ========================= */
+
+        .name {
+    width: 100%;
+    max-width: 100%;
+
+    text-align: center;
+
+    color: #ffffff;
+
+    font-size: clamp(42px, 7vw, 86px);
+
+    line-height: 0.98;
+
+    font-weight: 900;
+
+    letter-spacing: -3px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 22px;
+
+    /* IMPORTANT:
+       Allow the complete name to be displayed */
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
+        /* =========================
+           MEMBER PHOTO
+        ========================= */
+
+        .photo-wrap {
+
+            width: min(520px, 82vw);
+
+            height: min(560px, 55vw);
+
+            min-height: 390px;
+
+            margin: 0 auto;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            background: transparent;
+        }
+
+        .photo {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: contain;
+
+            object-position: center bottom;
+
+            display: block;
+        }
+
+
+        /* =========================
+           MEMBER DETAILS
+        ========================= */
+
+        .details {
+
+            text-align: center;
+
+            margin-top: 0;
+        }
+
+        .role {
+
+            color: #ffffff;
+
+            font-size: clamp(25px, 3.5vw, 39px);
+
+            line-height: 1;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.3px;
+        }
+
+        .meta {
+
+            margin-top: 12px;
+
+            color: #eeeeee;
+
+            font-size: 20px;
+
+            letter-spacing: 8px;
+        }
+
+
+        /* =========================
+           DIVIDER
+        ========================= */
+
+        .divider {
+
+            height: 2px;
+
+            background: #ffffff;
+
+            opacity: 0.9;
+
+            margin: 28px 0 18px;
+        }
+
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section-title {
+
+            color: #ffffff;
+
+            font-size: 16px;
+
+            letter-spacing: 6px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 12px;
+        }
+
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact-list {
+
+            border-top: 1px solid rgba(255, 255, 255, 0.45);
+        }
+
+        .contact {
+
+            display: grid;
+
+            grid-template-columns:
+                78px
+                minmax(0, 1fr)
+                42px;
+
+            align-items: center;
+
+            gap: 18px;
+
+            min-height: 92px;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.38);
+
+            color: #ffffff;
+
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           CONTACT ICON
+        ========================= */
+
+        .icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 30px;
+        }
+
+        .linkedin {
+
+            background: #0a84d8;
+        }
+
+        .instagram {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c2cff,
+                    #ff1688,
+                    #ffb300
+                );
+        }
+
+        .email {
+
+            background: #f7f7f7;
+
+            color: #d93025;
+        }
+
+        .phone {
+
+            background: #18c846;
+        }
+
+
+        /* =========================
+           CONTACT TEXT
+        ========================= */
+
+        .contact-main {
+
+            min-width: 0;
+        }
+
+        .contact-label {
+
+            display: block;
+
+            color: #ffffff;
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 5px;
+        }
+
+        .contact-value {
+
+            display: block;
+
+            color: #aaaaaa;
+
+            font-size: 15px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+        .arrow {
+
+            color: #ffffff;
+
+            font-size: 25px;
+
+            text-align: right;
+        }
+
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about {
+
+            margin-top: 30px;
+        }
+
+        .about-text {
+
+            color: #d0d0d0;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+
+            margin-top: 18px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+
+            border-top: 2px solid #ffffff;
+
+            margin-top: 30px;
+
+            padding-top: 27px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            color: #dddddd;
+
+            font-size: 14px;
+
+            letter-spacing: 5px;
+
+            text-transform: uppercase;
+        }
+
+
+        /* =========================
+           LOADING / ERROR
+        ========================= */
+
+        .loading,
+        .error {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 30px;
+
+            background: #050505;
+        }
+
+        .error h2 {
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+        .error p {
+
+            color: #aaaaaa;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .page {
+
+                width: 100%;
+
+                padding:
+                    24px
+                    27px
+                    34px;
+            }
+
+            .top-role {
+
+                margin-bottom: 22px;
+
+                padding:
+                    8px
+                    20px;
+
+                font-size: 10px;
+
+                letter-spacing: 3.5px;
+
+                border-radius: 9px;
+            }
+
+            .name {
+
+                font-size:
+                    clamp(
+                        40px,
+                        11.5vw,
+                        66px
+                    );
+
+                letter-spacing: -2.5px;
+
+                margin-bottom: 12px;
+            }
+
+            .photo-wrap {
+
+                width: 100%;
+
+                height: 108vw;
+
+                min-height: 350px;
+
+                max-height: 530px;
+            }
+
+            .role {
+
+                font-size: 25px;
+            }
+
+            .meta {
+
+                font-size: 15px;
+
+                letter-spacing: 6px;
+            }
+
+            .divider {
+
+                margin:
+                    25px
+                    0
+                    17px;
+            }
+
+            .section-title {
+
+                font-size: 12px;
+
+                letter-spacing: 5px;
+            }
+
+            .contact {
+
+                grid-template-columns:
+                    55px
+                    minmax(0, 1fr)
+                    28px;
+
+                gap: 12px;
+
+                min-height: 78px;
+            }
+
+            .icon {
+
+                width: 46px;
+
+                height: 46px;
+
+                border-radius: 10px;
+
+                font-size: 23px;
+            }
+
+            .contact-label {
+
+                font-size: 14px;
+
+                margin-bottom: 4px;
+            }
+
+            .contact-value {
+
+                font-size: 11.5px;
+            }
+
+            .arrow {
+
+                font-size: 20px;
+            }
+
+
+            /* ABOUT MOBILE */
+
+            .about {
+
+                margin-top: 25px;
+            }
+
+            .about-text {
+
+                font-size: 15px;
+
+                line-height: 1.6;
+
+                margin-top: 15px;
+            }
+
+
+            .footer {
+
+                font-size: 9px;
+
+                letter-spacing: 3px;
+
+                padding-top: 22px;
+            }
+        }
+
+
+        @media (max-width: 390px) {
+
+            .page {
+
+                padding-left: 19px;
+
+                padding-right: 19px;
+            }
+
+            .top-role {
+
+                padding-left: 14px;
+
+                padding-right: 14px;
+            }
+
+            .name {
+
+                font-size: 35px;
+            }
+
+            .role {
+
+                font-size: 21px;
+            }
+
+            .meta {
+
+                font-size: 13px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div id="app" class="loading">
+
+        <div>
+            Loading member profile...
+        </div>
+
+    </div>
+
+
+<script>
+
+
+/* ==========================================
+   BACKEND
+========================================== */
+
+const BACKEND_URL =
+        "http://192.168.0.3:5000";
+
+const API_URL =
+    BACKEND_URL + "/api/team";
+
+
+/* ==========================================
+   GET MEMBER ID FROM URL
+========================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const memberId =
+    params.get("id");
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHTML(value = "") {
+
+    return String(value).replace(
+        /[&<>"']/g,
+
+        function (character) {
+
+            return {
+
+                "&": "&amp;",
+
+                "<": "&lt;",
+
+                ">": "&gt;",
+
+                '"': "&quot;",
+
+                "'": "&#039;"
+
+            }[character];
+
+        }
+    );
+}
+
+
+/* ==========================================
+   IMAGE URL
+========================================== */
+
+function imageURL(path) {
+
+    if (!path) {
+
+        return "";
+    }
+
+    if (
+        path.startsWith("http://") ||
+        path.startsWith("https://")
+    ) {
+
+        return path;
+    }
+
+    return BACKEND_URL +
+        (
+            path.startsWith("/")
+                ? path
+                : "/" + path
+        );
+}
+
+
+/* ==========================================
+   SAFE URL
+========================================== */
+
+function safeURL(url) {
+
+    if (!url) {
+
+        return "#";
+    }
+
+    if (
+        url.startsWith("http://") ||
+        url.startsWith("https://")
+    ) {
+
+        return url;
+    }
+
+    return "#";
+}
+
+
+/* ==========================================
+   CONTACT ROW
+========================================== */
+
+function contactRow(
+    type,
+    label,
+    value,
+    url,
+    iconClass
+) {
+
+    if (!value) {
+
+        return "";
+    }
+
+
+    let href;
+
+
+    if (type === "phone") {
+
+        href =
+            "tel:" +
+            value.replace(/\s+/g, "");
+
+    }
+
+    else if (type === "email") {
+
+        href =
+            "mailto:" +
+            value;
+
+    }
+
+    else {
+
+        href =
+            safeURL(
+                url || value
+            );
+    }
+
+
+    let icon = "";
+
+
+    if (type === "linkedin") {
+
+        icon =
+            "fa-brands fa-linkedin-in";
+    }
+
+    else if (type === "instagram") {
+
+        icon =
+            "fa-brands fa-instagram";
+    }
+
+    else if (type === "email") {
+
+        icon =
+            "fa-solid fa-envelope";
+    }
+
+    else {
+
+        icon =
+            "fa-solid fa-phone";
+    }
+
+
+    const target =
+        type === "phone" ||
+        type === "email"
+            ? ""
+            : 'target="_blank" rel="noopener noreferrer"';
+
+
+    return `
+
+        <a
+            class="contact"
+            href="${escapeHTML(href)}"
+            ${target}
+        >
+
+            <span class="icon ${iconClass}">
+
+                <i class="${icon}"></i>
+
+            </span>
+
+
+            <span class="contact-main">
+
+                <span class="contact-label">
+
+                    ${escapeHTML(label)}
+
+                </span>
+
+
+                <span class="contact-value">
+
+                    ${escapeHTML(value)}
+
+                </span>
+
+            </span>
+
+
+            <span class="arrow">
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+            </span>
+
+        </a>
+
+    `;
+}
+
+
+/* ==========================================
+   LOAD MEMBER
+========================================== */
+
+async function loadMember() {
+
+    const app =
+        document.getElementById("app");
+
+
+    if (!memberId) {
+
+        app.innerHTML = `
+
+            <div class="error">
+
+                <div>
+
+                    <h2>
+                        Member Not Found
+                    </h2>
+
+                    <p>
+                        No member ID was provided.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+
+                `${API_URL}/member/${encodeURIComponent(memberId)}`
+
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !result.success ||
+            !result.member
+        ) {
+
+            throw new Error(
+                "Member not found"
+            );
+        }
+
+
+        const member =
+            result.member;
+
+
+        /* ==========================
+           MEMBER IMAGE
+        ========================== */
+
+        const image =
+            imageURL(
+                member.image
+            );
+
+
+        /* ==========================
+           CONTACT DATA
+        ========================== */
+
+        const linkedin =
+            member.linkedin || "";
+
+        const instagram =
+            member.instagram || "";
+
+        const email =
+            member.email || "";
+
+        const phone =
+            member.phone || "";
+
+
+        /* ==========================
+           DISPLAY PAGE
+        ========================== */
+
+        app.className = "page";
+
+
+        app.innerHTML = `
+
+            <!-- TOP ROLE -->
+
+            <div class="top-role">
+
+                ${escapeHTML(
+                    member.role ||
+                    member.domain ||
+                    "HAM CLUB MEMBER"
+                )}
+
+            </div>
+
+
+            <!-- MEMBER NAME -->
+
+            <h1
+                class="name"
+                title="${escapeHTML(
+                    member.name ||
+                    "Member"
+                )}"
+            >
+
+                ${escapeHTML(
+                    member.name ||
+                    "Member"
+                )}
+
+            </h1>
+
+
+            <!-- MEMBER PHOTO -->
+
+            <div class="photo-wrap">
+
+                ${
+                    image
+
+                    ?
+
+                    `
+                    <img
+                        class="photo"
+                        src="${escapeHTML(image)}"
+                        alt="${escapeHTML(
+                            member.name ||
+                            "Member"
+                        )}"
+                        onerror="
+                            this.style.display='none'
+                        "
+                    >
+                    `
+
+                    :
+
+                    ""
+                }
+
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="details">
+
+                <div class="role">
+
+                    ${escapeHTML(
+                        member.role ||
+                        member.domain ||
+                        "HAM CLUB MEMBER"
+                    )}
+
+                </div>
+
+
+                <div class="meta">
+
+                    ${escapeHTML(
+                        member.department ||
+                        ""
+                    )}
+
+                    ${
+                        member.department &&
+                        member.year
+
+                        ? " &nbsp;|&nbsp; "
+
+                        : ""
+                    }
+
+                    ${escapeHTML(
+                        member.year ||
+                        ""
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <!-- DIVIDER -->
+
+            <div class="divider"></div>
+
+
+            <!-- CONTACT -->
+
+            <section>
+
+                <div class="section-title">
+
+                    Contact &amp; Social
+
+                </div>
+
+
+                <div class="contact-list">
+
+                    ${contactRow(
+                        "linkedin",
+                        "LinkedIn",
+                        linkedin,
+                        linkedin,
+                        "linkedin"
+                    )}
+
+                    ${contactRow(
+                        "instagram",
+                        "Instagram",
+                        instagram,
+                        instagram,
+                        "instagram"
+                    )}
+
+                    ${contactRow(
+                        "email",
+                        "Email",
+                        email,
+                        email,
+                        "email"
+                    )}
+
+                    ${contactRow(
+                        "phone",
+                        "Phone",
+                        phone,
+                        phone,
+                        "phone"
+                    )}
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 ABOUT
+            ========================= -->
+
+            <section class="about">
+
+                <div class="section-title">
+
+                    About
+
+                </div>
+
+
+                <p class="about-text">
+
+                    ${escapeHTML(
+
+                        member.bio ||
+
+                        "Passionate about documentation, content creation and design. I love to capture moments, write stories and build the digital identity of HAM Club. Always eager to learn, explore and contribute to meaningful projects."
+
+                    )}
+
+                </p>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <footer class="footer">
+
+                <span>
+
+                    HAM CLUB
+
+                </span>
+
+
+                <span>
+
+                    SRMIST RAMAPURAM
+
+                </span>
+
+            </footer>
+
+        `;
+
+
+        document.title =
+            `${member.name || "Member"} | HAM Club`;
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        app.innerHTML = `
+
+            <div class="error">
+
+                <div>
+
+                    <h2>
+                        Member Not Found
+                    </h2>
+
+                    <p>
+                        We couldn't find the member profile.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+    }
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+loadMember();
+
+</script>
+
+</body>
+
+</html>

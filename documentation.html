@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Documentation Team | HAM CLUB</title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f5f7fb;
+
+            color: #222;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+            width: 100%;
+
+            height: 90px;
+
+            background: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 55px;
+
+            position: relative;
+
+            z-index: 1000;
+
+            box-shadow:
+                0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =====================================================
+           LOGO
+        ===================================================== */
+
+        .logo {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .logo a {
+            display: flex;
+
+            align-items: center;
+        }
+
+
+        .logo img {
+            width: 52px !important;
+
+            height: 52px !important;
+
+            max-width: 52px !important;
+
+            max-height: 52px !important;
+
+            min-width: 52px !important;
+
+            min-height: 52px !important;
+
+            object-fit: contain !important;
+
+            border: none !important;
+
+            border-radius: 0 !important;
+
+            display: block;
+        }
+
+
+        .logo h2 {
+            font-size: 25px;
+
+            color: #111;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        .nav-links {
+            display: flex;
+
+            align-items: center;
+
+            gap: 38px;
+
+            list-style: none;
+        }
+
+
+        .nav-links li {
+            list-style: none;
+        }
+
+
+        .nav-links a {
+            text-decoration: none;
+
+            color: #161616;
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            padding: 32px 0 9px;
+
+            border-bottom:
+                3px solid transparent;
+
+            transition: 0.25s ease;
+        }
+
+
+        .nav-links a:hover {
+            color: #0b3c6d;
+        }
+
+
+        .nav-links a.active {
+            border-bottom:
+                3px solid #d8a900;
+        }
+
+
+        /* =====================================================
+           MOBILE MENU
+        ===================================================== */
+
+        .menu-toggle {
+            display: none;
+
+            font-size: 28px;
+
+            color: #0b3c6d;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           WATERMARK
+        ===================================================== */
+
+        .team-watermark {
+            position: fixed;
+
+            top: 55%;
+
+            left: 50%;
+
+            width: 650px;
+
+            height: 650px;
+
+            transform:
+                translate(-50%, -50%);
+
+            background:
+                url("images/logo/logo.png")
+                center / contain
+                no-repeat;
+
+            opacity: 0.045;
+
+            pointer-events: none;
+
+            z-index: 0;
+        }
+
+
+        /* =====================================================
+           BANNER
+        ===================================================== */
+
+        .team-banner {
+            position: relative;
+
+            z-index: 2;
+
+            background: #0b3c6d;
+
+            color: #ffffff;
+
+            text-align: center;
+
+            padding: 60px 20px;
+        }
+
+
+        .team-banner h1 {
+            font-size: 44px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .team-banner p {
+            font-size: 17px;
+
+            color:
+                rgba(255,255,255,0.88);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .team-content {
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 35px 25px 80px;
+        }
+
+
+        /* =====================================================
+           BACK BUTTON
+        ===================================================== */
+
+        .back-container {
+            margin-bottom: 35px;
+        }
+
+
+        .back-button {
+            display: inline-block;
+
+            text-decoration: none;
+
+            color: #0b3c6d;
+
+            background: #ffffff;
+
+            padding:
+                11px 20px;
+
+            border-radius: 30px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0,0,0,0.08);
+
+            transition: 0.25s ease;
+        }
+
+
+        .back-button:hover {
+            background: #0b3c6d;
+
+            color: #ffffff;
+
+            transform:
+                translateX(-4px);
+        }
+
+
+        /* =====================================================
+           MEMBERS GRID
+        ===================================================== */
+
+        .members-grid {
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 28px;
+        }
+
+
+        /* =====================================================
+           MEMBER CARD
+        ===================================================== */
+
+        .member-card {
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            padding:
+                28px 20px 25px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 9px 25px
+                rgba(0,0,0,0.09);
+
+            border:
+                1px solid
+                rgba(11,60,109,0.07);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+
+        .member-card:hover {
+            transform:
+                translateY(-7px);
+
+            box-shadow:
+                0 18px 35px
+                rgba(0,0,0,0.14);
+        }
+
+
+        /* =====================================================
+           MEMBER PHOTO
+        ===================================================== */
+
+        .member-photo {
+            width: 175px;
+
+            height: 175px;
+
+            margin:
+                0 auto 20px;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+
+            border:
+                5px solid #d8a900;
+
+            background: #eef2f5;
+        }
+
+
+        .member-photo img {
+            width: 100% !important;
+
+            height: 100% !important;
+
+            display: block !important;
+
+            object-fit: cover !important;
+
+            border: none !important;
+
+            border-radius: 0 !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
+        }
+
+
+        /* =====================================================
+           MEMBER NAME
+        ===================================================== */
+
+        .member-card h3 {
+            color: #0b3c6d;
+
+            font-size: 21px;
+
+            line-height: 1.3;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* =====================================================
+           ROLE
+        ===================================================== */
+
+        .member-role {
+            color: #555;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            line-height: 1.4;
+
+            margin-bottom: 7px;
+        }
+
+
+        /* =====================================================
+           YEAR
+        ===================================================== */
+
+        .member-year {
+            color: #888;
+
+            font-size: 13px;
+
+            margin-bottom: 17px;
+        }
+
+
+        /* =====================================================
+           VIEW PROFILE
+        ===================================================== */
+
+        .view-profile {
+            display: inline-block;
+
+            background: #0b3c6d;
+
+            color: #ffffff;
+
+            padding:
+                9px 17px;
+
+            border-radius: 25px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           LOADING
+        ===================================================== */
+
+        .loading {
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 80px 20px;
+
+            color: #666;
+
+            font-size: 17px;
+        }
+
+
+        /* =====================================================
+           ERROR
+        ===================================================== */
+
+        .error-message {
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 70px 20px;
+
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(0,0,0,0.07);
+        }
+
+
+        .error-message h2 {
+            color: #0b3c6d;
+
+            margin-bottom: 10px;
+        }
+
+
+        .error-message p {
+            color: #666;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           NO MEMBERS
+        ===================================================== */
+
+        .no-members {
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 70px 20px;
+        }
+
+
+        .no-members h2 {
+            color: #0b3c6d;
+
+            margin-bottom: 10px;
+        }
+
+
+        .no-members p {
+            color: #666;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            position: relative;
+
+            z-index: 3;
+
+            background: #06233d;
+
+            color: #ffffff;
+
+            text-align: center;
+
+            padding:
+                42px 20px 32px;
+        }
+
+
+        .footer-content h2 {
+            font-size: 25px;
+
+            letter-spacing: 4px;
+
+            margin-bottom: 9px;
+        }
+
+
+        .footer-content p {
+            font-size: 10px;
+
+            letter-spacing: 5px;
+
+            color:
+                rgba(255,255,255,0.65);
+
+            margin-bottom: 14px;
+        }
+
+
+        .footer-content span {
+            font-size: 13px;
+
+            color:
+                rgba(255,255,255,0.70);
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .navbar {
+                padding:
+                    0 30px;
+            }
+
+
+            .nav-links {
+                gap: 22px;
+            }
+
+
+            .nav-links a {
+                font-size: 15px;
+            }
+
+
+            .members-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                max-width: 800px;
+
+                margin: auto;
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 768px) {
+
+            .navbar {
+                height: 75px;
+
+                padding:
+                    0 20px;
+            }
+
+
+            .logo img {
+                width: 43px !important;
+
+                height: 43px !important;
+
+                max-width: 43px !important;
+
+                max-height: 43px !important;
+            }
+
+
+            .logo h2 {
+                font-size: 21px;
+            }
+
+
+            .menu-toggle {
+                display: block;
+            }
+
+
+            .nav-links {
+                display: none;
+
+                position: absolute;
+
+                top: 75px;
+
+                left: 0;
+
+                width: 100%;
+
+                background: #ffffff;
+
+                flex-direction: column;
+
+                gap: 0;
+
+                padding: 8px 0;
+
+                box-shadow:
+                    0 10px 20px
+                    rgba(0,0,0,0.10);
+            }
+
+
+            .nav-links.show {
+                display: flex;
+            }
+
+
+            .nav-links li {
+                width: 100%;
+
+                text-align: center;
+            }
+
+
+            .nav-links a {
+                width: 100%;
+
+                padding:
+                    13px 20px;
+
+                border: none;
+
+                font-size: 16px;
+            }
+
+
+            .nav-links a.active {
+                background: #f5f7fb;
+
+                border: none;
+            }
+
+
+            .team-banner {
+                padding:
+                    50px 20px;
+            }
+
+
+            .team-banner h1 {
+                font-size: 34px;
+            }
+
+
+            .team-banner p {
+                font-size: 15px;
+            }
+
+
+            .team-content {
+                padding:
+                    30px 18px 60px;
+            }
+
+
+            .members-grid {
+                grid-template-columns:
+                    1fr;
+
+                max-width: 380px;
+            }
+
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 480px) {
+
+            .logo h2 {
+                font-size: 19px;
+            }
+
+
+            .member-photo {
+                width: 160px;
+
+                height: 160px;
+            }
+
+
+            .team-watermark {
+                width: 450px;
+
+                height: 450px;
+
+                opacity: 0.035;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header>
+
+    <nav class="navbar">
+
+
+        <div class="logo">
+
+            <a href="index.html">
+
+                <img
+                    src="images/logo/logo.png"
+                    alt="HAM Club Logo"
+                >
+
+            </a>
+
+            <h2>
+                HAM CLUB
+            </h2>
+
+        </div>
+
+
+
+        <div
+            class="menu-toggle"
+            id="menuToggle">
+
+            ☰
+
+        </div>
+
+
+
+        <ul
+            class="nav-links"
+            id="navLinks">
+
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="about.html">
+                    About
+                </a>
+            </li>
+
+            <li>
+                <a href="leadership.html">
+                    Leadership
+                </a>
+            </li>
+
+            <li>
+                <a href="events.html">
+                    Events
+                </a>
+            </li>
+
+            <li>
+                <a href="gallery.html">
+                    Gallery
+                </a>
+            </li>
+
+            <li>
+                <a href="projects.html">
+                    Projects
+                </a>
+            </li>
+
+            <li>
+                <a href="magazine.html">
+                    Magazine
+                </a>
+            </li>
+
+            <li>
+                <a href="contact.html">
+                    Contact
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     WATERMARK
+===================================================== -->
+
+<div class="team-watermark"></div>
+
+
+
+<!-- =====================================================
+     BANNER
+===================================================== -->
+
+<section class="team-banner">
+
+    <h1>
+        Documentation Team
+    </h1>
+
+    <p>
+        Meet the members behind HAM Club's documentation.
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="team-content">
+
+
+    <!-- BACK -->
+
+    <div class="back-container">
+
+        <a
+            href="leadership.html"
+            class="back-button">
+
+            ← Back to Leadership
+
+        </a>
+
+    </div>
+
+
+
+    <!-- MEMBERS -->
+
+    <section>
+
+        <div
+            class="members-grid"
+            id="membersGrid">
+
+            <div class="loading">
+
+                Loading members...
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <h2>
+            HAM CLUB
+        </h2>
+
+        <p>
+            CONNECTING PASSION WIRELESSLY
+        </p>
+
+        <span>
+            SRM Institute of Science and Technology · Ramapuram Campus
+        </span>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script Youtube music app get sense what you like from the format. Pry one three eight putting swap>
+
+    /* =====================================================
+       BACKEND URLS
+    ===================================================== */
+
+    const API_URLS = [
+        "http://localhost:5000",
+        "http://192.168.0.3:5000"
+    ];
+
+
+    let API_URL = null;
+
+
+    /* =====================================================
+       MEMBERS GRID
+    ===================================================== */
+
+    const membersGrid =
+        document.getElementById("membersGrid");
+
+
+    /* =====================================================
+       FIND WORKING BACKEND
+    ===================================================== */
+
+    async function findBackend() {
+
+        for (const url of API_URLS) {
+
+            try {
+
+                console.log(
+                    "Trying backend:",
+                    url
+                );
+
+
+                const response =
+                    await fetch(
+                        url + "/api/team",
+                        {
+                            method: "GET"
+                        }
+                    );
+
+
+                if (response.ok) {
+
+                    console.log(
+                        "Backend connected:",
+                        url
+                    );
+
+                    API_URL = url;
+
+                    return true;
+                }
+
+            }
+
+            catch (error) {
+
+                console.log(
+                    "Backend not available:",
+                    url
+                );
+
+            }
+
+        }
+
+
+        return false;
+
+    }
+
+
+    /* =====================================================
+       LOAD DOCUMENTATION MEMBERS
+    ===================================================== */
+
+    async function loadMembers() {
+
+        membersGrid.innerHTML = `
+
+            <div class="loading">
+
+                Loading members...
+
+            </div>
+
+        `;
+
+
+        /* =================================================
+           FIND BACKEND
+        ================================================= */
+
+        const connected =
+            await findBackend();
+
+
+        if (!connected) {
+
+            membersGrid.innerHTML = `
+
+                <div class="error-message">
+
+                    <h2>
+                        Backend Not Connected
+                    </h2>
+
+                    <p>
+                        Please start your HAM Club backend
+                        server.
+                    </p>
+
+                    <p>
+                        Expected:
+                        <strong>
+                            http://localhost:5000
+                        </strong>
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        try {
+
+            /* =============================================
+               GET TEAM DATA
+            ============================================= */
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/api/team"
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP Error " +
+                    response.status
+                );
+
+            }
+
+
+            /* =============================================
+               CONVERT TO JSON
+            ============================================= */
+
+            const result =
+                await response.json();
+
+
+            console.log(
+                "Complete Team API:",
+                result
+            );
+
+
+            /* =============================================
+               FIND ARRAY
+            ============================================= */
+
+            let members = [];
+
+
+            if (Array.isArray(result)) {
+
+                members = result;
+
+            }
+
+            else if (
+                result &&
+                Array.isArray(result.team)
+            ) {
+
+                members =
+                    result.team;
+
+            }
+
+            else if (
+                result &&
+                Array.isArray(result.data)
+            ) {
+
+                members =
+                    result.data;
+
+            }
+
+            else if (
+                result &&
+                Array.isArray(result.members)
+            ) {
+
+                members =
+                    result.members;
+
+            }
+
+
+            console.log(
+                "Total members:",
+                members.length
+            );
+
+
+            /* =============================================
+               FILTER DOCUMENTATION TEAM
+            ============================================= */
+
+            const documentationMembers =
+                members.filter(
+                    function(member) {
+
+                        const domain =
+                            String(
+                                member.domain || ""
+                            )
+                            .trim()
+                            .toLowerCase();
+
+
+                        const role =
+                            String(
+                                member.role || ""
+                            )
+                            .trim()
+                            .toLowerCase();
+
+
+                        return (
+                            domain.includes(
+                                "documentation"
+                            )
+                            ||
+                            role.includes(
+                                "documentation"
+                            )
+                        );
+
+                    }
+                );
+
+
+            console.log(
+                "Documentation Members:",
+                documentationMembers
+            );
+
+
+            /* =============================================
+               NO MEMBERS
+            ============================================= */
+
+            if (
+                documentationMembers.length === 0
+            ) {
+
+                membersGrid.innerHTML = `
+
+                    <div class="no-members">
+
+                        <h2>
+                            No Documentation Members Found
+                        </h2>
+
+                        <p>
+                            Add members with
+                            <strong>
+                                Documentation
+                            </strong>
+                            as their domain in Admin.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            /* =============================================
+               CREATE MEMBER CARDS
+            ============================================= */
+
+            membersGrid.innerHTML =
+                documentationMembers
+                .map(
+                    function(member) {
+
+                        /* =============================
+                           MEMBER IMAGE
+                        ============================= */
+
+                        let imageUrl =
+                            "images/logo/logo.png";
+
+
+                        if (member.image) {
+
+                            if (
+                                member.image.startsWith(
+                                    "http://"
+                                )
+                                ||
+                                member.image.startsWith(
+                                    "https://"
+                                )
+                            ) {
+
+                                imageUrl =
+                                    member.image;
+
+                            }
+
+                            else {
+
+                                imageUrl =
+                                    API_URL +
+                                    (
+                                        member.image
+                                            .startsWith("/")
+                                            ?
+                                            member.image
+                                            :
+                                            "/" +
+                                            member.image
+                                    );
+
+                            }
+
+                        }
+
+
+                        /* =============================
+                           MEMBER INFORMATION
+                        ============================= */
+
+                        const name =
+                            member.name ||
+                            "HAM Club Member";
+
+
+                        const role =
+                            member.role ||
+                            "Documentation Member";
+
+
+                        const year =
+                            member.year ||
+                            "";
+
+
+                        const memberId =
+                            member.memberId ||
+                            "";
+
+
+                        /* =============================
+                           CARD
+                        ============================= */
+
+                        return `
+
+                            <div
+                                class="member-card"
+                                data-member-id="${memberId}"
+                            >
+
+                                <div class="member-photo">
+
+                                    <img
+                                        src="${imageUrl}"
+                                        alt="${name}"
+                                        onerror="
+                                            this.src='images/logo/logo.png';
+                                        "
+                                    >
+
+                                </div>
+
+
+                                <h3>
+                                    ${name}
+                                </h3>
+
+
+                                <p class="member-role">
+                                    ${role}
+                                </p>
+
+
+                                ${
+                                    year
+                                    ?
+                                    `
+                                    <p class="member-year">
+                                        ${year}
+                                    </p>
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                                <span class="view-profile">
+                                    View Profile →
+                                </span>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+
+            /* =============================================
+               CARD CLICK
+            ============================================= */
+
+            document
+                .querySelectorAll(".member-card")
+                .forEach(
+                    function(card) {
+
+                        card.addEventListener(
+                            "click",
+                            function() {
+
+                                const memberId =
+                                    card.dataset.memberId;
+
+
+                                if (!memberId) {
+
+                                    alert(
+                                        "Member ID is not available."
+                                    );
+
+                                    return;
+
+                                }
+
+
+                                window.location.href =
+                                    "member.html?id=" +
+                                    encodeURIComponent(
+                                        memberId
+                                    );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Team loading error:",
+                error
+            );
+
+
+            membersGrid.innerHTML = `
+
+                <div class="error-message">
+
+                    <h2>
+                        Unable to Load Members
+                    </h2>
+
+                    <p>
+                        The backend responded with an error.
+                    </p>
+
+                    <p>
+                        Please check the backend terminal.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       START
+    ===================================================== */
+
+    loadMembers();
+
+
+
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
+
+    const menuToggle =
+        document.getElementById("menuToggle");
+
+
+    const navLinks =
+        document.getElementById("navLinks");
+
+
+    if (menuToggle) {
+
+        menuToggle.addEventListener(
+            "click",
+            function() {
+
+                navLinks.classList.toggle(
+                    "show"
+                );
+
+            }
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(".nav-links a")
+        .forEach(
+            function(link) {
+
+                link.addEventListener(
+                    "click",
+                    function() {
+
+                        navLinks.classList.remove(
+                            "show"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+</>
+
+
+</body>
+
+</html>

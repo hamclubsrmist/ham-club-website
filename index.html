@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HAM CLUB | SRMIST Ramapuram</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="navbar-container">
+
+            <!-- LOGO + NAME -->
+            <a href="index.html" class="brand">
+
+                <img src="images/logo/logo.png"
+                     alt="HAM Club Logo">
+
+                <span>HAM CLUB</span>
+
+            </a>
+
+
+            <!-- DESKTOP NAVIGATION -->
+
+            <nav class="desktop-nav">
+
+                <a href="index.html" class="active">Home</a>
+
+                <a href="about.html">About</a>
+
+                <a href="leadership.html">Leadership</a>
+
+                <a href="events.html">Events</a>
+
+                <a href="gallery.html">Gallery</a>
+
+                <a href="projects.html">Projects</a>
+
+                <a href="magazine.html">Magazine</a>
+
+                <a href="contact.html">Contact</a>
+
+            </nav>
+
+
+            <!-- MOBILE MENU BUTTON -->
+
+            <button class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    aria-label="Open Menu">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+        </div>
+
+
+        <!-- MOBILE NAVIGATION -->
+
+        <nav class="mobile-nav" id="mobileNav">
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="leadership.html">Leadership</a>
+            <a href="events.html">Events</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="projects.html">Projects</a>
+            <a href="magazine.html">Magazine</a>
+            <a href="contact.html">Contact</a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <main>
+
+        <section class="hero">
+
+            <!-- Background -->
+
+            <div class="hero-bg"></div>
+
+
+            <!-- Content -->
+
+            <div class="hero-content">
+
+                <p class="welcome">
+                    WELCOME TO
+                </p>
+
+                <h1>
+                    HAM CLUB
+                </h1>
+
+                <h2>
+                    SRM Institute of Science and Technology
+                </h2>
+
+                <h3>
+                    Ramapuram Campus
+                </h3>
+
+                <p class="tagline">
+                    Connecting Passion Wirelessly through Amateur Radio,
+                    Electronics and Wireless Innovation.
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a href="about.html"
+                       class="btn btn-primary">
+                        Explore Club
+                    </a>
+
+                    <a href="contact.html"
+                       class="btn btn-secondary">
+                        Contact Us
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SHORT ABOUT ================= -->
+
+        <section class="short-about">
+
+            <div class="section-heading">
+
+                <p>ABOUT US</p>
+
+                <h2>
+                    Connecting Passion, Creating Innovation
+                </h2>
+
+            </div>
+
+            <p class="about-text">
+                A student-driven technical club focused on
+                Amateur Radio, Electronics and Wireless Technology.
+            </p>
+
+            <a href="about.html" class="text-link">
+                Learn More →
+            </a>
+
+        </section>
+
+
+        <!-- ================= DOMAINS ================= -->
+
+        <section class="domains">
+
+            <div class="section-heading">
+
+                <p>EXPLORE</p>
+
+                <h2>
+                    Our Domains
+                </h2>
+
+            </div>
+
+
+            <div class="domain-grid">
+
+                <div class="domain-card">
+                    <span>01</span>
+                    <h3>VLSI</h3>
+                </div>
+
+                <div class="domain-card">
+                    <span>02</span>
+                    <h3>Embedded</h3>
+                </div>
+
+                <div class="domain-card">
+                    <span>03</span>
+                    <h3>Robotics</h3>
+                </div>
+
+                <div class="domain-card">
+                    <span>04</span>
+                    <h3>IoT</h3>
+                </div>
+
+                <div class="domain-card">
+                    <span>05</span>
+                    <h3>Ethical Hacking</h3>
+                </div>
+
+            </div>
+
+
+            <a href="projects.html"
+               class="text-link domain-link">
+                Explore Projects →
+            </a>
+
+        </section>
+
+
+        <!-- ================= LATEST EVENTS ================= -->
+
+        <section class="latest-events">
+
+            <div class="section-heading">
+
+                <p>EVENTS</p>
+
+                <h2>
+                    Latest Events
+                </h2>
+
+            </div>
+
+
+            <div class="event-preview"
+                 id="homeEvents">
+
+                <!-- Events will load from backend -->
+
+                <div class="event-loading">
+                    Loading events...
+                </div>
+
+            </div>
+
+
+            <a href="events.html"
+               class="text-link">
+                View All Events →
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="home-footer">
+
+        <div class="footer-content">
+
+            <img src="images/logo/logo.png"
+                 alt="HAM Club Logo">
+
+            <div>
+
+                <h3>
+                    HAM CLUB
+                </h3>
+
+                <p>
+                    SRM Institute of Science and Technology
+                    <br>
+                    Ramapuram Campus
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © 2026 HAM Club. All Rights Reserved.
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /* ================= MOBILE MENU ================= */
+
+        const mobileMenuBtn =
+            document.getElementById("mobileMenuBtn");
+
+        const mobileNav =
+            document.getElementById("mobileNav");
+
+
+        mobileMenuBtn.addEventListener("click", function () {
+
+            mobileMenuBtn.classList.toggle("active");
+
+            mobileNav.classList.toggle("show");
+
+        });
+
+
+        /* Close mobile menu */
+
+        document.querySelectorAll(".mobile-nav a")
+            .forEach(function (link) {
+
+                link.addEventListener("click", function () {
+
+                    mobileMenuBtn.classList.remove("active");
+
+                    mobileNav.classList.remove("show");
+
+                });
+
+            });
+
+
+        /* ================= LOAD EVENTS ================= */
+
+        const API_URL = "http://192.168.0.5:5000";
+
+        const eventsContainer =
+            document.getElementById("homeEvents");
+
+
+        async function loadHomeEvents() {
+
+            try {
+
+                const response =
+                    await fetch(`${API_URL}/api/events`);
+
+                const data =
+                    await response.json();
+
+
+                if (!data.success || !data.events) {
+
+                    throw new Error("Events not found");
+
+                }
+
+
+                const events =
+                    data.events.slice(0, 3);
+
+
+                if (events.length === 0) {
+
+                    eventsContainer.innerHTML = `
+                        <div class="no-events">
+                            No events available yet.
+                        </div>
+                    `;
+
+                    return;
+
+                }
+
+
+                eventsContainer.innerHTML =
+                    events.map(event => {
+
+                        return `
+
+                            <article class="event-card">
+
+                                <div class="event-image">
+
+                                    ${
+                                        event.image
+                                        ?
+                                        `<img src="${API_URL}${event.image}"
+                                               alt="${event.title}">`
+                                        :
+                                        `<div class="event-placeholder">
+                                            HAM CLUB
+                                         </div>`
+                                    }
+
+                                </div>
+
+
+                                <div class="event-info">
+
+                                    <h3>
+                                        ${event.title}
+                                    </h3>
+
+                                    <p>
+                                        ${event.location || "HAM Club"}
+                                    </p>
+
+                                    <span>
+                                        ${event.date || ""}
+                                    </span>
+
+                                </div>
+
+                            </article>
+
+                        `;
+
+                    }).join("");
+
+
+            } catch (error) {
+
+                console.error(
+                    "Failed to load events:",
+                    error
+                );
+
+
+                eventsContainer.innerHTML = `
+                    <div class="no-events">
+                        Events will be updated soon.
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        loadHomeEvents();
+
+        /* ================= SCROLL REVEAL ================= */
+
+const revealElements = document.querySelectorAll(
+    ".section-heading, .short-about, .domain-card, .event-card"
+);
+
+const revealObserver = new IntersectionObserver(
+    function (entries) {
+
+        entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add("show");
+
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+
+revealElements.forEach(function (element) {
+
+    revealObserver.observe(element);
+
+});
+
+/* =========================================================
+   SCROLL REVEAL ANIMATION
+   ========================================================= */
+
+const animatedSections = document.querySelectorAll(
+    ".short-about, .domains, .latest-events"
+);
+
+
+const animationObserver = new IntersectionObserver(
+    function (entries) {
+
+        entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add("reveal-show");
+
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+
+animatedSections.forEach(function (section) {
+
+    animationObserver.observe(section);
+
+});
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Design Team | HAM Club</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #111;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .brand img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #0b5ed7;
+            border: 1px solid #0b5ed7;
+            padding: 9px 18px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #0b5ed7;
+            color: #ffffff;
+        }
+
+        /* ================= HEADER ================= */
+
+        .hero {
+            background: linear-gradient(135deg, #0b5ed7, #063b91);
+            color: #ffffff;
+            text-align: center;
+            padding: 75px 20px;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            opacity: 0.92;
+        }
+
+        /* ================= TEAM SECTION ================= */
+
+        .team-section {
+            width: 90%;
+            max-width: 1200px;
+            margin: 55px auto;
+        }
+
+        .team-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .team-title h2 {
+            font-size: 30px;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .team-title p {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        /* ================= MEMBER GRID ================= */
+
+        .members-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        /* ================= MEMBER CARD ================= */
+
+        .member-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+            transition: 0.3s ease;
+        }
+
+        .member-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.13);
+        }
+
+        .member-photo {
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 20px;
+            border: 4px solid #0b5ed7;
+            background: #eeeeee;
+        }
+
+        .member-name {
+            font-size: 21px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .member-role {
+            color: #0b5ed7;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .member-details {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .member-bio {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-top: 12px;
+        }
+
+        /* ================= PROFILE BUTTON ================= */
+
+        .profile-btn {
+            margin-top: 20px;
+            border: none;
+            background: #0b5ed7;
+            color: #ffffff;
+            padding: 11px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .profile-btn:hover {
+            background: #063b91;
+        }
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 70px 20px;
+            color: #666;
+            font-size: 17px;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty-message {
+            grid-column: 1 / -1;
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            color: #666;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .empty-message strong {
+            display: block;
+            color: #222;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        /* ================= ERROR ================= */
+
+        .error-message {
+            grid-column: 1 / -1;
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            color: #b91c1c;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #111827;
+            color: #ffffff;
+            text-align: center;
+            padding: 35px 20px;
+            margin-top: 80px;
+        }
+
+        footer h3 {
+            margin-bottom: 8px;
+        }
+
+        footer p {
+            color: #d1d5db;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* ================= TABLET ================= */
+
+        @media (max-width: 900px) {
+
+            .members-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .brand {
+                font-size: 17px;
+            }
+
+            .brand img {
+                width: 34px;
+                height: 34px;
+            }
+
+            .back-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .hero {
+                padding: 55px 20px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .team-section {
+                width: 92%;
+                margin: 40px auto;
+            }
+
+            .members-container {
+                grid-template-columns: 1fr;
+            }
+
+            .member-card {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="leadership.html" class="brand">
+            <img src="images/logo/logo.png" alt="HAM Club Logo">
+            <span>HAM CLUB</span>
+        </a>
+
+        <a href="leadership.html" class="back-btn">
+            ← Back to Leadership
+        </a>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <h1>Design Team</h1>
+
+        <p>
+            Meet the creative team behind HAM Club
+        </p>
+
+    </section>
+
+
+    <!-- ================= TEAM ================= -->
+
+    <section class="team-section">
+
+        <div class="team-title">
+
+            <h2>Our Design Team</h2>
+
+            <p>
+                Creative minds contributing to the visual identity of HAM Club
+            </p>
+
+        </div>
+
+
+        <div
+            class="members-container"
+            id="membersContainer"
+        >
+
+            <div class="loading">
+                Loading Design Team members...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <h3>HAM CLUB</h3>
+
+        <p>
+            SRM Institute of Science and Technology, Ramapuram
+        </p>
+
+        <p>
+            © 2026 HAM Club. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /*
+         * BACKEND URL
+         * Your current computer IP
+         */
+
+        const API_URL = "http://192.168.0.6:5000";
+
+
+        /*
+         * LOAD DESIGN MEMBERS
+         */
+
+        async function loadDesignMembers() {
+
+            const container =
+                document.getElementById("membersContainer");
+
+
+            try {
+
+                const response =
+                    await fetch(`${API_URL}/api/team`);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to connect to Team API"
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Team API Response:",
+                    data
+                );
+
+
+                /*
+                 * CHECK API RESPONSE
+                 */
+
+                if (
+                    !data.success ||
+                    !Array.isArray(data.team)
+                ) {
+
+                    container.innerHTML = `
+
+                        <div class="error-message">
+
+                            Unable to load team members.
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                /*
+                 * FILTER DESIGN DOMAIN
+                 */
+
+                const designMembers =
+                    data.team.filter(member => {
+
+                        const domain =
+                            String(
+                                member.domain || ""
+                            )
+                            .trim()
+                            .toLowerCase();
+
+
+                        return domain === "design";
+
+                    });
+
+
+                console.log(
+                    "Design Members:",
+                    designMembers
+                );
+
+
+                /*
+                 * NO DESIGN MEMBERS
+                 */
+
+                if (
+                    designMembers.length === 0
+                ) {
+
+                    container.innerHTML = `
+
+                        <div class="empty-message">
+
+                            <strong>
+                                No Design members found
+                            </strong>
+
+                            Add Design members from
+                            <b>Admin → Team</b>.
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                /*
+                 * CLEAR LOADING
+                 */
+
+                container.innerHTML = "";
+
+
+                /*
+                 * CREATE MEMBER CARDS
+                 */
+
+                designMembers.forEach(member => {
+
+
+                    /*
+                     * MEMBER IMAGE
+                     */
+
+                    let imageURL =
+                        "images/logo/logo.png";
+
+
+                    if (
+                        member.image &&
+                        member.image.trim() !== ""
+                    ) {
+
+                        if (
+                            member.image
+                            .startsWith("http")
+                        ) {
+
+                            imageURL =
+                                member.image;
+
+                        } else {
+
+                            imageURL =
+                                API_URL +
+                                member.image;
+
+                        }
+
+                    }
+
+
+                    /*
+                     * CREATE CARD
+                     */
+
+                    const card =
+                        document.createElement("div");
+
+
+                    card.className =
+                        "member-card";
+
+
+                    card.innerHTML = `
+
+                        <img
+                            src="${imageURL}"
+                            alt="${member.name || "Member"}"
+                            class="member-photo"
+                            onerror="this.src='images/logo/logo.png'"
+                        >
+
+
+                        <div class="member-name">
+                            ${member.name || "Unnamed Member"}
+                        </div>
+
+
+                        <div class="member-role">
+                            ${member.role || "Design Team Member"}
+                        </div>
+
+
+                        <div class="member-details">
+
+                            ${
+                                member.department
+                                ? `Department: ${member.department}<br>`
+                                : ""
+                            }
+
+                            ${
+                                member.year
+                                ? `Year: ${member.year}`
+                                : ""
+                            }
+
+                        </div>
+
+
+                        ${
+                            member.bio
+                            ? `
+                                <div class="member-bio">
+                                    ${member.bio}
+                                </div>
+                            `
+                            : ""
+                        }
+
+
+                        <button
+                            class="profile-btn"
+                            onclick="openProfile('${member.memberId}')"
+                        >
+                            View Profile
+                        </button>
+
+                    `;
+
+
+                    container.appendChild(card);
+
+                });
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Design Team Error:",
+                    error
+                );
+
+
+                container.innerHTML = `
+
+                    <div class="error-message">
+
+                        <strong>
+                            Unable to connect to server
+                        </strong>
+
+                        <br><br>
+
+                        Make sure the HAM Club backend
+                        is running.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /*
+         * OPEN MEMBER PROFILE
+         */
+
+        function openProfile(memberId) {
+
+            if (!memberId) {
+
+                alert(
+                    "Member profile ID is not available."
+                );
+
+                return;
+
+            }
+
+
+            window.location.href =
+                `member.html?id=${encodeURIComponent(memberId)}`;
+
+        }
+
+
+        /*
+         * START
+         */
+
+        loadDesignMembers();
+
+    </script>
+
+</body>
+</html>
