@@ -1,0 +1,288 @@
+/* ===================================
+   ABOUT PAGE
+=================================== */
+
+body{
+    background:#f7f9fc;
+}
+
+/* ===============================
+   PAGE BANNER
+================================ */
+
+.about-banner{
+
+    margin-top:90px;
+
+    height:300px;
+
+    background:linear-gradient(135deg,#0B3C6D,#1B5E9A);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    color:white;
+
+}
+
+.banner-content h1{
+
+    font-size:58px;
+
+    margin-bottom:15px;
+
+}
+
+.banner-content p{
+
+    font-size:22px;
+
+    letter-spacing:2px;
+
+}
+
+/* ===============================
+   ABOUT SECTION
+================================ */
+
+.about-section{
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:90px auto;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:60px;
+
+}
+
+.about-section.reverse{
+
+    flex-direction:row-reverse;
+
+}
+
+.about-image{
+
+    flex:1;
+
+}
+
+.about-image img{
+
+    width:100%;
+
+    border-radius:20px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+
+}
+
+.about-text{
+
+    flex:1;
+
+}
+
+.about-text h2{
+
+    color:#0B3C6D;
+
+    font-size:40px;
+
+    margin-bottom:20px;
+
+}
+
+.about-text p{
+
+    color:#555;
+
+    font-size:18px;
+
+    line-height:1.9;
+
+    text-align:justify;
+
+}
+
+/* ===============================
+   VISION
+================================ */
+
+.vision-section{
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:0 auto 60px;
+
+}
+
+.vision-card{
+
+    background:white;
+
+    padding:60px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+}
+
+.vision-card h2{
+
+    color:#0B3C6D;
+
+    margin-bottom:20px;
+
+    font-size:40px;
+
+}
+
+.vision-card p{
+
+    color:#555;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+}
+
+/* ===============================
+   MISSION
+================================ */
+
+.mission-section{
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:0 auto 100px;
+
+}
+
+.mission-card{
+
+    background:#0B3C6D;
+
+    color:white;
+
+    padding:60px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+
+}
+
+.mission-card h2{
+
+    margin-bottom:20px;
+
+    font-size:40px;
+
+}
+
+.mission-card p{
+
+    font-size:18px;
+
+    line-height:1.8;
+
+}
+
+/* ===============================
+   MOBILE RESPONSIVE
+================================ */
+
+@media(max-width:900px){
+
+.about-section{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.about-section.reverse{
+
+    flex-direction:column;
+
+}
+
+.about-text h2{
+
+    font-size:32px;
+
+}
+
+.banner-content h1{
+
+    font-size:42px;
+
+}
+
+.banner-content p{
+
+    font-size:18px;
+
+}
+
+.vision-card,
+.mission-card{
+
+    padding:40px 25px;
+
+}
+
+}
+/* Motto Section */
+.motto-section {
+    padding: 60px 20px;
+    background: #ffffff;
+    text-align: center;
+}
+
+.motto-section h2 {
+    font-size: 2rem;
+    color: #0a3d62;
+    margin-bottom: 20px;
+}
+
+.motto {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0077b6;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.motto-description {
+    max-width: 800px;
+    margin: auto;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+}

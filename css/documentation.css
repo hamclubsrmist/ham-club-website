@@ -1,0 +1,679 @@
+/* ===================================
+   DOCUMENTATION TEAM PAGE
+=================================== */
+
+body {
+
+    background:
+        #f5f7fb;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    overflow-x:
+        hidden;
+}
+
+
+/* ===================================
+   NAVBAR LOGO
+=================================== */
+
+.navbar .logo img {
+
+    width:
+        48px;
+
+    height:
+        48px;
+
+    object-fit:
+        contain;
+}
+
+
+.navbar .logo h2 {
+
+    font-size:
+        25px;
+}
+
+
+/* ===================================
+   PAGE
+=================================== */
+
+.team-page {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    min-height:
+        100vh;
+}
+
+
+/* ===================================
+   TRANSPARENT LOGO
+=================================== */
+
+.team-watermark {
+
+    position:
+        fixed;
+
+    top:
+        50%;
+
+    left:
+        50%;
+
+    width:
+        600px;
+
+    height:
+        600px;
+
+    transform:
+        translate(-50%, -50%);
+
+    background-image:
+        url("../images/logo/logo.png");
+
+    background-size:
+        contain;
+
+    background-position:
+        center;
+
+    background-repeat:
+        no-repeat;
+
+    opacity:
+        0.045;
+
+    pointer-events:
+        none;
+
+    z-index:
+        0;
+}
+
+
+/* ===================================
+   BANNER
+=================================== */
+
+.team-banner {
+
+    position:
+        relative;
+
+    z-index:
+        1;
+
+    background:
+        #0B3C6D;
+
+    color:
+        #ffffff;
+
+    text-align:
+        center;
+
+    padding:
+        70px 20px;
+}
+
+
+.team-banner h1 {
+
+    font-size:
+        46px;
+
+    margin-bottom:
+        12px;
+}
+
+
+.team-banner p {
+
+    font-size:
+        18px;
+
+    color:
+        rgba(255,255,255,0.85);
+}
+
+
+/* ===================================
+   BACK BUTTON
+=================================== */
+
+.back-container {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    max-width:
+        1200px;
+
+    margin:
+        30px auto 0;
+
+    padding:
+        0 20px;
+}
+
+
+.back-button {
+
+    display:
+        inline-block;
+
+    padding:
+        10px 18px;
+
+    background:
+        #ffffff;
+
+    color:
+        #0B3C6D;
+
+    border:
+        1px solid #dce4eb;
+
+    border-radius:
+        30px;
+
+    text-decoration:
+        none;
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+
+    box-shadow:
+        0 5px 15px
+        rgba(0,0,0,0.06);
+
+    transition:
+        0.25s ease;
+}
+
+
+.back-button:hover {
+
+    background:
+        #0B3C6D;
+
+    color:
+        #ffffff;
+
+    transform:
+        translateX(-3px);
+}
+
+
+/* ===================================
+   MEMBERS SECTION
+=================================== */
+
+.members-section {
+
+    position:
+        relative;
+
+    z-index:
+        1;
+
+    padding:
+        45px 20px 80px;
+}
+
+
+/* ===================================
+   MEMBER GRID
+=================================== */
+
+.members-grid {
+
+    max-width:
+        1100px;
+
+    margin:
+        auto;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:
+        25px;
+}
+
+
+/* ===================================
+   MEMBER CARD
+=================================== */
+
+.member-card {
+
+    background:
+        rgba(255,255,255,0.96);
+
+    border-radius:
+        20px;
+
+    padding:
+        28px 20px;
+
+    text-align:
+        center;
+
+    box-shadow:
+        0 10px 25px
+        rgba(0,0,0,0.10);
+
+    border:
+        1px solid
+        rgba(11,60,109,0.06);
+
+    cursor:
+        pointer;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.member-card:hover {
+
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+        0 16px 35px
+        rgba(0,0,0,0.15);
+}
+
+
+/* ===================================
+   PHOTO
+=================================== */
+
+.member-photo {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    margin-bottom:
+        18px;
+}
+
+
+.member-photo img {
+
+    width:
+        170px;
+
+    height:
+        170px;
+
+    object-fit:
+        cover;
+
+    border-radius:
+        50%;
+
+    border:
+        5px solid #FFC107;
+
+    background:
+        #eef3f7;
+}
+
+
+/* ===================================
+   CONTENT
+=================================== */
+
+.member-content h3 {
+
+    color:
+        #0B3C6D;
+
+    font-size:
+        21px;
+
+    margin-bottom:
+        8px;
+}
+
+
+.member-role {
+
+    color:
+        #555;
+
+    font-size:
+        15px;
+
+    font-weight:
+        600;
+
+    margin-bottom:
+        6px;
+}
+
+
+.member-year {
+
+    color:
+        #888;
+
+    font-size:
+        13px;
+
+    margin-bottom:
+        17px;
+}
+
+
+/* ===================================
+   VIEW PROFILE
+=================================== */
+
+.view-profile {
+
+    display:
+        inline-block;
+
+    padding:
+        9px 17px;
+
+    background:
+        #0B3C6D;
+
+    color:
+        #ffffff;
+
+    border-radius:
+        30px;
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+}
+
+
+/* ===================================
+   LOADING
+=================================== */
+
+.loading {
+
+    grid-column:
+        1 / -1;
+
+    padding:
+        60px;
+
+    text-align:
+        center;
+
+    color:
+        #666;
+
+    font-size:
+        16px;
+}
+
+
+/* ===================================
+   NO MEMBERS
+=================================== */
+
+.no-members {
+
+    grid-column:
+        1 / -1;
+
+    text-align:
+        center;
+
+    padding:
+        70px 20px;
+}
+
+
+.no-members-icon {
+
+    font-size:
+        45px;
+
+    margin-bottom:
+        15px;
+}
+
+
+.no-members h2 {
+
+    color:
+        #0B3C6D;
+
+    margin-bottom:
+        8px;
+}
+
+
+.no-members p {
+
+    color:
+        #666;
+
+    font-size:
+        15px;
+}
+
+
+/* ===================================
+   FOOTER
+=================================== */
+
+.team-footer {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    background:
+        #0B3C6D;
+
+    color:
+        #ffffff;
+
+    text-align:
+        center;
+
+    padding:
+        40px 20px 30px;
+}
+
+
+.team-footer h2 {
+
+    margin-bottom:
+        8px;
+
+    font-size:
+        22px;
+
+    letter-spacing:
+        3px;
+}
+
+
+.team-footer p {
+
+    margin-bottom:
+        10px;
+
+    color:
+        rgba(255,255,255,0.65);
+
+    font-size:
+        10px;
+
+    letter-spacing:
+        4px;
+}
+
+
+.team-footer span {
+
+    color:
+        rgba(255,255,255,0.70);
+
+    font-size:
+        13px;
+}
+
+
+/* ===================================
+   TABLET
+=================================== */
+
+@media(max-width:950px) {
+
+    .members-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        max-width:
+            750px;
+    }
+
+}
+
+
+/* ===================================
+   MOBILE
+=================================== */
+
+@media(max-width:768px) {
+
+    .navbar .logo img {
+
+        width:
+            42px;
+
+        height:
+            42px;
+    }
+
+
+    .navbar .logo h2 {
+
+        font-size:
+            22px;
+    }
+
+
+    .team-banner {
+
+        padding:
+            60px 20px;
+    }
+
+
+    .team-banner h1 {
+
+        font-size:
+            34px;
+    }
+
+
+    .team-banner p {
+
+        font-size:
+            15px;
+    }
+
+
+    .members-grid {
+
+        grid-template-columns:
+            1fr;
+
+        max-width:
+            380px;
+    }
+
+}
+
+
+/* ===================================
+   SMALL MOBILE
+=================================== */
+
+@media(max-width:500px) {
+
+    .team-watermark {
+
+        width:
+            400px;
+
+        height:
+            400px;
+
+        opacity:
+            0.035;
+    }
+
+
+    .member-card {
+
+        padding:
+            25px 18px;
+    }
+
+
+    .member-photo img {
+
+        width:
+            150px;
+
+        height:
+            150px;
+    }
+
+
+    .member-content h3 {
+
+        font-size:
+            19px;
+    }
+
+}

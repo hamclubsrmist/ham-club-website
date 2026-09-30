@@ -1,0 +1,249 @@
+/* ===========================
+   MAGAZINE PAGE
+=========================== */
+
+body{
+    background:#f5f7fb;
+}
+
+/* ===========================
+   HERO BANNER
+=========================== */
+
+.magazine-banner{
+    background:#0B3C6D;
+    color:#fff;
+    text-align:center;
+    padding:80px 20px;
+}
+
+.magazine-banner h1{
+    font-size:52px;
+    margin-bottom:20px;
+}
+
+.magazine-banner p{
+    max-width:800px;
+    margin:auto;
+    font-size:20px;
+    line-height:1.8;
+}
+
+/* ===========================
+   FEATURED MAGAZINE
+=========================== */
+
+.featured-magazine{
+    max-width:1200px;
+    margin:70px auto;
+    padding:0 20px;
+}
+
+.magazine-card{
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.10);
+    display:grid;
+    grid-template-columns:380px 1fr;
+    gap:40px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.magazine-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 40px rgba(0,0,0,.18);
+}
+
+.magazine-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.magazine-content{
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.edition{
+    display:inline-block;
+    width:max-content;
+    background:#D4AF37;
+    color:#0B3C6D;
+    padding:8px 18px;
+    border-radius:20px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.magazine-content h2{
+    color:#0B3C6D;
+    font-size:36px;
+    margin-bottom:20px;
+}
+
+.magazine-content p{
+    color:#555;
+    line-height:1.8;
+    font-size:18px;
+    margin-bottom:30px;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.buttons{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.btn-primary,
+.btn-secondary{
+    text-decoration:none;
+    padding:14px 28px;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:#0B3C6D;
+    color:#fff;
+}
+
+.btn-primary:hover{
+    background:#D4AF37;
+    color:#000;
+}
+
+.btn-secondary{
+    background:#D4AF37;
+    color:#0B3C6D;
+}
+
+.btn-secondary:hover{
+    background:#0B3C6D;
+    color:#fff;
+}
+
+/* ===========================
+   ABOUT SECTION
+=========================== */
+
+.about-magazine{
+    max-width:900px;
+    margin:70px auto;
+    text-align:center;
+    padding:0 20px;
+}
+
+.about-magazine h2{
+    color:#0B3C6D;
+    font-size:38px;
+    margin-bottom:25px;
+}
+
+.about-magazine p{
+    color:#555;
+    line-height:1.9;
+    font-size:18px;
+}
+
+/* ===========================
+   FIRST EDITION
+=========================== */
+
+.first-edition{
+    max-width:900px;
+    margin:70px auto;
+    padding:50px 40px;
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    text-align:center;
+}
+
+.first-edition h2{
+    color:#0B3C6D;
+    margin-bottom:20px;
+    font-size:34px;
+}
+
+.first-edition p{
+    color:#555;
+    line-height:1.9;
+    font-size:18px;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:900px){
+
+.magazine-card{
+    grid-template-columns:1fr;
+}
+
+.magazine-image img{
+    height:420px;
+}
+
+.magazine-content{
+    padding:30px;
+}
+
+.magazine-banner h1{
+    font-size:40px;
+}
+
+.magazine-content h2{
+    font-size:30px;
+}
+
+.buttons{
+    flex-direction:column;
+}
+
+.btn-primary,
+.btn-secondary{
+    text-align:center;
+}
+
+}
+
+@media(max-width:600px){
+
+.magazine-banner{
+    padding:170px 20px 60px;
+}
+
+.magazine-banner h1{
+    font-size:32px;
+}
+
+.magazine-banner p{
+    font-size:17px;
+}
+
+.about-magazine h2,
+.first-edition h2{
+    font-size:28px;
+}
+
+.magazine-content p,
+.about-magazine p,
+.first-edition p{
+    font-size:16px;
+}
+
+.magazine-image img{
+    height:300px;
+}
+
+}
