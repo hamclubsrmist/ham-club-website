@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Projects - HAM Club Admin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #123f70;
+        }
+
+        .header {
+            background: #ffffff;
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            color: #0d4d86;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #0d4d86;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .form-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .form-card h2 {
+            margin-top: 0;
+            color: #0d4d86;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #333;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd4df;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #0d4d86;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .save-btn {
+            background: #0d4d86;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #777;
+            color: white;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            background: #e9edf3;
+            display: block;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-content h3 {
+            margin: 0 0 10px;
+            color: #0d4d86;
+            font-size: 21px;
+        }
+
+        .project-content p {
+            color: #555;
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+
+        .project-info {
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        .project-info strong {
+            color: #333;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .edit-btn {
+            background: #f0a500;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #d93025;
+            color: white;
+        }
+
+        .github-btn {
+            display: inline-block;
+            margin-top: 12px;
+            background: #222;
+            color: white;
+            text-decoration: none;
+            padding: 9px 13px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .status {
+            margin-bottom: 20px;
+            padding: 12px 15px;
+            border-radius: 7px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .success {
+            display: block;
+            background: #dff5e4;
+            color: #176b2c;
+        }
+
+        .error {
+            display: block;
+            background: #fde1e1;
+            color: #a40000;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            color: #666;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        @media (max-width: 900px) {
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .header {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>🚀 Manage Projects</h1>
+
+        <a href="dashboard.html" class="back-btn">
+            ← Dashboard
+        </a>
+    </header>
+
+    <main class="container">
+
+        <div id="status" class="status"></div>
+
+        <!-- PROJECT FORM -->
+        <section class="form-card">
+
+            <h2 id="formTitle">Add New Project</h2>
+
+            <form id="projectForm">
+
+                <input type="hidden" id="projectId">
+
+                <div class="form-grid">
+
+                    <div>
+                        <label for="title">Project Title *</label>
+                        <input
+                            type="text"
+                            id="title"
+                            required
+                            placeholder="Enter project title"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="category">Category</label>
+                        <input
+                            type="text"
+                            id="category"
+                            placeholder="IoT / AI / Embedded / Web"
+                        >
+                    </div>
+
+                    <div class="full">
+                        <label for="description">Description *</label>
+                        <textarea
+                            id="description"
+                            required
+                            placeholder="Enter project description"
+                        ></textarea>
+                    </div>
+
+                    <div>
+                        <label for="members">Members</label>
+                        <input
+                            type="text"
+                            id="members"
+                            placeholder="Example: Velnambi, Kishore, Mohana"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="technologies">Technologies</label>
+                        <input
+                            type="text"
+                            id="technologies"
+                            placeholder="Example: ESP32, Python, Firebase"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="image">Image URL</label>
+                        <input
+                            type="text"
+                            id="image"
+                            placeholder="images/projects/project.jpg"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="github">GitHub URL</label>
+                        <input
+                            type="url"
+                            id="github"
+                            placeholder="https://github.com/..."
+                        >
+                    </div>
+
+                </div>
+
+                <div class="buttons">
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                        id="saveButton"
+                    >
+                        Add Project
+                    </button>
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelButton"
+                        style="display:none;"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- PROJECT LIST -->
+        <section>
+
+            <h2>Existing Projects</h2>
+
+            <div id="projectList" class="project-grid">
+                <div class="empty">
+                    Loading projects...
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        // ==========================================
+        // CONFIG
+        // ==========================================
+
+        const BACKEND_URL = "https://ham-club-backend.onrender.com";
+        const API_URL = BACKEND_URL + "/api/projects";
+
+
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
+
+        const projectForm = document.getElementById("projectForm");
+        const projectList = document.getElementById("projectList");
+        const statusBox = document.getElementById("status");
+
+        const projectId = document.getElementById("projectId");
+        const title = document.getElementById("title");
+        const description = document.getElementById("description");
+        const members = document.getElementById("members");
+        const technologies = document.getElementById("technologies");
+        const image = document.getElementById("image");
+        const github = document.getElementById("github");
+        const category = document.getElementById("category");
+
+        const formTitle = document.getElementById("formTitle");
+        const saveButton = document.getElementById("saveButton");
+        const cancelButton = document.getElementById("cancelButton");
+
+
+        // ==========================================
+        // GET TOKEN
+        // ==========================================
+
+        function getToken() {
+
+            return (
+                localStorage.getItem("token") ||
+                localStorage.getItem("adminToken") ||
+                localStorage.getItem("jwt") ||
+                ""
+            );
+        }
+
+
+        // ==========================================
+        // STATUS MESSAGE
+        // ==========================================
+
+        function showStatus(message, type) {
+
+            statusBox.textContent = message;
+
+            statusBox.className = "status " + type;
+
+            setTimeout(() => {
+                statusBox.className = "status";
+            }, 4000);
+        }
+
+
+        // ==========================================
+        // LOAD PROJECTS
+        // ==========================================
+
+        async function loadProjects() {
+
+            projectList.innerHTML = `
+                <div class="empty">
+                    Loading projects...
+                </div>
+            `;
+
+            try {
+
+                const response = await fetch(API_URL);
+
+                const data = await response.json();
+
+                console.log("Projects API:", data);
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message || "Failed to load projects"
+                    );
+                }
+
+                displayProjects(data.projects || []);
+
+            } catch (error) {
+
+                console.error(error);
+
+                projectList.innerHTML = `
+                    <div class="empty">
+                        ❌ Failed to load projects.<br><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+
+        // ==========================================
+        // DISPLAY PROJECTS
+        // ==========================================
+
+        function displayProjects(projects) {
+
+            if (!projects.length) {
+
+                projectList.innerHTML = `
+                    <div class="empty">
+                        No projects found.
+                    </div>
+                `;
+
+                return;
+            }
+
+            projectList.innerHTML = projects.map(project => {
+
+                const projectImage =
+                    project.image
+                    ? project.image.startsWith("http")
+                        ? project.image
+                        : project.image
+                    : "";
+
+                return `
+
+                    <div class="project-card">
+
+                        ${
+                            projectImage
+                            ? `
+                                <img
+                                    class="project-image"
+                                    src="${projectImage}"
+                                    alt="${escapeHTML(project.title || "Project")}"
+                                    onerror="this.style.display='none'"
+                                >
+                            `
+                            : `
+                                <div
+                                    class="project-image"
+                                    style="
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        color:#777;
+                                    "
+                                >
+                                    No Image
+                                </div>
+                            `
+                        }
+
+                        <div class="project-content">
+
+                            <h3>
+                                ${escapeHTML(project.title || "Untitled Project")}
+                            </h3>
+
+                            <p>
+                                ${escapeHTML(project.description || "No description")}
+                            </p>
+
+                            ${
+                                project.category
+                                ? `
+                                    <div class="project-info">
+                                        <strong>Category:</strong>
+                                        ${escapeHTML(project.category)}
+                                    </div>
+                                `
+                                : ""
+                            }
+
+                            ${
+                                project.members
+                                ? `
+                                    <div class="project-info">
+                                        <strong>Members:</strong>
+                                        ${escapeHTML(project.members)}
+                                    </div>
+                                `
+                                : ""
+                            }
+
+                            ${
+                                project.technologies
+                                ? `
+                                    <div class="project-info">
+                                        <strong>Technologies:</strong>
+                                        ${escapeHTML(project.technologies)}
+                                    </div>
+                                `
+                                : ""
+                            }
+
+                            ${
+                                project.github
+                                ? `
+                                    <a
+                                        class="github-btn"
+                                        href="${project.github}"
+                                        target="_blank"
+                                    >
+                                        GitHub ↗
+                                    </a>
+                                `
+                                : ""
+                            }
+
+                            <div class="card-buttons">
+
+                                <button
+                                    class="edit-btn"
+                                    onclick="editProject('${project._id}')"
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="delete-btn"
+                                    onclick="deleteProject('${project._id}')"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+        }
+
+
+        // ==========================================
+        // ADD / UPDATE PROJECT
+        // ==========================================
+
+        projectForm.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const token = getToken();
+
+            if (!token) {
+
+                alert("Admin login token not found. Please login again.");
+
+                window.location.href = "login.html";
+
+                return;
+            }
+
+
+            const id = projectId.value.trim();
+
+
+            const projectData = {
+
+                title: title.value.trim(),
+
+                description: description.value.trim(),
+
+                members: members.value.trim(),
+
+                technologies: technologies.value.trim(),
+
+                image: image.value.trim(),
+
+                github: github.value.trim(),
+
+                category: category.value.trim()
+
+            };
+
+
+            try {
+
+                saveButton.disabled = true;
+
+                saveButton.textContent =
+                    id ? "Updating..." : "Adding...";
+
+
+                const url =
+                    id
+                    ? `${API_URL}/${id}`
+                    : API_URL;
+
+
+                const method =
+                    id
+                    ? "PUT"
+                    : "POST";
+
+
+                const response = await fetch(url, {
+
+                    method: method,
+
+                    headers: {
+
+                        "Content-Type": "application/json",
+
+                        "Authorization": "Bearer " + token
+
+                    },
+
+                    body: JSON.stringify(projectData)
+
+                });
+
+
+                const data = await response.json();
+
+                console.log("Save project response:", data);
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message || "Failed to save project"
+                    );
+                }
+
+
+                showStatus(
+
+                    id
+                    ? "✅ Project updated successfully!"
+                    : "✅ Project added successfully!",
+
+                    "success"
+
+                );
+
+
+                resetForm();
+
+                loadProjects();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "❌ " + error.message,
+                    "error"
+                );
+
+            } finally {
+
+                saveButton.disabled = false;
+
+                saveButton.textContent =
+                    projectId.value
+                    ? "Update Project"
+                    : "Add Project";
+
+            }
+
+        });
+
+
+        // ==========================================
+        // EDIT PROJECT
+        // ==========================================
+
+        async function editProject(id) {
+
+            try {
+
+                const response =
+                    await fetch(`${API_URL}/${id}`);
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message || "Failed to load project"
+                    );
+                }
+
+
+                const project = data.project;
+
+
+                projectId.value =
+                    project._id || "";
+
+                title.value =
+                    project.title || "";
+
+                description.value =
+                    project.description || "";
+
+                members.value =
+                    project.members || "";
+
+                technologies.value =
+                    project.technologies || "";
+
+                image.value =
+                    project.image || "";
+
+                github.value =
+                    project.github || "";
+
+                category.value =
+                    project.category || "";
+
+
+                formTitle.textContent =
+                    "Edit Project";
+
+                saveButton.textContent =
+                    "Update Project";
+
+                cancelButton.style.display =
+                    "inline-block";
+
+
+                window.scrollTo({
+
+                    top: 0,
+
+                    behavior: "smooth"
+
+                });
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "❌ " + error.message,
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // DELETE PROJECT
+        // ==========================================
+
+        async function deleteProject(id) {
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to delete this project?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            const token = getToken();
+
+
+            if (!token) {
+
+                alert(
+                    "Admin login token not found. Please login again."
+                );
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/${id}`,
+                        {
+                            method: "DELETE",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to delete project"
+                    );
+                }
+
+
+                showStatus(
+                    "✅ Project deleted successfully!",
+                    "success"
+                );
+
+
+                loadProjects();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "❌ " + error.message,
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // CANCEL EDIT
+        // ==========================================
+
+        cancelButton.addEventListener(
+            "click",
+            resetForm
+        );
+
+
+        // ==========================================
+        // RESET FORM
+        // ==========================================
+
+        function resetForm() {
+
+            projectForm.reset();
+
+            projectId.value = "";
+
+            formTitle.textContent =
+                "Add New Project";
+
+            saveButton.textContent =
+                "Add Project";
+
+            cancelButton.style.display =
+                "none";
+
+        }
+
+
+        // ==========================================
+        // HTML ESCAPE
+        // ==========================================
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(/&/g, "&amp;")
+
+                .replace(/</g, "&lt;")
+
+                .replace(/>/g, "&gt;")
+
+                .replace(/"/g, "&quot;")
+
+                .replace(/'/g, "&#039;");
+        }
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        loadProjects();
+
+    </script>
+
+</body>
+</html>

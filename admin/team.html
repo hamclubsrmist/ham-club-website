@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Team | HAM Club</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        /* =====================================
+           HEADER
+        ====================================== */
+
+        .header {
+            background: #12345a;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            background: #0d477d;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #0a3a67;
+        }
+
+
+        /* =====================================
+           MAIN
+        ====================================== */
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+
+        /* =====================================
+           FORM CARD
+        ====================================== */
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .form-card h2 {
+            color: #12345a;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d5dbe3;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #0d477d;
+        }
+
+
+        /* =====================================
+           PHOTO INPUT
+        ====================================== */
+
+        .photo-input {
+            padding: 10px !important;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+
+        .photo-help {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .photo-preview {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-top: 12px;
+            border: 3px solid #e2e8f0;
+            display: none;
+        }
+
+
+        /* =====================================
+           BUTTONS
+        ====================================== */
+
+        .button-row {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background: #0d477d;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #08365f;
+        }
+
+        .save-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .cancel-btn {
+            background: #e5e7eb;
+            color: #333;
+            display: none;
+        }
+
+        .cancel-btn:hover {
+            background: #d1d5db;
+        }
+
+
+        /* =====================================
+           MESSAGE
+        ====================================== */
+
+        #message {
+            margin-top: 18px;
+            min-height: 20px;
+            font-weight: bold;
+        }
+
+
+        /* =====================================
+           MEMBERS SECTION
+        ====================================== */
+
+        .members-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .members-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .members-header h2 {
+            color: #12345a;
+        }
+
+        .member-count {
+            background: #0d477d;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+
+        /* =====================================
+           MEMBER GRID
+        ====================================== */
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+
+        /* =====================================
+           MEMBER CARD
+        ====================================== */
+
+        .member-card {
+            border: 1px solid #e0e5eb;
+            border-radius: 12px;
+            padding: 20px;
+            background: #fff;
+            transition: 0.2s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .member-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 15px;
+            background: #e8edf3;
+        }
+
+        .member-card h3 {
+            text-align: center;
+            color: #12345a;
+            margin-bottom: 7px;
+        }
+
+        .member-role {
+            text-align: center;
+            color: #0d477d;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .member-info {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .member-info strong {
+            color: #333;
+        }
+
+
+        /* =====================================
+           MEMBER ACTIONS
+        ====================================== */
+
+        .member-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            flex: 1;
+            border: none;
+            padding: 10px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background: #e8f1fb;
+            color: #0d477d;
+        }
+
+        .edit-btn:hover {
+            background: #d7e7f7;
+        }
+
+        .delete-btn {
+            background: #fde8e8;
+            color: #c62828;
+        }
+
+        .delete-btn:hover {
+            background: #fbd5d5;
+        }
+
+        .qr-btn {
+            flex: 1; border: none; padding: 10px; border-radius: 7px;
+            cursor: pointer; font-weight: bold; background: #111827; color: white;
+        }
+        .qr-btn:hover { background: #000000; }
+        .qr-modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,.65);
+            align-items: center; justify-content: center; z-index: 9999; padding: 20px;
+        }
+        .qr-box {
+            position: relative; width: 100%; max-width: 420px; background: white;
+            border-radius: 16px; padding: 35px 25px; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,.25);
+        }
+        .qr-box h2 { color:#12345a; margin-bottom:8px; font-size:25px; }
+        .qr-member-name { font-size:18px; font-weight:bold; color:#333; margin-bottom:25px; }
+        .qrcode { width:260px; height:260px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; }
+        .qrcode img, .qrcode canvas { max-width:100%; max-height:100%; }
+        .qr-hint { color:#777; font-size:13px; margin-bottom:20px; }
+        .qr-close { position:absolute; top:12px; right:15px; width:35px; height:35px; border:none; background:#f1f1f1; border-radius:50%; font-size:24px; cursor:pointer; line-height:30px; }
+        .qr-close:hover { background:#ddd; }
+        .qr-download-btn { width:100%; border:none; background:#12345a; color:white; padding:13px; border-radius:8px; font-size:15px; font-weight:bold; cursor:pointer; }
+        .qr-download-btn:hover { background:#0d477d; }
+
+
+
+        /* =====================================
+           EMPTY / ERROR
+        ====================================== */
+
+        .empty-box,
+        .error-box {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+            grid-column: 1 / -1;
+        }
+
+        .error-box {
+            color: #c62828;
+        }
+
+
+        /* =====================================
+           RESPONSIVE
+        ====================================== */
+
+        @media (max-width: 900px) {
+
+            .members-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .members-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         HEADER
+    ====================================== -->
+
+    <header class="header">
+
+        <h1>👥 HAM Club Team Management</h1>
+
+        <a
+            href="dashboard.html"
+            class="back-btn"
+        >
+            ← Dashboard
+        </a>
+
+    </header>
+
+
+    <!-- =====================================
+         MAIN
+    ====================================== -->
+
+    <main class="container">
+
+
+        <!-- =====================================
+             ADD / EDIT MEMBER FORM
+        ====================================== -->
+
+        <section class="form-card">
+
+            <h2 id="formTitle">
+                Add New Member
+            </h2>
+
+
+            <form id="teamForm">
+
+                <div class="form-grid">
+
+
+                    <!-- NAME -->
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter member name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ROLE -->
+
+                    <div class="form-group">
+
+                        <label for="role">
+                            Role / Position *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="role"
+                            placeholder="Example: Club Head"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- DEPARTMENT -->
+
+                    <div class="form-group">
+
+                        <label for="department">
+                            Department
+                        </label>
+
+                        <input
+                            type="text"
+                            id="department"
+                            placeholder="Example: ECE"
+                        >
+
+                    </div>
+
+
+                    <!-- YEAR -->
+
+                    <div class="form-group">
+
+                        <label for="year">
+                            Academic Year
+                        </label>
+
+                        <input
+                            type="text"
+                            id="year"
+                            placeholder="Example: 3rd Year"
+                        >
+
+                    </div>
+
+
+                    <!-- DOMAIN -->
+
+                    <div class="form-group">
+
+                        <label for="domain">
+                            Domain
+                        </label>
+
+                        <input
+                            type="text"
+                            id="domain"
+                            placeholder="Example: Documentation"
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="member@example.com"
+                        >
+
+                    </div>
+
+
+                    <!-- PHONE -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="Example: +91 98765 43210">
+                    </div>
+
+                    <!-- LINKEDIN -->
+
+                    <div class="form-group">
+
+                        <label for="linkedin">
+                            LinkedIn
+                        </label>
+
+                        <input
+                            type="url"
+                            id="linkedin"
+                            placeholder="https://linkedin.com/in/..."
+                        >
+
+                    </div>
+
+
+                    <!-- INSTAGRAM -->
+
+                    <div class="form-group">
+
+                        <label for="instagram">
+                            Instagram
+                        </label>
+
+                        <input
+                            type="url"
+                            id="instagram"
+                            placeholder="https://instagram.com/..."
+                        >
+
+                    </div>
+
+
+                    <!-- GITHUB -->
+
+                    <div class="form-group">
+
+                        <label for="github">
+                            GitHub
+                        </label>
+
+                        <input
+                            type="url"
+                            id="github"
+                            placeholder="https://github.com/..."
+                        >
+
+                    </div>
+
+
+                    <!-- PHOTO -->
+
+                    <div class="form-group">
+
+                        <label for="image">
+                            📷 Member Photo
+                        </label>
+
+                        <input
+                            type="file"
+                            id="image"
+                            class="photo-input"
+                            accept="image/jpeg,image/jpg,image/png,image/webp"
+                        >
+
+                        <div class="photo-help">
+                            JPG, JPEG, PNG or WebP • Maximum 5 MB
+                        </div>
+
+                        <img
+                            id="photoPreview"
+                            class="photo-preview"
+                            alt="Photo preview"
+                        >
+
+                    </div>
+
+
+                    <!-- BIO -->
+
+                    <div class="form-group full">
+
+                        <label for="bio">
+                            Bio
+                        </label>
+
+                        <textarea
+                            id="bio"
+                            placeholder="Write a short member description..."
+                        ></textarea>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-row">
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                        id="saveBtn"
+                    >
+                        Add Member
+                    </button>
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelBtn"
+                    >
+                        Cancel Edit
+                    </button>
+
+                </div>
+
+
+                <div id="message"></div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =====================================
+             EXISTING MEMBERS
+        ====================================== -->
+
+        <section class="members-section">
+
+            <div class="members-header">
+
+                <h2>
+                    Existing Members
+                </h2>
+
+                <div
+                    class="member-count"
+                    id="memberCount"
+                >
+                    0 Members
+                </div>
+
+            </div>
+
+
+            <div
+                class="members-grid"
+                id="membersGrid"
+            >
+
+                <div class="empty-box">
+                    Loading members...
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================
+         JAVASCRIPT
+    ====================================== -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+
+
+        // =====================================
+        // API
+        // =====================================
+
+        const API_URL =
+            "https://ham-club-backend.onrender.com/api/team";
+
+        const BACKEND_URL =
+            "https://ham-club-backend.onrender.com";
+
+
+        // =====================================
+        // ELEMENTS
+        // =====================================
+
+        const teamForm =
+            document.getElementById("teamForm");
+
+        const membersGrid =
+            document.getElementById("membersGrid");
+
+        const memberCount =
+            document.getElementById("memberCount");
+
+        const message =
+            document.getElementById("message");
+
+        const saveBtn =
+            document.getElementById("saveBtn");
+
+        const cancelBtn =
+            document.getElementById("cancelBtn");
+
+        const formTitle =
+            document.getElementById("formTitle");
+
+        const imageInput =
+            document.getElementById("image");
+
+        const photoPreview =
+            document.getElementById("photoPreview");
+
+
+        // =====================================
+        // STATE
+        // =====================================
+
+        let editingMemberId = null;
+
+
+        // =====================================
+        // AUTH TOKEN
+        // =====================================
+
+        function getToken() {
+
+            return localStorage.getItem(
+                "hamClubToken"
+            );
+
+        }
+
+
+        // =====================================
+        // CHECK LOGIN
+        // =====================================
+
+        function checkLogin() {
+
+            const token =
+                getToken();
+
+            if (!token) {
+
+                window.location.href =
+                    "login.html";
+
+                return false;
+            }
+
+            return true;
+        }
+
+
+        // =====================================
+        // PHOTO PREVIEW
+        // =====================================
+
+        imageInput.addEventListener(
+            "change",
+            function () {
+
+                const file =
+                    imageInput.files[0];
+
+                if (!file) {
+
+                    photoPreview.style.display =
+                        "none";
+
+                    photoPreview.src = "";
+
+                    return;
+                }
+
+
+                if (file.size > 5 * 1024 * 1024) {
+
+                    alert(
+                        "Photo must be less than 5 MB."
+                    );
+
+                    imageInput.value = "";
+
+                    photoPreview.style.display =
+                        "none";
+
+                    return;
+                }
+
+
+                const allowedTypes = [
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/png",
+                    "image/webp"
+                ];
+
+
+                if (!allowedTypes.includes(file.type)) {
+
+                    alert(
+                        "Please select JPG, JPEG, PNG or WebP."
+                    );
+
+                    imageInput.value = "";
+
+                    photoPreview.style.display =
+                        "none";
+
+                    return;
+                }
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function (event) {
+
+                        photoPreview.src =
+                            event.target.result;
+
+                        photoPreview.style.display =
+                            "block";
+
+                    };
+
+
+                reader.readAsDataURL(file);
+
+            }
+        );
+
+
+        // =====================================
+        // LOAD MEMBERS
+        // =====================================
+
+        async function loadMembers() {
+
+            try {
+
+                const response =
+                    await fetch(API_URL);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to load members"
+                    );
+                }
+
+
+                const result =
+                    await response.json();
+
+
+                console.log(
+                    "Team API response:",
+                    result
+                );
+
+
+                let members = [];
+
+
+                if (Array.isArray(result)) {
+
+                    members = result;
+
+                }
+
+                else if (
+                    Array.isArray(result.team)
+                ) {
+
+                    members = result.team;
+
+                }
+
+                else if (
+                    Array.isArray(result.data)
+                ) {
+
+                    members = result.data;
+
+                }
+
+                else {
+
+                    throw new Error(
+                        "Invalid team data"
+                    );
+                }
+
+
+                displayMembers(
+                    members
+                );
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Load members error:",
+                    error
+                );
+
+
+                membersGrid.innerHTML = `
+                    <div class="error-box">
+                        ❌ Failed to load team members.
+                    </div>
+                `;
+            }
+
+        }
+
+
+        // =====================================
+        // GET IMAGE URL
+        // =====================================
+
+        function getImageUrl(image) {
+
+            if (!image) {
+                return "";
+            }
+
+
+            if (
+                image.startsWith("http://") ||
+                image.startsWith("https://")
+            ) {
+
+                return image;
+            }
+
+
+            if (image.startsWith("/")) {
+
+                return BACKEND_URL + image;
+            }
+
+
+            return BACKEND_URL + "/" + image;
+
+        }
+
+
+        // =====================================
+        // DISPLAY MEMBERS
+        // =====================================
+
+        function displayMembers(members) {
+
+            memberCount.textContent =
+                `${members.length} Member${members.length !== 1 ? "s" : ""}`;
+
+
+            if (members.length === 0) {
+
+                membersGrid.innerHTML = `
+                    <div class="empty-box">
+                        No team members added yet.
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            membersGrid.innerHTML =
+                members.map(member => {
+
+                    const image =
+                        getImageUrl(
+                            member.image
+                        );
+
+
+                    const imageHTML =
+                        image
+                        ? `
+                            <img
+                                src="${escapeHtml(image)}"
+                                alt="${escapeHtml(member.name || "Member")}"
+                                class="member-image"
+                                onerror="this.style.display='none'"
+                            >
+                        `
+                        : `
+                            <div
+                                class="member-image"
+                                style="
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    font-size:35px;
+                                "
+                            >
+                                👤
+                            </div>
+                        `;
+
+
+                    return `
+
+                        <div class="member-card">
+
+                            ${imageHTML}
+
+                            <h3>
+                                ${escapeHtml(member.name || "Unnamed")}
+                            </h3>
+
+                            <div class="member-role">
+                                ${escapeHtml(member.role || "Member")}
+                            </div>
+
+                            <div class="member-info">
+
+                                ${
+                                    member.department
+                                    ? `<strong>Department:</strong>
+                                       ${escapeHtml(member.department)}<br>`
+                                    : ""
+                                }
+
+                                ${
+                                    member.year
+                                    ? `<strong>Year:</strong>
+                                       ${escapeHtml(member.year)}<br>`
+                                    : ""
+                                }
+
+                                ${
+                                    member.domain
+                                    ? `<strong>Domain:</strong>
+                                       ${escapeHtml(member.domain)}<br>`
+                                    : ""
+                                }
+
+                                ${
+                                    member.email
+                                    ? `<strong>Email:</strong>
+                                       ${escapeHtml(member.email)}<br>`
+                                    : ""
+                                }
+
+                                ${
+                                    member.phone
+                                    ? `<strong>Phone:</strong>
+                                       ${escapeHtml(member.phone)}<br>`
+                                    : ""
+                                }
+
+                            </div>
+
+
+                            <div class="member-actions">
+
+                                <button
+                                    class="edit-btn"
+                                    onclick="editMember('${member._id}')"
+                                >
+                                    ✏️ Edit
+                                </button>
+
+                                <button
+                                    class="delete-btn"
+                                    onclick="deleteMember('${member._id}')"
+                                >
+                                    🗑️ Delete
+                                </button>
+
+                                <button
+                                    class="qr-btn"
+                                    onclick="showMemberQR('${escapeHtml(member.memberId || "")}', '${escapeHtml(member.name || "Member")}')"
+                                >
+                                    📱 QR
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }).join("");
+
+        }
+
+
+        // =====================================
+        // ESCAPE HTML
+        // =====================================
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+            }
+
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // =====================================
+        // ADD / UPDATE MEMBER
+        // =====================================
+
+        teamForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                if (!checkLogin()) {
+                    return;
+                }
+
+
+                const token =
+                    getToken();
+
+
+                try {
+
+                    saveBtn.disabled =
+                        true;
+
+
+                    saveBtn.textContent =
+                        editingMemberId
+                        ? "Updating..."
+                        : "Adding...";
+
+
+                    /*
+                        IMPORTANT:
+                        Use FormData because we are
+                        sending a photo file.
+                    */
+
+                    const formData =
+                        new FormData();
+
+
+                    formData.append(
+                        "name",
+                        document.getElementById("name")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "role",
+                        document.getElementById("role")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "department",
+                        document.getElementById("department")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "year",
+                        document.getElementById("year")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "domain",
+                        document.getElementById("domain")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "email",
+                        document.getElementById("email")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "phone",
+                        document.getElementById("phone")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "linkedin",
+                        document.getElementById("linkedin")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "instagram",
+                        document.getElementById("instagram")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "github",
+                        document.getElementById("github")
+                            .value.trim()
+                    );
+
+                    formData.append(
+                        "bio",
+                        document.getElementById("bio")
+                            .value.trim()
+                    );
+
+
+                    // Add photo only if selected
+
+                    if (imageInput.files.length > 0) {
+
+                        formData.append(
+                            "image",
+                            imageInput.files[0]
+                        );
+
+                    }
+
+
+                    const url =
+                        editingMemberId
+                        ? `${API_URL}/${editingMemberId}`
+                        : API_URL;
+
+
+                    const method =
+                        editingMemberId
+                        ? "PUT"
+                        : "POST";
+
+
+                    const response =
+                        await fetch(
+                            url,
+                            {
+                                method: method,
+
+                                headers: {
+
+                                    /*
+                                        DO NOT add
+                                        Content-Type here.
+
+                                        Browser automatically
+                                        creates multipart/form-data.
+                                    */
+
+                                    "Authorization":
+                                        "Bearer " + token
+                                },
+
+                                body: formData
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    console.log(
+                        "Save member response:",
+                        result
+                    );
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            result.message ||
+                            "Failed to save member"
+                        );
+                    }
+
+
+                    message.textContent =
+                        editingMemberId
+                        ? "✅ Member updated successfully!"
+                        : "✅ Member added successfully!";
+
+
+                    message.style.color =
+                        "green";
+
+
+                    resetForm();
+
+
+                    await loadMembers();
+
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Save member error:",
+                        error
+                    );
+
+
+                    message.textContent =
+                        "❌ " + error.message;
+
+                    message.style.color =
+                        "red";
+
+                }
+
+                finally {
+
+                    saveBtn.disabled =
+                        false;
+
+                    saveBtn.textContent =
+                        editingMemberId
+                        ? "Update Member"
+                        : "Add Member";
+
+                }
+
+            }
+        );
+
+
+        // =====================================
+        // EDIT MEMBER
+        // =====================================
+
+        async function editMember(id) {
+
+            if (!checkLogin()) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/${id}`
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "Failed to load member"
+                    );
+                }
+
+
+                const member =
+                    result.member ||
+                    result.data;
+
+
+                if (!member) {
+
+                    throw new Error(
+                        "Member data not found"
+                    );
+                }
+
+
+                document.getElementById("name").value =
+                    member.name || "";
+
+                document.getElementById("role").value =
+                    member.role || "";
+
+                document.getElementById("department").value =
+                    member.department || "";
+
+                document.getElementById("year").value =
+                    member.year || "";
+
+                document.getElementById("domain").value =
+                    member.domain || "";
+
+                document.getElementById("email").value =
+                    member.email || "";
+
+                document.getElementById("phone").value =
+                    member.phone || "";
+
+                document.getElementById("linkedin").value =
+                    member.linkedin || "";
+
+                document.getElementById("instagram").value =
+                    member.instagram || "";
+
+                document.getElementById("github").value =
+                    member.github || "";
+
+                document.getElementById("bio").value =
+                    member.bio || "";
+
+
+                /*
+                    File inputs cannot be filled
+                    programmatically for security.
+
+                    So we leave the photo input empty.
+                    Select a new photo only if you
+                    want to replace the existing one.
+                */
+
+                imageInput.value = "";
+
+
+                if (member.image) {
+
+                    photoPreview.src =
+                        getImageUrl(
+                            member.image
+                        );
+
+                    photoPreview.style.display =
+                        "block";
+
+                }
+
+                else {
+
+                    photoPreview.src =
+                        "";
+
+                    photoPreview.style.display =
+                        "none";
+
+                }
+
+
+                editingMemberId =
+                    member._id;
+
+
+                formTitle.textContent =
+                    "Edit Team Member";
+
+                saveBtn.textContent =
+                    "Update Member";
+
+                cancelBtn.style.display =
+                    "block";
+
+
+                window.scrollTo({
+
+                    top: 0,
+
+                    behavior: "smooth"
+
+                });
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Edit member error:",
+                    error
+                );
+
+                alert(
+                    "Failed to load member."
+                );
+
+            }
+
+        }
+
+
+        // =====================================
+        // DELETE MEMBER
+        // =====================================
+
+        async function deleteMember(id) {
+
+            if (!checkLogin()) {
+                return;
+            }
+
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete this member?"
+                );
+
+
+            if (!confirmDelete) {
+                return;
+            }
+
+
+            try {
+
+                const token =
+                    getToken();
+
+
+                const response =
+                    await fetch(
+                        `${API_URL}/${id}`,
+                        {
+                            method: "DELETE",
+
+                            headers: {
+
+                                "Authorization":
+                                    "Bearer " + token
+
+                            }
+
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "Failed to delete member"
+                    );
+
+                }
+
+
+                message.textContent =
+                    "✅ Member deleted successfully!";
+
+                message.style.color =
+                    "green";
+
+
+                await loadMembers();
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Delete member error:",
+                    error
+                );
+
+
+                message.textContent =
+                    "❌ " + error.message;
+
+                message.style.color =
+                    "red";
+
+            }
+
+        }
+
+
+        // =====================================
+        // CANCEL EDIT
+        // =====================================
+
+        cancelBtn.addEventListener(
+            "click",
+            function () {
+
+                resetForm();
+
+            }
+        );
+
+
+        // =====================================
+        // RESET FORM
+        // =====================================
+
+        function resetForm() {
+
+            teamForm.reset();
+
+            editingMemberId =
+                null;
+
+            formTitle.textContent =
+                "Add New Member";
+
+            saveBtn.textContent =
+                "Add Member";
+
+            cancelBtn.style.display =
+                "none";
+
+            photoPreview.src =
+                "";
+
+            photoPreview.style.display =
+                "none";
+
+        }
+
+
+        // =====================================
+        // QR CODE FUNCTIONS
+        // =====================================
+
+        let currentQRMemberId = "";
+        let currentQRName = "";
+
+        function showMemberQR(memberId, memberName) {
+            if (!memberId) { alert("Member ID not available."); return; }
+            currentQRMemberId = memberId;
+            currentQRName = memberName || "Member";
+            const qrContainer = document.getElementById("qrcode");
+            const qrModal = document.getElementById("qrModal");
+            const qrMemberName = document.getElementById("qrMemberName");
+            qrContainer.innerHTML = "";
+            qrMemberName.textContent = currentQRName;
+            const profileURL = window.location.origin + "/member.html?id=" + encodeURIComponent(memberId);
+            console.log("QR Profile URL:", profileURL);
+            if (typeof QRCode === "undefined") {
+                alert("QR library could not be loaded. Please check your internet connection and refresh the page.");
+                return;
+            }
+            new QRCode(qrContainer, { text: profileURL, width: 250, height: 250, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H });
+            qrModal.style.display = "flex";
+        }
+
+        function closeQR() { document.getElementById("qrModal").style.display = "none"; }
+
+        function downloadQR() {
+            const canvas = document.getElementById("qrcode").querySelector("canvas");
+            if (!canvas) { alert("QR code is not ready yet."); return; }
+            const link = document.createElement("a");
+            link.download = currentQRMemberId + "-QR.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const qrModal = document.getElementById("qrModal");
+            if (qrModal) qrModal.addEventListener("click", function (event) { if (event.target === this) closeQR(); });
+        });
+
+
+        // =====================================
+        // INITIALIZE
+        // =====================================
+
+        checkLogin();
+
+        loadMembers();
+
+
+    </script>
+
+    <!-- =====================================
+         QR CODE MODAL
+    ====================================== -->
+    <div id="qrModal" class="qr-modal">
+        <div class="qr-box">
+            <button class="qr-close" onclick="closeQR()">×</button>
+            <h2>Member QR</h2>
+            <p id="qrMemberName" class="qr-member-name">Member</p>
+            <div id="qrcode" class="qrcode"></div>
+            <p class="qr-hint">Scan this QR to open the member profile</p>
+            <button class="qr-download-btn" onclick="downloadQR()">⬇️ Download QR</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

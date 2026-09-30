@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | HAM Club</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0d477d, #12345a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-section img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .logo-section h1 {
+            color: #12345a;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .logo-section p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #0d477d;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #0d477d;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #08365f;
+        }
+
+        .login-btn:disabled {
+            background: #777;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #0d477d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- =====================================
+             LOGO
+        ====================================== -->
+
+        <div class="logo-section">
+
+            <img
+                src="../images/logo/logo.png"
+                alt="HAM Club Logo"
+            >
+
+            <h1>HAM CLUB</h1>
+
+            <p>Admin Dashboard Login</p>
+
+        </div>
+
+
+        <!-- =====================================
+             LOGIN FORM
+        ====================================== -->
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter admin email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- IMPORTANT: loginButton ID -->
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginButton"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <!-- =====================================
+             MESSAGE
+        ====================================== -->
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+        <!-- =====================================
+             BACK TO WEBSITE
+        ====================================== -->
+
+        <a
+            href="../index.html"
+            class="back-link"
+        >
+            ← Back to HAM Club Website
+        </a>
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+    const loginForm = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const loginButton = document.getElementById("loginButton");
+
+    loginForm.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
+        message.textContent = "Logging in...";
+        message.style.color = "#555";
+
+        loginButton.disabled = true;
+        loginButton.textContent = "Logging in...";
+
+        try {
+
+            const response = await fetch(
+                "https://ham-club-backend.onrender.com/api/auth/login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            console.log("LOGIN RESPONSE:", data);
+
+            if (response.ok && data.success && data.token) {
+
+                // Save token
+                localStorage.setItem(
+                    "hamClubToken",
+                    data.token
+                );
+
+                // Remove old token
+                localStorage.removeItem(
+                    "hamAdminToken"
+                );
+
+                // Confirm token
+                console.log(
+                    "TOKEN EXISTS:",
+                    localStorage.getItem("hamClubToken") !== null
+                );
+
+                message.innerHTML =
+                    "Login successful!<br><br>" +
+                    "<a href='dashboard.html' " +
+                    "style='display:inline-block;" +
+                    "padding:12px 25px;" +
+                    "background:#0d477d;" +
+                    "color:white;" +
+                    "text-decoration:none;" +
+                    "border-radius:8px;" +
+                    "font-weight:bold;'>" +
+                    "Open Dashboard →" +
+                    "</a>";
+
+                message.style.color = "green";
+
+                /*
+                 * Direct redirect
+                 */
+                setTimeout(function () {
+
+                    window.location.href =
+                        "./dashboard.html";
+
+                }, 1000);
+
+            } else {
+
+                message.textContent =
+                    data.message ||
+                    "Invalid admin email or password.";
+
+                message.style.color = "red";
+
+                loginButton.disabled = false;
+                loginButton.textContent = "Login";
+            }
+
+        } catch (error) {
+
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
+
+            message.textContent =
+                "Cannot connect to backend.";
+
+            message.style.color = "red";
+
+            loginButton.disabled = false;
+            loginButton.textContent = "Login";
+        }
+
+    });
+
+</script>
+
+</body>
+
+</html>

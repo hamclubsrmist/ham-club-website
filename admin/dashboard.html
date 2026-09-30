@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | HAM Club</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            background: #0d477d;
+            color: white;
+            padding: 18px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .header-left h1 {
+            font-size: 24px;
+        }
+
+        .header-left p {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h2 {
+            color: #0d477d;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+
+        /* ================= CARDS ================= */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+
+            transition: 0.2s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card-icon {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-card h3 {
+            color: #0d477d;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-card p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .count {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f5a900;
+            margin-bottom: 15px;
+        }
+
+        .manage-btn {
+            display: inline-block;
+
+            background: #0d477d;
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        .manage-btn:hover {
+            background: #08365f;
+        }
+
+
+        /* ================= QUICK INFO ================= */
+
+        .quick-info {
+            margin-top: 35px;
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .quick-info h2 {
+            color: #0d477d;
+            margin-bottom: 15px;
+        }
+
+        .quick-info ul {
+            padding-left: 20px;
+            line-height: 2;
+            color: #555;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+            font-size: 13px;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 900px) {
+
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header-left h1 {
+                font-size: 19px;
+            }
+
+            .header-left img {
+                width: 45px;
+                height: 45px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="header-left">
+
+            <img
+                src="../images/logo/logo.png"
+                alt="HAM Club Logo"
+            >
+
+            <div>
+
+                <h1>HAM CLUB</h1>
+
+                <p>Administrator Dashboard</p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
+
+    </header>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+
+        <div class="welcome">
+
+            <h2>Welcome, Admin 👋</h2>
+
+            <p>
+                Manage your HAM Club website content from one place.
+            </p>
+
+        </div>
+
+
+
+        <!-- ================= DASHBOARD CARDS ================= -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- EVENTS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">📅</div>
+
+                <h3>Events</h3>
+
+                <p>
+                    Manage upcoming and past HAM Club events.
+                </p>
+
+                <div
+                    class="count"
+                    id="eventCount"
+                >
+                    0
+                </div>
+
+                <a
+                    href="events.html"
+                    class="manage-btn"
+                >
+                    Manage Events
+                </a>
+
+            </div>
+
+
+
+            <!-- GALLERY -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">🖼️</div>
+
+                <h3>Gallery</h3>
+
+                <p>
+                    Manage event photos and gallery albums.
+                </p>
+
+                <div
+                    class="count"
+                    id="galleryCount"
+                >
+                    0
+                </div>
+
+                <a
+                    href="gallery.html"
+                    class="manage-btn"
+                >
+                    Manage Gallery
+                </a>
+
+            </div>
+
+
+
+            <!-- PROJECTS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">🚀</div>
+
+                <h3>Projects</h3>
+
+                <p>
+                    Add and manage HAM Club projects.
+                </p>
+
+                <div
+                    class="count"
+                    id="projectCount"
+                >
+                    0
+                </div>
+
+                <a
+                    href="projects.html"
+                    class="manage-btn"
+                >
+                    Manage Projects
+                </a>
+
+            </div>
+
+
+
+            <!-- TEAM -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">👥</div>
+
+                <h3>Team</h3>
+
+                <p>
+                    Manage leadership and team members.
+                </p>
+
+                <div
+                    class="count"
+                    id="teamCount"
+                >
+                    0
+                </div>
+
+                <a
+                    href="team.html"
+                    class="manage-btn"
+                >
+                    Manage Team
+                </a>
+
+            </div>
+
+
+
+            <!-- CONTACT -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">📩</div>
+
+                <h3>Messages</h3>
+
+                <p>
+                    View messages submitted through Contact.
+                </p>
+
+                <div
+                    class="count"
+                    id="contactCount"
+                >
+                    0
+                </div>
+
+                <a
+                    href="messages.html"
+                    class="manage-btn"
+                >
+                    View Messages
+                </a>
+
+            </div>
+
+
+
+            <!-- WEBSITE -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">🌐</div>
+
+                <h3>Website</h3>
+
+                <p>
+                    Open the public HAM Club website.
+                </p>
+
+                <div class="count">
+                    ↗
+                </div>
+
+                <a
+                    href="../index.html"
+                    class="manage-btn"
+                >
+                    Open Website
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= QUICK INFO ================= -->
+
+        <section class="quick-info">
+
+            <h2>⚡ Admin Quick Guide</h2>
+
+            <ul>
+
+                <li>
+                    Use this dashboard to manage website content.
+                </li>
+
+                <li>
+                    Events, projects, gallery and team data are stored in MongoDB.
+                </li>
+
+                <li>
+                    Only authenticated administrators should modify content.
+                </li>
+
+                <li>
+                    The public website will automatically use the backend data once connected.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        © 2026 HAM Club, SRM Institute of Science and Technology.
+
+    </footer>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        // ==========================================
+        // CHECK ADMIN LOGIN
+        // ==========================================
+
+        const token =
+    localStorage.getItem("hamClubToken");
+
+
+        if (!token) {
+
+            window.location.href = "login.html";
+
+        }
+
+
+        // ==========================================
+        // LOGOUT
+        // ==========================================
+
+        document
+    .getElementById("logoutBtn")
+    .addEventListener("click", function () {
+
+        localStorage.removeItem("hamAdminToken");
+
+        window.location.href = "login.html";
+
+    });
+
+
+        // ==========================================
+        // LOAD COUNTS
+        // ==========================================
+
+        async function loadDashboard() {
+
+            try {
+
+                // EVENTS
+
+                const eventsResponse =
+                    await fetch(
+                        "https://ham-club-backend.onrender.com/api/events"
+                    );
+
+                const eventsData =
+                    await eventsResponse.json();
+
+                if (eventsData.success) {
+
+                    document
+                        .getElementById("eventCount")
+                        .textContent =
+                        eventsData.count;
+
+                }
+
+
+                // GALLERY
+
+                const galleryResponse =
+                    await fetch(
+                        "https://ham-club-backend.onrender.com/api/gallery"
+                    );
+
+                const galleryData =
+                    await galleryResponse.json();
+
+                if (galleryData.success) {
+
+                    document
+                        .getElementById("galleryCount")
+                        .textContent =
+                        galleryData.count;
+
+                }
+
+
+                // PROJECTS
+
+                const projectResponse =
+                    await fetch(
+                        "https://ham-club-backend.onrender.com/api/projects"
+                    );
+
+                const projectData =
+                    await projectResponse.json();
+
+                if (projectData.success) {
+
+                    document
+                        .getElementById("projectCount")
+                        .textContent =
+                        projectData.count;
+
+                }
+
+
+                // TEAM
+
+                const teamResponse =
+                    await fetch(
+                        "https://ham-club-backend.onrender.com/api/team"
+                    );
+
+                const teamData =
+                    await teamResponse.json();
+
+                if (teamData.success) {
+
+                    document
+                        .getElementById("teamCount")
+                        .textContent =
+                        teamData.count;
+
+                }
+
+
+                // CONTACT
+
+                const contactResponse =
+                    await fetch(
+                        "https://ham-club-backend.onrender.com/api/contact",
+                        {
+                            headers: {
+                                Authorization:
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+                const contactData =
+                    await contactResponse.json();
+
+                if (contactData.success) {
+
+                    document
+                        .getElementById("contactCount")
+                        .textContent =
+                        contactData.count;
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Dashboard loading error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        loadDashboard();
+
+    </script>
+
+
+</body>
+
+</html>
