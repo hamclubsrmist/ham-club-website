@@ -1744,7 +1744,7 @@
             const qrMemberName = document.getElementById("qrMemberName");
             qrContainer.innerHTML = "";
             qrMemberName.textContent = currentQRName;
-            const profileURL = window.location.origin + "/member.html?id=" + encodeURIComponent(memberId);
+            const profileURL = window.location.origin + "/ham-club-website/member.html?id=" + encodeURIComponent(memberId);
             console.log("QR Profile URL:", profileURL);
             if (typeof QRCode === "undefined") {
                 alert("QR library could not be loaded. Please check your internet connection and refresh the page.");
