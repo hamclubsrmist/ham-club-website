@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Messages | HAM Club Admin</title>
 
   <style>
@@ -16,7 +17,9 @@
       --border: #e2e8f0;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -36,12 +39,19 @@
       gap: 12px;
     }
 
-    header h1 { margin: 0; font-size: 24px; }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
 
     header a {
       color: white;
       text-decoration: none;
       font-weight: bold;
+    }
+
+    header a:hover {
+      color: var(--gold);
     }
 
     main {
@@ -54,14 +64,28 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
       margin-bottom: 20px;
     }
 
-    .toolbar p { color: var(--muted); }
+    .toolbar h2 {
+      margin-bottom: 6px;
+    }
 
-    button, input {
+    .toolbar p {
+      color: var(--muted);
+      margin-top: 0;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    input,
+    button {
       font: inherit;
       border-radius: 8px;
       padding: 11px 14px;
@@ -78,9 +102,17 @@
       color: white;
       border: none;
       cursor: pointer;
+      font-weight: bold;
     }
 
-    button:disabled { opacity: 0.6; cursor: wait; }
+    button:hover {
+      background: #175792;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
 
     .panel {
       background: white;
@@ -104,29 +136,94 @@
       color: #a32020;
     }
 
+    #status.success {
+      background: #ecfdf3;
+      color: #176b3a;
+    }
+
+    .summary {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .summary-card {
+      background: #f7f9fc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      min-width: 150px;
+    }
+
+    .summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .summary-card strong {
+      font-size: 24px;
+      color: var(--navy);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       min-width: 700px;
     }
 
-    th, td {
+    th,
+    td {
       text-align: left;
       padding: 14px 12px;
       border-bottom: 1px solid var(--border);
       vertical-align: top;
     }
 
-    th { background: #f7f9fc; color: var(--navy); }
-    td { overflow-wrap: anywhere; }
-    .empty { text-align: center; color: var(--muted); padding: 35px; }
+    th {
+      background: #f7f9fc;
+      color: var(--navy);
+    }
+
+    td {
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 35px;
+    }
 
     @media (max-width: 600px) {
-      header h1 { font-size: 20px; }
-      .toolbar { align-items: stretch; }
-      .toolbar input, .toolbar button { width: 100%; }
-      main { margin-top: 20px; }
-      .panel { padding: 12px; }
+      header h1 {
+        font-size: 20px;
+      }
+
+      .toolbar,
+      .toolbar-actions {
+        width: 100%;
+      }
+
+      .toolbar-actions {
+        flex-direction: column;
+      }
+
+      .toolbar-actions input,
+      .toolbar-actions button {
+        width: 100%;
+      }
+
+      main {
+        margin-top: 20px;
+      }
+
+      .panel {
+        padding: 12px;
+      }
     }
   </style>
 </head>
@@ -141,14 +238,29 @@
     <div class="toolbar">
       <div>
         <h2>Inbox</h2>
-        <p>Messages submitted through the website contact form.</p>
+        <p>Messages submitted through the HAM Club website.</p>
       </div>
-      <div>
-        <input id="search" type="search"
-          placeholder="Search messages..." aria-label="Search messages">
-        <button id="refresh" type="button">Refresh</button>
+
+      <div class="toolbar-actions">
+        <input
+          id="search"
+          type="search"
+          placeholder="Search messages..."
+          aria-label="Search messages"
+        >
+
+        <button id="refresh" type="button">
+          Refresh
+        </button>
       </div>
     </div>
+
+    <section class="summary">
+      <div class="summary-card">
+        <span>Total messages loaded</span>
+        <strong id="totalCount">—</strong>
+      </div>
+    </section>
 
     <section class="panel">
       <div id="status" role="status" aria-live="polite">
@@ -164,88 +276,107 @@
             <th>Date</th>
           </tr>
         </thead>
+
         <tbody id="messages">
-          <tr><td colspan="4" class="empty">
-            Click Refresh to load messages.
-          </td></tr>
+          <tr>
+            <td colspan="4" class="empty">
+              Click Refresh to load messages.
+            </td>
+          </tr>
         </tbody>
       </table>
     </section>
   </main>
 
   <script>
-    const API_BASE = "https://ham-club-backend.onrender.com/api";
+    const API_URL =
+      "https://ham-club-backend.onrender.com/api/contact";
 
     const statusBox = document.getElementById("status");
     const tableBody = document.getElementById("messages");
     const refreshButton = document.getElementById("refresh");
     const searchInput = document.getElementById("search");
+    const totalCount = document.getElementById("totalCount");
 
     let allMessages = [];
 
-    function setStatus(message, isError = false) {
+    function setStatus(message, type = "") {
       statusBox.textContent = message;
-      statusBox.classList.toggle("error", isError);
+      statusBox.className = type;
     }
 
     function getAdminToken() {
-      // Read existing token names only; never display the token.
-      const keys = [
-        "adminToken", "token", "authToken", "accessToken"
-      ];
-
-      for (const key of keys) {
-        const value = localStorage.getItem(key);
-        if (value) return value;
-      }
-
-      return "";
+      return localStorage.getItem("hamClubToken") || "";
     }
 
-    function escapeText(value) {
-      return value == null ? "" : String(value);
-    }
-
-    function firstValue(item, keys) {
+    function getField(item, keys) {
       for (const key of keys) {
-        if (item && item[key] != null) return item[key];
+        if (item && item[key] !== undefined && item[key] !== null) {
+          return item[key];
+        }
       }
+
       return "";
     }
 
     function normaliseMessages(data) {
-      if (Array.isArray(data)) return data;
+      if (Array.isArray(data)) {
+        return data;
+      }
 
-      if (data && Array.isArray(data.messages)) return data.messages;
-      if (data && Array.isArray(data.contacts)) return data.contacts;
-      if (data && Array.isArray(data.data)) return data.data;
+      if (data && Array.isArray(data.contacts)) {
+        return data.contacts;
+      }
+
+      if (data && Array.isArray(data.messages)) {
+        return data.messages;
+      }
+
+      if (data && Array.isArray(data.data)) {
+        return data.data;
+      }
 
       return null;
+    }
+
+    function formatDate(value) {
+      if (!value) return "—";
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return String(value);
+      }
+
+      return date.toLocaleString();
     }
 
     function renderMessages() {
       const query = searchInput.value.trim().toLowerCase();
 
       const filtered = allMessages.filter(item => {
-        const text = [
-          firstValue(item, ["name", "fullName", "senderName"]),
-          firstValue(item, ["email", "senderEmail"]),
-          firstValue(item, ["message", "subject", "content"])
+        const searchable = [
+          getField(item, ["name", "fullName", "senderName"]),
+          getField(item, ["email", "senderEmail"]),
+          getField(item, ["message", "content", "subject"])
         ].join(" ").toLowerCase();
 
-        return text.includes(query);
+        return searchable.includes(query);
       });
 
+      totalCount.textContent = String(allMessages.length);
       tableBody.replaceChildren();
 
-      if (!filtered.length) {
+      if (filtered.length === 0) {
         const row = document.createElement("tr");
         const cell = document.createElement("td");
+
         cell.colSpan = 4;
         cell.className = "empty";
         cell.textContent = allMessages.length
           ? "No messages match your search."
-          : "No messages were returned.";
+          : "No contact messages found.";
+
         row.appendChild(cell);
         tableBody.appendChild(row);
         return;
@@ -254,22 +385,28 @@
       filtered.forEach(item => {
         const row = document.createElement("tr");
 
-        const name = firstValue(item, ["name", "fullName", "senderName"]);
-        const email = firstValue(item, ["email", "senderEmail"]);
-        const message = firstValue(item, ["message", "content", "subject"]);
-        const date = firstValue(item, ["createdAt", "date", "timestamp"]);
+        const name = getField(item, [
+          "name", "fullName", "senderName"
+        ]);
 
-        [name, email, message, date].forEach((value, index) => {
-          const cell = document.createElement("td");
-          cell.textContent = escapeText(
-            index === 3 && value
-              ? (Number.isNaN(Date.parse(value))
-                  ? value
-                  : new Date(value).toLocaleString())
-              : value
-          );
-          row.appendChild(cell);
-        });
+        const email = getField(item, [
+          "email", "senderEmail"
+        ]);
+
+        const message = getField(item, [
+          "message", "content", "subject"
+        ]);
+
+        const date = getField(item, [
+          "createdAt", "date", "timestamp"
+        ]);
+
+        [name || "—", email || "—", message || "—", formatDate(date)]
+          .forEach(value => {
+            const cell = document.createElement("td");
+            cell.textContent = String(value);
+            row.appendChild(cell);
+          });
 
         tableBody.appendChild(row);
       });
@@ -277,67 +414,66 @@
 
     async function loadMessages() {
       refreshButton.disabled = true;
-      setStatus("Loading messages…");
+      setStatus("Loading contact messages...");
 
       try {
         const token = getAdminToken();
 
-        // These are possible read endpoints. The actual backend route
-        // must be confirmed if none of them works.
-        const endpoints = [
-          "/admin/messages",
-          "/messages",
-          "/contact"
-        ];
-
-        let lastError = "";
-
-        for (const endpoint of endpoints) {
-          try {
-            const headers = { "Accept": "application/json" };
-
-            if (token) {
-              headers.Authorization = "Bearer " + token;
-            }
-
-            const response = await fetch(API_BASE + endpoint, {
-              method: "GET",
-              headers,
-              cache: "no-store"
-            });
-
-            if (!response.ok) {
-              lastError = endpoint + " returned HTTP " + response.status;
-              continue;
-            }
-
-            const data = await response.json();
-            const messages = normaliseMessages(data);
-
-            if (messages === null) {
-              lastError = "The response from " + endpoint +
-                " was not a recognised messages list.";
-              continue;
-            }
-
-            allMessages = messages;
-            renderMessages();
-            setStatus("Loaded " + messages.length + " message(s).");
-            return;
-          } catch (error) {
-            lastError = endpoint + ": " + error.message;
-          }
+        if (!token) {
+          throw new Error(
+            "Admin login token was not found. Please log in through " +
+            "your existing admin login page first, then reopen Messages."
+          );
         }
 
-        throw new Error(lastError || "No supported messages endpoint responded.");
+        const response = await fetch(API_URL, {
+          method: "GET",
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          cache: "no-store"
+        });
+
+        if (response.status === 401 || response.status === 403) {
+          throw new Error(
+            "Your admin session was rejected (HTTP " +
+            response.status +
+            "). Please log in again through the existing admin login page."
+          );
+        }
+
+        if (!response.ok) {
+          throw new Error(
+            "The server returned HTTP " + response.status +
+            ". Please check the backend deployment."
+          );
+        }
+
+        const data = await response.json();
+        const messages = normaliseMessages(data);
+
+        if (messages === null) {
+          throw new Error(
+            "The contact endpoint responded, but its data format " +
+            "was not recognised. Check contactController.js."
+          );
+        }
+
+        allMessages = messages;
+        renderMessages();
+
+        setStatus(
+          "Messages loaded successfully.",
+          "success"
+        );
       } catch (error) {
         allMessages = [];
         renderMessages();
+
         setStatus(
-          "Could not load messages. The backend route or login token " +
-          "may differ from this page. Details: " + error.message +
-          ". Check the working admin dashboard and backend routes.",
-          true
+          "Unable to load messages: " + error.message,
+          "error"
         );
       } finally {
         refreshButton.disabled = false;
@@ -346,6 +482,9 @@
 
     refreshButton.addEventListener("click", loadMessages);
     searchInput.addEventListener("input", renderMessages);
+
+    // Load messages when the page opens.
+    loadMessages();
   </script>
 </body>
 </html>
