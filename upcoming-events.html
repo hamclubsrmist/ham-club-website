@@ -1,101 +1,273 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upcoming Events | HAM Club</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upcoming Events | HAM Club</title>
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/events.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .events-page {
+      max-width: 1200px;
+      width: 92%;
+      margin: 45px auto;
+    }
+
+    .events-heading {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .events-heading h1 {
+      color: #104578;
+      margin-bottom: 10px;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .event-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 5px 22px rgba(0, 0, 0, 0.08);
+    }
+
+    .event-card img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+    }
+
+    .event-content {
+      padding: 22px;
+    }
+
+    .event-content h2 {
+      color: #104578;
+      margin: 0 0 14px;
+    }
+
+    .event-meta {
+      margin: 10px 0;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .event-description {
+      line-height: 1.7;
+      margin: 16px 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .event-category {
+      display: inline-block;
+      background: #e8f2fc;
+      color: #104578;
+      padding: 7px 13px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .status {
+      text-align: center;
+      padding: 22px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      background: #eef4ff;
+      color: #104578;
+      overflow-wrap: anywhere;
+    }
+
+    .status.error {
+      background: #fff0f0;
+      color: #a32020;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #104578;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .events-page {
+        margin: 25px auto;
+      }
+
+      .event-card img {
+        height: 180px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <main class="events-page">
+    <a class="back-link" href="events.html">← Back to Events</a>
 
-<!-- ================= NAVBAR ================= -->
-
-<header>
-    <nav class="navbar">
-
-        <div class="logo">
-            <img src="images/logo/logo.png" alt="HAM Club Logo">
-            <h2>HAM CLUB</h2>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div class="menu-toggle" id="menu-toggle">
-            ☰
-        </div>
-
-        <ul class="nav-links" id="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="leadership.html">Leadership</a></li>
-            <li><a href="events.html" class="active">Events</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="projects.html">Projects</a></li>
-            <li><a href="magazine.html">Magazine</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-
-    </nav>
-</header>
-
-<!-- ================= BANNER ================= -->
-
-<section class="events-banner">
-    <h1>Upcoming Events</h1>
-    <p>
-        Stay updated with the latest HAM Club workshops, technical sessions and activities.
-    </p>
-</section>
-
-<!-- ================= UPCOMING EVENTS ================= -->
-
-<section class="upcoming-events">
-
-    <div class="container">
-
-        <div class="event-grid">
-
-            <!-- Event Card -->
-            <div class="event-card">
-
-                <span class="event-date">05 AUG</span>
-
-                <h3>Antenna Design Session</h3>
-
-                <p>
-                    Learn antenna fundamentals with practical demonstrations.
-                </p>
-
-                <a href="antenna-design.html" class="event-btn">
-                    Explore Event
-                </a>
-
-            </div>
-
-            <!-- Coming Soon Card -->
-            <div class="event-card coming-soon-card">
-
-                <span class="event-date">SOON</span>
-
-                <h3>🚀 Coming Soon</h3>
-
-                <p>
-                    Exciting workshops, technical sessions and HAM activities
-                    will be announced soon.
-                </p>
-
-            </div>
-
-        </div>
-
+    <div class="events-heading">
+      <h1>📅 Upcoming Events</h1>
+      <p>Discover upcoming workshops, competitions and technical sessions.</p>
     </div>
 
-</section>
+    <div id="status" class="status" role="status" aria-live="polite">
+      Loading upcoming events...
+    </div>
 
-<script src="js/navbar.js"></script>
+    <section id="eventsGrid" class="events-grid"></section>
+  </main>
 
+  <script>
+    const API_URL =
+      "https://ham-club-backend.onrender.com/api/events";
+
+    const statusBox = document.getElementById("status");
+    const eventsGrid = document.getElementById("eventsGrid");
+
+    function showStatus(message, isError = false) {
+      statusBox.textContent = message;
+      statusBox.className = isError ? "status error" : "status";
+      statusBox.hidden = false;
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function formatDate(value) {
+      if (!value) return "Date not specified";
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return escapeHTML(value);
+      }
+
+      return date.toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
+    function getEvents(data) {
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data.events)) return data.events;
+      if (Array.isArray(data.data)) return data.data;
+      return null;
+    }
+
+    function renderEvents(events) {
+      eventsGrid.replaceChildren();
+
+      if (!events.length) {
+        showStatus("There are currently no upcoming events.");
+        return;
+      }
+
+      statusBox.hidden = true;
+
+      events.forEach(event => {
+        const card = document.createElement("article");
+        card.className = "event-card";
+
+        if (event.image) {
+          const image = document.createElement("img");
+          image.src = event.image;
+          image.alt = event.title || "HAM Club event";
+          image.loading = "lazy";
+          image.addEventListener("error", () => image.remove());
+          card.appendChild(image);
+        }
+
+        const content = document.createElement("div");
+        content.className = "event-content";
+
+        const title = document.createElement("h2");
+        title.textContent = event.title || "Untitled event";
+        content.appendChild(title);
+
+        const date = document.createElement("p");
+        date.className = "event-meta";
+        date.textContent = "📅 " + formatDate(event.date);
+        content.appendChild(date);
+
+        const location = document.createElement("p");
+        location.className = "event-meta";
+        location.textContent = "📍 " + (event.location || "Location to be announced");
+        content.appendChild(location);
+
+        const description = document.createElement("p");
+        description.className = "event-description";
+        description.textContent = event.description || "";
+        content.appendChild(description);
+
+        const category = document.createElement("span");
+        category.className = "event-category";
+        category.textContent = event.category || "upcoming";
+        content.appendChild(category);
+
+        card.appendChild(content);
+        eventsGrid.appendChild(card);
+      });
+    }
+
+    async function loadUpcomingEvents() {
+      showStatus("Loading upcoming events...");
+
+      try {
+        const response = await fetch(API_URL, {
+          headers: { "Accept": "application/json" },
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("Server returned HTTP " + response.status);
+        }
+
+        const data = await response.json();
+        const events = getEvents(data);
+
+        if (!events) {
+          throw new Error("Unexpected events response format.");
+        }
+
+        // Only show upcoming events. Past events remain in the database.
+        const upcoming = events.filter(event => {
+          const category = String(event.category || "").toLowerCase();
+          const date = event.date ? new Date(event.date) : null;
+          const isPastDate = date && !Number.isNaN(date.getTime()) &&
+            date < new Date(new Date().setHours(0, 0, 0, 0));
+
+          return category !== "past" && !isPastDate;
+        });
+
+        renderEvents(upcoming);
+      } catch (error) {
+        console.error("Upcoming events error:", error);
+        showStatus(
+          "Unable to load events. Please try again later. " + error.message,
+          true
+        );
+      }
+    }
+
+    loadUpcomingEvents();
+  </script>
 </body>
 </html>
