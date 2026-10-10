@@ -777,8 +777,9 @@
                             <div class="event-buttons">
 
                                 <button
+                                    type="button"
                                     class="edit-btn"
-                                    onclick='editEvent(${JSON.stringify(event)})'
+                                    data-event-id="${escapeHtml(event._id)}"
                                 >
                                     ✏️ Edit
                                 </button>
@@ -800,6 +801,24 @@
                 </div>
 
             `;
+
+            // Attach safe click handlers to the generated Edit buttons.
+            container.querySelectorAll(".edit-btn").forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const eventId = button.dataset.eventId;
+
+                    const selectedEvent = events.find(function (event) {
+                        return String(event._id) === String(eventId);
+                    });
+
+                    if (!selectedEvent) {
+                        alert("Event not found. Please refresh the page.");
+                        return;
+                    }
+
+                    editEvent(selectedEvent);
+                });
+            });
 
         }
 
