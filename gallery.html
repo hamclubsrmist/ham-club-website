@@ -7,19 +7,36 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/gallery.css">
     <style>
-        /* Small additions; the existing HAM Club theme remains in control. */
-        .album-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:25px; }
-        .album-card { display:block; overflow:hidden; text-decoration:none; }
-        .album-card img { width:100%; height:220px; object-fit:cover; display:block; background:#eaf0f7; }
-        .album-content { padding:20px; }
-        .album-content h3 { margin-bottom:12px; }
-        .album-content p { margin-bottom:10px; }
-        .album-content span { display:inline-block; margin-top:8px; }
+        .gallery-section { padding: 60px 5%; background: #f3f6fb; min-height: 60vh; }
+        .gallery-title { text-align:center; color:#103f70; font-size:clamp(28px,4vw,42px); margin:0 0 12px; }
+        .gallery-subtitle { text-align:center; color:#5b6573; margin:0 auto 40px; }
+        .album-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:25px; max-width:1400px; margin:0 auto; }
+        .album-card { display:flex; flex-direction:column; overflow:hidden; background:#fff; border-radius:18px; box-shadow:0 10px 28px #0c2d5018; transition:transform .2s,box-shadow .2s; }
+        .album-card:hover { transform:translateY(-5px); box-shadow:0 16px 36px #0c2d5025; }
+        .album-cover { width:100%; height:230px; object-fit:cover; display:block; background:#dfe8f3; }
+        .album-cover-placeholder { height:230px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:linear-gradient(135deg,#e6eef8,#cbdcf0); color:#164675; font-size:48px; }
+        .album-cover-placeholder small { font-size:14px; }
+        .album-content { padding:22px; display:flex; flex:1; flex-direction:column; align-items:center; text-align:center; }
+        .album-content h3 { margin:0 0 12px; color:#103f70; font-size:24px; overflow-wrap:anywhere; }
+        .album-content p { margin:0 0 12px; color:#536171; line-height:1.5; overflow-wrap:anywhere; }
+        .photo-count { font-weight:600; }
+        .view-album-btn { display:inline-block; margin-top:auto; padding:12px 22px; border:0; border-radius:9px; background:#104777; color:#fff; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; }
+        .view-album-btn:hover { background:#0b3155; }
         .gallery-status { max-width:1100px; margin:20px auto; padding:18px; text-align:center; border-radius:10px; background:#eaf2ff; color:#103f70; }
         .gallery-status.error { background:#fff0f0; color:#a32020; }
         .gallery-status[hidden] { display:none; }
-        @media(max-width:900px) { .album-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-        @media(max-width:600px) { .album-grid { grid-template-columns:1fr; } }
+        .album-modal { position:fixed; inset:0; z-index:9999; display:none; align-items:center; justify-content:center; padding:22px; background:rgba(5,20,38,.82); }
+        .album-modal.open { display:flex; }
+        .modal-panel { width:min(1100px,100%); max-height:92vh; overflow:auto; background:#f5f7fb; border-radius:16px; padding:24px; }
+        .modal-top { display:flex; align-items:center; justify-content:space-between; gap:15px; margin-bottom:20px; }
+        .modal-top h2 { color:#103f70; margin:0; overflow-wrap:anywhere; }
+        .modal-close { border:0; background:#103f70; color:#fff; width:42px; height:42px; border-radius:50%; font-size:26px; cursor:pointer; flex-shrink:0; }
+        .photo-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+        .photo-grid img { width:100%; height:230px; object-fit:cover; display:block; border-radius:10px; background:#e1e8f1; }
+        .no-photos { padding:30px; text-align:center; background:#fff; border-radius:12px; color:#7a2630; grid-column:1/-1; }
+        body.modal-open { overflow:hidden; }
+        @media(max-width:900px) { .album-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+        @media(max-width:600px) { .album-grid,.photo-grid { grid-template-columns:1fr; } .gallery-section { padding:40px 18px; } .modal-panel { padding:16px; } .photo-grid img { height:auto; max-height:360px; } }
     </style>
 </head>
 <body>
@@ -61,61 +78,26 @@
     <div class="album-grid" id="albumGrid"></div>
 </section>
 
+<div class="album-modal" id="albumModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-panel">
+        <div class="modal-top">
+            <h2 id="modalTitle">Event Photos</h2>
+            <button class="modal-close" id="modalClose" type="button" aria-label="Close album">&times;</button>
+        </div>
+        <div class="photo-grid" id="photoGrid"></div>
+    </div>
+</div>
+
 <script src="js/navbar.js"></script>
 <script>
 const GALLERY_API = "https://ham-club-backend.onrender.com/api/gallery";
 const BACKEND_URL = "https://ham-club-backend.onrender.com";
 const albumGrid = document.getElementById("albumGrid");
 const galleryStatus = document.getElementById("galleryStatus");
-
-/* Preserve the current album-detail pages. */
-const knownAlbums = {
-    "badging ceremony 2026": {
-        title: "🏅 Badging Ceremony 2026",
-        date: "02 September 2026",
-        url: "gallery-details/badging-ceremony-2026.html"
-    },
-    "ham hunt": {
-        title: "📻 HAM Hunt",
-        date: "17 September 2026",
-        url: "gallery-details/ham-hunt.html"
-    },
-    "escape room": {
-        title: "🔐 Escape Room",
-        date: "18 March 2026",
-        url: "gallery-details/escape-room.html"
-    },
-    "pick & talk": {
-        title: "🎤 Pick & Talk",
-        date: "11 February 2026",
-        url: "gallery-details/pick-and-talk.html"
-    },
-    "pick and talk": {
-        title: "🎤 Pick & Talk",
-        date: "11 February 2026",
-        url: "gallery-details/pick-and-talk.html"
-    },
-    "reunion 2026": {
-        title: "🤝 Reunion 2026",
-        date: "6 May 2026",
-        url: "gallery-details/reunion-2026.html"
-    },
-    "soldering workshop": {
-        title: "🔧 Soldering Workshop",
-        date: "8 April 2026",
-        url: "gallery-details/soldering-workshop.html"
-    },
-    "tech genesis": {
-        title: "💡 Tech Genesis",
-        date: "25 March 2026",
-        url: "gallery-details/tech-genesis.html"
-    },
-    "tech quiz": {
-        title: "🧠 Tech Quiz",
-        date: "27 February 2026",
-        url: "gallery-details/tech-quiz.html"
-    }
-};
+const albumModal = document.getElementById("albumModal");
+const modalTitle = document.getElementById("modalTitle");
+const photoGrid = document.getElementById("photoGrid");
+const modalClose = document.getElementById("modalClose");
 
 function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, ch => ({
@@ -124,9 +106,12 @@ function escapeHTML(value) {
 }
 
 function imageURL(path) {
-    if (!path) return "";
-    if (/^https?:\/\//i.test(path)) return path;
-    return BACKEND_URL + (path.startsWith("/") ? path : "/" + path);
+    if (!path || typeof path !== "string") return "";
+    const cleanPath = path.trim();
+    if (!cleanPath || cleanPath.toLowerCase() === "image") return "";
+    if (/^https?:\/\//i.test(cleanPath)) return cleanPath;
+    if (cleanPath.startsWith("data:image/")) return cleanPath;
+    return BACKEND_URL + (cleanPath.startsWith("/") ? cleanPath : "/" + cleanPath);
 }
 
 function showStatus(text, isError = false) {
@@ -146,43 +131,102 @@ function normalizeName(value) {
     return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
 }
 
+function getRecordImages(record) {
+    const images = [];
+    if (record && record.image) {
+        const src = imageURL(record.image);
+        if (src) images.push({ src, alt: record.title || record.event || "HAM Club event photo" });
+    }
+    if (record && Array.isArray(record.images)) {
+        record.images.forEach(item => {
+            const raw = typeof item === "string" ? item : (item && (item.image || item.url || item.src));
+            const src = imageURL(raw);
+            if (src && !images.some(existing => existing.src === src)) {
+                images.push({ src, alt: (item && item.title) || record.title || record.event || "HAM Club event photo" });
+            }
+        });
+    }
+    return images;
+}
+
+function openAlbum(album) {
+    modalTitle.textContent = album.event || album.title || "Event Photos";
+    photoGrid.replaceChildren();
+
+    const images = album.images || [];
+    if (!images.length) {
+        const message = document.createElement("div");
+        message.className = "no-photos";
+        message.textContent = "No valid image URLs were returned for this album. Please check the saved image paths in Admin Gallery.";
+        photoGrid.appendChild(message);
+    } else {
+        images.forEach((photo, index) => {
+            const img = document.createElement("img");
+            img.src = photo.src;
+            img.alt = photo.alt || `${album.event} photo ${index + 1}`;
+            img.loading = "lazy";
+            img.onerror = () => {
+                img.alt = "This photo could not be loaded. Check its saved image URL.";
+                img.style.display = "none";
+                const error = document.createElement("div");
+                error.className = "no-photos";
+                error.textContent = `Photo ${index + 1} could not load. The saved image URL may be incorrect.`;
+                photoGrid.appendChild(error);
+            };
+            photoGrid.appendChild(img);
+        });
+    }
+    albumModal.classList.add("open");
+    document.body.classList.add("modal-open");
+}
+
+function closeAlbum() {
+    albumModal.classList.remove("open");
+    document.body.classList.remove("modal-open");
+}
+modalClose.addEventListener("click", closeAlbum);
+albumModal.addEventListener("click", event => {
+    if (event.target === albumModal) closeAlbum();
+});
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeAlbum();
+});
+
 function makeAlbumCard(album) {
-    const key = normalizeName(album.event || album.title);
-    const known = knownAlbums[key];
-    const albumTitle = known ? known.title : (album.event || album.title || "HAM Club Event");
-    const url = known ? known.url : "";
-    const cover = imageURL(album.images[0]?.image || album.images[0]?.url || "");
-    const count = album.images.length;
-    const dateText = known ? known.date : "";
-
-    const card = document.createElement(url ? "a" : "article");
+    const card = document.createElement("article");
     card.className = "album-card";
-    if (url) card.href = url;
 
-    if (cover) {
+    const firstPhoto = album.images[0];
+    if (firstPhoto) {
         const img = document.createElement("img");
-        img.src = cover;
-        img.alt = albumTitle;
+        img.className = "album-cover";
+        img.src = firstPhoto.src;
+        img.alt = firstPhoto.alt || album.event;
         img.loading = "lazy";
-        img.onerror = () => { img.style.display = "none"; };
+        img.onerror = () => {
+            const placeholder = document.createElement("div");
+            placeholder.className = "album-cover-placeholder";
+            placeholder.innerHTML = "📷<small>Photo preview unavailable</small>";
+            img.replaceWith(placeholder);
+        };
         card.appendChild(img);
+    } else {
+        const placeholder = document.createElement("div");
+        placeholder.className = "album-cover-placeholder";
+        placeholder.innerHTML = "📷<small>Event album</small>";
+        card.appendChild(placeholder);
     }
 
     const content = document.createElement("div");
     content.className = "album-content";
 
     const title = document.createElement("h3");
-    title.textContent = albumTitle;
+    title.textContent = album.event || album.title || "HAM Club Event";
     content.appendChild(title);
 
-    if (dateText) {
-        const date = document.createElement("p");
-        date.textContent = "📅 " + dateText;
-        content.appendChild(date);
-    }
-
     const countLine = document.createElement("p");
-    countLine.textContent = "📷 " + count + (count === 1 ? " Photo" : " Photos");
+    countLine.className = "photo-count";
+    countLine.textContent = "📷 " + album.images.length + (album.images.length === 1 ? " Photo" : " Photos");
     content.appendChild(countLine);
 
     if (album.description) {
@@ -191,15 +235,12 @@ function makeAlbumCard(album) {
         content.appendChild(description);
     }
 
-    if (url) {
-        const linkLabel = document.createElement("span");
-        linkLabel.textContent = "View Album →";
-        content.appendChild(linkLabel);
-    } else {
-        const note = document.createElement("p");
-        note.textContent = "Album details page will be available soon.";
-        content.appendChild(note);
-    }
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "view-album-btn";
+    button.textContent = "View Album →";
+    button.addEventListener("click", () => openAlbum(album));
+    content.appendChild(button);
 
     card.appendChild(content);
     return card;
@@ -215,7 +256,6 @@ async function loadAlbums() {
             cache: "no-store"
         });
         const data = await response.json();
-
         if (!response.ok || data.success === false) {
             throw new Error(data.message || "Unable to retrieve gallery.");
         }
@@ -223,34 +263,26 @@ async function loadAlbums() {
         const records = getRecords(data);
         if (!records) throw new Error("Unexpected gallery response from server.");
 
-        // Existing Admin uploads store one image per record. Group records by event
-        // so all photos for the same event become one public album card.
         const albums = new Map();
-
         records.forEach(record => {
             const groupName = String(record.event || record.title || "Other Events").trim();
             const key = normalizeName(groupName);
             if (!albums.has(key)) {
                 albums.set(key, {
-                    event: record.event || record.title || "Other Events",
-                    title: record.title || record.event || "HAM Club Event",
+                    event: groupName,
+                    title: record.title || groupName,
                     description: record.description || "",
                     images: []
                 });
             }
             const album = albums.get(key);
-            if (record.image) album.images.push({ image: record.image });
-            else if (Array.isArray(record.images)) {
-                record.images.forEach(image => album.images.push(
-                    typeof image === "string" ? { image } : image
-                ));
-            }
+            getRecordImages(record).forEach(photo => {
+                if (!album.images.some(existing => existing.src === photo.src)) album.images.push(photo);
+            });
             if (!album.description && record.description) album.description = record.description;
         });
 
-        const albumList = Array.from(albums.values())
-            .sort((a, b) => a.event.localeCompare(b.event));
-
+        const albumList = Array.from(albums.values()).sort((a, b) => a.event.localeCompare(b.event));
         if (!albumList.length) {
             showStatus("No event albums have been uploaded yet.");
             return;
