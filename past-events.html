@@ -1,309 +1,396 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Past Events | HAM Club</title>
 
-    <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/events.css">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .past-events-section {
+      width: 92%;
+      max-width: 1200px;
+      margin: 45px auto;
+    }
 
-    <title>Past Events | HAM Club</title>
+    .section-title {
+      text-align: center;
+      color: #104578;
+      margin-bottom: 15px;
+    }
 
-    <link rel="stylesheet" href="css/style.css">
+    .event-note {
+      text-align: center;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
 
-    <link rel="stylesheet" href="css/events.css">
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 24px;
+    }
 
+    .event-card {
+      background: white;
+      border-radius: 15px;
+      padding: 24px;
+      box-shadow: 0 5px 22px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    .event-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 18px;
+    }
+
+    .event-card h3 {
+      color: #104578;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .event-card p {
+      line-height: 1.7;
+      margin-bottom: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .event-type {
+      display: inline-block;
+      background: #e8f2fc;
+      color: #104578;
+      padding: 6px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .event-btn {
+      display: inline-block;
+      margin-top: auto;
+      padding: 11px 18px;
+      background: #104578;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .event-btn:hover {
+      background: #0b3155;
+    }
+
+    .event-status {
+      padding: 18px;
+      margin-bottom: 25px;
+      text-align: center;
+      border-radius: 10px;
+      background: #eef4ff;
+      color: #104578;
+      overflow-wrap: anywhere;
+    }
+
+    .event-status.error {
+      background: #fff0f0;
+      color: #a32020;
+    }
+
+    .back-btn {
+      text-align: center;
+      margin: 35px 0;
+    }
+
+    .back-btn a {
+      color: #104578;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .past-events-section {
+        margin: 28px auto;
+      }
+
+      .event-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
-
 <header>
+  <nav class="navbar">
+    <a class="logo" href="index.html">
+      <img src="/logo/logo.png" alt="HAM Club Logo">
+      <h2>HAM CLUB</h2>
+    </a>
 
-<nav class="navbar">
-
-    <div class="logo">
-        <img src="images/logo/logo.png" alt="HAM Club Logo">
-        <h2>HAM CLUB</h2>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div class="menu-toggle" id="menu-toggle">
-        ☰
-    </div>
+    <button
+      class="menu-toggle"
+      id="menu-toggle"
+      type="button"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+    >☰</button>
 
     <ul class="nav-links" id="nav-links">
-
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="leadership.html">Leadership</a></li>
-        <li><a href="events.html" class="active">Events</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="magazine.html">Magazine</a></li>
-        <li><a href="contact.html">Contact</a></li>
-
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="leadership.html">Leadership</a></li>
+      <li><a href="events.html" class="active">Events</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="magazine.html">Magazine</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
-
-</nav>
-
+  </nav>
 </header>
 
-<!-- ================= BANNER ================= -->
-
 <section class="events-banner">
-
-<h1>Past Events</h1>
-
-<p>
-
-Explore the memorable workshops, competitions and activities organised by HAM Club.
-
-</p>
-
+  <h1>Past Events</h1>
+  <p>
+    Explore the memorable workshops, competitions and activities
+    organised by HAM Club.
+  </p>
 </section>
 
-<!-- ================= EVENTS ================= -->
+<main class="past-events-section">
+  <h2 class="section-title">Our Past Events</h2>
 
-<section class="events-section">
+  <p class="event-note">
+    Explore our previous events, workshops and competitions.
+    Event information is loaded from the HAM Club event database.
+  </p>
 
-<h2 class="section-title">Past Events</h2>
+  <div id="eventStatus" class="event-status" role="status" aria-live="polite">
+    Loading past events...
+  </div>
 
-<p class="event-note">
+  <section id="eventGrid" class="event-grid"></section>
 
-Explore our previous events, workshops and competitions. Click on any event to view details and photo gallery.
-
-</p>
-
-<div class="event-grid">
-    <!-- Badging Ceremony -->
-
-<div class="event-card">
-
-<h3>🎖️ Badging Ceremony 2026</h3>
-
-<p><strong>Date:</strong> 02 September 2026</p>
-
-<p>
-
-Formal induction of new HAM Club members and introduction of committees.
-
-</p>
-
-<a href="event-details/past/badging-ceremony-2026.html"
-
-class="event-btn">
-
-Explore Event
-
-</a>
-
-</div>
-
-<!-- Dots and Dashes -->
-
-<div class="event-card">
-
-<h3>📡 Dots and Dashes</h3>
-
-<p><strong>Workshop</strong></p>
-
-<p>
-
-An engaging Morse code learning and communication activity.
-
-</p>
-
-<a href="event-details/past/dots-and-dashes.html"
-
-class="event-btn">
-
-Explore Event
-
-</a>
-
-</div>
-
-<!-- Escape Room -->
-
-<div class="event-card">
-
-<h3>🔐 Escape Room</h3>
-
-<p><strong>Technical Challenge</strong></p>
-
-<p>
-
-Problem-solving and teamwork based technical escape challenge.
-
-</p>
-
-<a href="event-details/past/escape-room.html"
-
-class="event-btn">
-
-Explore Event
-
-</a>
-
-</div>
-
-<!-- HAM Hunt -->
-
-<div class="event-card">
-
-<h3>📻 HAM Hunt</h3>
-
-<p><strong>Competition</strong></p>
-
-<p>
-
-Decode call signs, phonetic alphabet challenge and exciting quiz.
-
-</p>
-
-<a href="event-details/past/ham-hunt.html"
-
-class="event-btn">
-
-Explore Event
-
-</a>
-
-</div>
-<!-- Pick & Talk -->
-
-<div class="event-card">
-
-    <h3>🎤 Pick & Talk</h3>
-
-    <p><strong>Communication Activity</strong></p>
-
-    <p>
-
-        A fun event to improve public speaking, confidence and spontaneous communication skills.
-
-    </p>
-
-    <a href="event-details/past/pick-and-talk.html" class="event-btn">
-
-        Explore Event
-
-    </a>
-
-</div>
-
-<!-- Reunion 2026 -->
-
-<div class="event-card">
-
-    <h3>🤝 Reunion 2026</h3>
-
-    <p><strong>Club Reunion</strong></p>
-
-    <p>
-
-        Reunion of HAM Club members with networking, memories and celebrations.
-
-    </p>
-
-    <a href="event-details/past/reunion-2026.html" class="event-btn">
-
-        Explore Event
-
-    </a>
-
-</div>
-
-<!-- Soldering Workshop -->
-
-<div class="event-card">
-
-    <h3>🔧 Soldering Workshop</h3>
-
-    <p><strong>Hands-on Workshop</strong></p>
-
-    <p>
-
-        Practical training on soldering techniques and electronic circuit assembly.
-
-    </p>
-
-    <a href="event-details/past/soldering-workshop.html" class="event-btn">
-
-        Explore Event
-
-    </a>
-
-</div>
-
-<!-- Tech Genesis -->
-
-<div class="event-card">
-
-    <h3>💡 Tech Genesis</h3>
-
-    <p><strong>Technical Event</strong></p>
-
-    <p>
-
-        Interactive technical sessions introducing innovation and emerging technologies.
-
-    </p>
-
-    <a href="event-details/past/tech-genesis.html" class="event-btn">
-
-        Explore Event
-
-    </a>
-
-</div>
-
-<!-- Tech Quiz -->
-
-<div class="event-card">
-
-    <h3>🧠 Tech Quiz</h3>
-
-    <p><strong>Quiz Competition</strong></p>
-
-    <p>
-
-        Technical quiz competition covering electronics, communication and HAM Radio.
-
-    </p>
-
-    <a href="event-details/past/tech-quiz.html" class="event-btn">
-
-       Explore Event
-
-    </a>
-
-</div>
-
-</div>
-<div class="back-btn">
-
+  <div class="back-btn">
     <a href="events.html">← Back to Events</a>
-    
-</div>
-
-</section>
-<!-- ================= FOOTER ================= -->
+  </div>
+</main>
 
 <footer>
-
-<p>
-
-© 2026 HAM Club | SRM Institute of Science and Technology, Ramapuram.
-
-</p>
-
+  <p>
+    © 2026 HAM Club | SRM Institute of Science and Technology, Ramapuram.
+  </p>
 </footer>
 
 <script src="js/navbar.js"></script>
 
-</body>
+<script>
+  const EVENTS_API =
+    "https://ham-club-backend.onrender.com/api/events";
 
+  const eventGrid = document.getElementById("eventGrid");
+  const eventStatus = document.getElementById("eventStatus");
+
+  // Preserve existing event-detail links.
+  const detailLinks = {
+    "badging ceremony 2026":
+      "event-details/past/badging-ceremony-2026.html",
+    "dots and dashes":
+      "event-details/past/dots-and-dashes.html",
+    "dots & dashes":
+      "event-details/past/dots-and-dashes.html",
+    "escape room":
+      "event-details/past/escape-room.html",
+    "ham hunt":
+      "event-details/past/ham-hunt.html",
+    "pick & talk":
+      "event-details/past/pick-and-talk.html",
+    "pick and talk":
+      "event-details/past/pick-and-talk.html",
+    "reunion 2026":
+      "event-details/past/reunion-2026.html",
+    "soldering workshop":
+      "event-details/past/soldering-workshop.html",
+    "tech genesis":
+      "event-details/past/tech-genesis.html",
+    "tech quiz":
+      "event-details/past/tech-quiz.html"
+  };
+
+  function showStatus(message, isError = false) {
+    eventStatus.textContent = message;
+    eventStatus.className = isError
+      ? "event-status error"
+      : "event-status";
+    eventStatus.hidden = false;
+  }
+
+  function getEvents(data) {
+    if (Array.isArray(data)) return data;
+    if (data && Array.isArray(data.events)) return data.events;
+    if (data && Array.isArray(data.data)) return data.data;
+    return null;
+  }
+
+  function formatDate(value) {
+    if (!value) return "Date not specified";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return String(value);
+    }
+
+    return date.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    });
+  }
+
+  function isPastEvent(event) {
+    const category = String(event.category || "").toLowerCase();
+
+    if (category === "past") return true;
+
+    if (category === "upcoming") return false;
+
+    if (!event.date) return false;
+
+    const date = new Date(event.date);
+
+    if (Number.isNaN(date.getTime())) return false;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
+
+    return date < today;
+  }
+
+  function createEventCard(event) {
+    const card = document.createElement("article");
+    card.className = "event-card";
+
+    if (event.image) {
+      const image = document.createElement("img");
+      image.src = event.image;
+      image.alt = event.title || "HAM Club event";
+      image.loading = "lazy";
+
+      image.addEventListener("error", () => {
+        image.remove();
+      });
+
+      card.appendChild(image);
+    }
+
+    const title = document.createElement("h3");
+    title.textContent = event.title || "Untitled event";
+    card.appendChild(title);
+
+    const category = document.createElement("span");
+    category.className = "event-type";
+    category.textContent = event.category || "Past event";
+    card.appendChild(category);
+
+    const date = document.createElement("p");
+    const dateLabel = document.createElement("strong");
+    dateLabel.textContent = "Date: ";
+    date.append(dateLabel, document.createTextNode(formatDate(event.date)));
+    card.appendChild(date);
+
+    const location = document.createElement("p");
+    const locationLabel = document.createElement("strong");
+    locationLabel.textContent = "Location: ";
+    location.append(
+      locationLabel,
+      document.createTextNode(event.location || "Not specified")
+    );
+    card.appendChild(location);
+
+    const description = document.createElement("p");
+    description.textContent =
+      event.description || "Details will be updated soon.";
+    card.appendChild(description);
+
+    const key = String(event.title || "").trim().toLowerCase();
+    const detailURL = detailLinks[key];
+
+    if (detailURL) {
+      const link = document.createElement("a");
+      link.className = "event-btn";
+      link.href = detailURL;
+      link.textContent = "Explore Event";
+      card.appendChild(link);
+    }
+
+    return card;
+  }
+
+  async function loadPastEvents() {
+    showStatus("Loading past events...");
+
+    try {
+      const response = await fetch(EVENTS_API, {
+        method: "GET",
+        headers: { "Accept": "application/json" },
+        cache: "no-store"
+      });
+
+      if (!response.ok) {
+        throw new Error("Server returned HTTP " + response.status);
+      }
+
+      const data = await response.json();
+      const events = getEvents(data);
+
+      if (!events) {
+        throw new Error("Unexpected events response format.");
+      }
+
+      const pastEvents = events
+        .filter(isPastEvent)
+        .sort((a, b) => {
+          return new Date(b.date || 0) - new Date(a.date || 0);
+        });
+
+      eventGrid.replaceChildren();
+
+      if (pastEvents.length === 0) {
+        showStatus("No past events found.");
+        return;
+      }
+
+      pastEvents.forEach(event => {
+        eventGrid.appendChild(createEventCard(event));
+      });
+
+      eventStatus.hidden = true;
+
+    } catch (error) {
+      console.error("Past events loading error:", error);
+
+      showStatus(
+        "Unable to load past events. Please refresh the page. " +
+        error.message,
+        true
+      );
+    }
+  }
+
+  loadPastEvents();
+</script>
+
+</body>
 </html>
