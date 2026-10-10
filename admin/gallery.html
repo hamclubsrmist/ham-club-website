@@ -1,1509 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Gallery Management | HAM Club</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f3f6fa;
-            color: #222;
-        }
-
-        /* ================= HEADER ================= */
-
-        .header {
-            background: #0d477d;
-            color: white;
-            padding: 18px 35px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .header-left img {
-            width: 55px;
-            height: 55px;
-            object-fit: contain;
-            background: white;
-            border-radius: 10px;
-            padding: 4px;
-        }
-
-        .header-left h1 {
-            font-size: 24px;
-        }
-
-        .header-left p {
-            font-size: 13px;
-            opacity: 0.85;
-            margin-top: 4px;
-        }
-
-        .header-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .top-btn {
-            border: none;
-            padding: 11px 18px;
-            border-radius: 7px;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .back-btn {
-            background: #1769aa;
-        }
-
-        .logout-btn {
-            background: #e53935;
-        }
-
-        /* ================= MAIN ================= */
-
-        .container {
-            max-width: 1400px;
-            margin: 35px auto;
-            padding: 0 25px;
-        }
-
-        .page-title {
-            margin-bottom: 25px;
-        }
-
-        .page-title h2 {
-            color: #0d477d;
-            font-size: 30px;
-            margin-bottom: 7px;
-        }
-
-        .page-title p {
-            color: #666;
-        }
-
-        /* ================= FORM ================= */
-
-        .form-card {
-            background: white;
-            padding: 28px;
-            border-radius: 16px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            margin-bottom: 35px;
-        }
-
-        .form-card h3 {
-            color: #0d477d;
-            margin-bottom: 22px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group.full {
-            grid-column: 1 / -1;
-        }
-
-        label {
-            font-weight: bold;
-            color: #444;
-            margin-bottom: 7px;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d5dbe3;
-            border-radius: 8px;
-            font-size: 15px;
-            outline: none;
-        }
-
-        input:focus,
-        textarea:focus {
-            border-color: #0d477d;
-        }
-
-        textarea {
-            min-height: 110px;
-            resize: vertical;
-        }
-
-        .file-help {
-            font-size: 12px;
-            color: #777;
-            margin-top: 6px;
-        }
-
-        .preview {
-            display: none;
-            width: 180px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-top: 12px;
-            border: 1px solid #ddd;
-        }
-
-        .button-row {
-            margin-top: 22px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .save-btn,
-        .cancel-btn {
-            border: none;
-            padding: 13px 22px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .save-btn {
-            background: #0d477d;
-            color: white;
-        }
-
-        .save-btn:hover {
-            background: #08365f;
-        }
-
-        .cancel-btn {
-            background: #e8edf2;
-            color: #333;
-            display: none;
-        }
-
-        #message {
-            margin-top: 15px;
-            font-weight: bold;
-        }
-
-        .success {
-            color: #16803c;
-        }
-
-        .error {
-            color: #d62828;
-        }
-
-        /* ================= GALLERY ================= */
-
-        .gallery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .gallery-header h2 {
-            color: #0d477d;
-        }
-
-        .gallery-count {
-            background: #fff3d6;
-            color: #d98b00;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .refresh-btn {
-            background: #1769aa;
-            color: white;
-            border: none;
-            padding: 9px 15px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-left: 8px;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-        }
-
-        .gallery-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-
-        .gallery-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .gallery-content {
-            padding: 20px;
-        }
-
-        .gallery-content h3 {
-            color: #0d477d;
-            margin-bottom: 8px;
-        }
-
-        .event-name {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .gallery-content p {
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .edit-btn,
-        .delete-btn {
-            border: none;
-            padding: 9px 14px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .edit-btn {
-            background: #0d477d;
-            color: white;
-        }
-
-        .delete-btn {
-            background: #e53935;
-            color: white;
-        }
-
-        .empty-box {
-            background: white;
-            padding: 40px;
-            text-align: center;
-            border-radius: 15px;
-            color: #777;
-            grid-column: 1 / -1;
-        }
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 900px) {
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 650px) {
-
-            .header {
-                padding: 15px;
-            }
-
-            .header-left img {
-                width: 45px;
-                height: 45px;
-            }
-
-            .header-left h1 {
-                font-size: 18px;
-            }
-
-            .header-left p {
-                font-size: 11px;
-            }
-
-            .header-buttons {
-                flex-direction: column;
-            }
-
-            .top-btn {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-
-            .container {
-                padding: 0 15px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-group.full {
-                grid-column: auto;
-            }
-
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .gallery-header {
-                align-items: flex-start;
-                gap: 10px;
-                flex-direction: column;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Management | HAM Club</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#222}
+.header{background:#0d477d;color:#fff;padding:18px 35px;display:flex;align-items:center;justify-content:space-between;gap:15px;box-shadow:0 3px 12px #0002}
+.header-left{display:flex;align-items:center;gap:15px}
+.header-left img{width:55px;height:55px;object-fit:contain;background:#fff;border-radius:10px;padding:4px}
+.header-left h1{font-size:24px}.header-left p{font-size:13px;opacity:.85;margin-top:4px}
+.header-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.top-btn{border:0;padding:11px 18px;border-radius:7px;color:#fff;cursor:pointer;font-weight:bold;text-decoration:none;display:inline-block}
+.back-btn{background:#1769aa}.logout-btn{background:#e53935}
+.container{max-width:1400px;margin:35px auto;padding:0 25px}
+.page-title{margin-bottom:25px}.page-title h2{color:#0d477d;font-size:30px;margin-bottom:7px}.page-title p{color:#666}
+.form-card{background:#fff;padding:28px;border-radius:16px;box-shadow:0 5px 20px #0001;margin-bottom:35px}
+.form-card h3{color:#0d477d;margin-bottom:22px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.form-group{display:flex;flex-direction:column}.form-group.full{grid-column:1/-1}
+label{font-weight:bold;color:#444;margin-bottom:7px}
+input,textarea{width:100%;padding:12px;border:1px solid #d5dbe3;border-radius:8px;font-size:15px;outline:none}
+input:focus,textarea:focus{border-color:#0d477d}textarea{min-height:100px;resize:vertical}
+.file-help{font-size:12px;color:#777;margin-top:6px;line-height:1.5}
+.button-row{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+.save-btn,.cancel-btn{border:0;padding:13px 22px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px}
+.save-btn{background:#0d477d;color:white}.save-btn:disabled{opacity:.65;cursor:wait}
+.cancel-btn{background:#e8edf2;color:#333;display:none}
+#message{margin-top:15px;font-weight:bold;white-space:pre-line}.success{color:#16803c}.error{color:#d62828}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:14px}
+.preview-item{position:relative}.preview-item img{width:100%;height:105px;object-fit:cover;border:1px solid #ddd;border-radius:9px;display:block}
+.preview-item span{display:block;font-size:12px;overflow-wrap:anywhere;margin-top:4px;color:#555}
+.gallery-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.gallery-header h2{color:#0d477d}.gallery-count{background:#fff3d6;color:#a86b00;padding:8px 14px;border-radius:20px;font-weight:bold}
+.refresh-btn{background:#1769aa;color:white;border:0;padding:9px 15px;border-radius:7px;cursor:pointer;font-weight:bold;margin-left:8px}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
+.gallery-card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px #0001;min-width:0}
+.gallery-card>img{width:100%;height:220px;object-fit:cover;display:block;background:#e8edf2}
+.gallery-content{padding:20px}.gallery-content h3{color:#0d477d;margin-bottom:8px;overflow-wrap:anywhere}
+.event-name{color:#777;font-size:14px;margin-bottom:10px}.gallery-content p{color:#666;line-height:1.5;margin-bottom:15px;overflow-wrap:anywhere}
+.card-actions{display:flex;gap:8px;flex-wrap:wrap}.edit-btn,.delete-btn{border:0;padding:9px 14px;border-radius:7px;cursor:pointer;font-weight:bold}
+.edit-btn{background:#0d477d;color:white}.delete-btn{background:#e53935;color:white}
+.empty-box{background:#fff;padding:40px;text-align:center;border-radius:15px;color:#777;grid-column:1/-1}
+@media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.header{padding:15px;align-items:flex-start}.header-left img{width:45px;height:45px}.header-left h1{font-size:18px}.header-left p{font-size:11px}.header-buttons{flex-direction:column}.top-btn{padding:8px 12px;font-size:12px}.container{padding:0 15px}.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}.gallery-grid{grid-template-columns:1fr}.gallery-header{align-items:flex-start;flex-direction:column}}
+</style>
 </head>
-
 <body>
+<header class="header">
+  <div class="header-left">
+    <img src="../logo/logo.png" alt="HAM Club Logo">
+    <div><h1>HAM CLUB</h1><p>Gallery Management</p></div>
+  </div>
+  <div class="header-buttons">
+    <a href="dashboard.html" class="top-btn back-btn">← Dashboard</a>
+    <button class="top-btn logout-btn" id="logoutBtn" type="button">Logout</button>
+  </div>
+</header>
 
-    <!-- ================= HEADER ================= -->
+<main class="container">
+  <div class="page-title">
+    <h2>🖼️ Gallery Management</h2>
+    <p>Create event photo collections by uploading up to 6 images together.</p>
+  </div>
 
-    <header class="header">
-
-        <div class="header-left">
-
-            <img
-                src="../logo/logo.png"
-                alt="HAM Club Logo"
-            >
-
-            <div>
-                <h1>HAM CLUB</h1>
-                <p>Gallery Management</p>
-            </div>
-
+  <section class="form-card">
+    <h3 id="formTitle">Add Event Photos</h3>
+    <form id="galleryForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="title">Album / Photo Title *</label>
+          <input type="text" id="title" placeholder="Example: Badging Ceremony 2026" required>
         </div>
-
-        <div class="header-buttons">
-
-            <a
-                href="dashboard.html"
-                class="top-btn back-btn"
-            >
-                ← Dashboard
-            </a>
-
-            <button
-                class="top-btn logout-btn"
-                id="logoutBtn"
-            >
-                Logout
-            </button>
-
+        <div class="form-group">
+          <label for="event">Event Name *</label>
+          <input type="text" id="event" placeholder="Example: Badging Ceremony 2026" required>
         </div>
-
-    </header>
-
-
-    <!-- ================= MAIN ================= -->
-
-    <main class="container">
-
-        <div class="page-title">
-
-            <h2>🖼️ Gallery Management</h2>
-
-            <p>
-                Upload, edit and remove HAM Club gallery images.
-            </p>
-
+        <div class="form-group full">
+          <label for="description">Description</label>
+          <textarea id="description" placeholder="Write a short description of this event..."></textarea>
         </div>
-
-
-        <!-- ================= UPLOAD FORM ================= -->
-
-        <section class="form-card">
-
-            <h3 id="formTitle">
-                Add Gallery Image
-            </h3>
-
-            <form id="galleryForm">
-
-                <div class="form-grid">
-
-                    <!-- TITLE -->
-
-                    <div class="form-group">
-
-                        <label for="title">
-                            Title
-                        </label>
-
-                        <input
-                            type="text"
-                            id="title"
-                            placeholder="Example: Soldering Workshop"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- EVENT -->
-
-                    <div class="form-group">
-
-                        <label for="event">
-                            Event
-                        </label>
-
-                        <input
-                            type="text"
-                            id="event"
-                            placeholder="Example: Soldering Workshop 2026"
-                        >
-
-                    </div>
-
-
-                    <!-- DESCRIPTION -->
-
-                    <div class="form-group full">
-
-                        <label for="description">
-                            Description
-                        </label>
-
-                        <textarea
-                            id="description"
-                            placeholder="Write a short description..."
-                        ></textarea>
-
-                    </div>
-
-
-                    <!-- IMAGE -->
-
-                    <div class="form-group full">
-
-                        <label for="image">
-                            Gallery Image
-                        </label>
-
-                        <input
-                            type="file"
-                            id="image"
-                            accept="image/jpeg,image/jpg,image/png,image/webp"
-                        >
-
-                        <div class="file-help">
-                            JPG, JPEG, PNG or WebP • Maximum 5 MB
-                        </div>
-
-                        <img
-                            id="preview"
-                            class="preview"
-                            alt="Image Preview"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="button-row">
-
-                    <button
-                        type="submit"
-                        class="save-btn"
-                        id="saveBtn"
-                    >
-                        Upload Image
-                    </button>
-
-                    <button
-                        type="button"
-                        class="cancel-btn"
-                        id="cancelBtn"
-                    >
-                        Cancel Edit
-                    </button>
-
-                </div>
-
-                <div id="message"></div>
-
-            </form>
-
-        </section>
-
-
-        <!-- ================= EXISTING GALLERY ================= -->
-
-        <section>
-
-            <div class="gallery-header">
-
-                <h2>
-                    Existing Gallery
-                </h2>
-
-                <div>
-
-                    <span
-                        class="gallery-count"
-                        id="galleryCount"
-                    >
-                        0 Images
-                    </span>
-
-                    <button
-                        class="refresh-btn"
-                        onclick="loadGallery()"
-                    >
-                        🔄 Refresh
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="gallery-grid"
-                id="galleryGrid"
-            >
-
-                <div class="empty-box">
-                    Loading gallery...
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- ================= JAVASCRIPT ================= -->
-
-    <script>
-
-        /* ==========================================
-           API CONFIGURATION
-        ========================================== */
-
-        const API_BASE =
-            "https://ham-club-backend.onrender.com/api";
-
-        const BACKEND =
-            "https://ham-club-backend.onrender.com";
-
-
-        /* ==========================================
-           AUTHENTICATION
-        ========================================== */
-
-        let token =
-            localStorage.getItem("hamClubToken");
-
-        if (!token) {
-
-            window.location.href =
-                "login.html";
-
+        <div class="form-group full">
+          <label for="images">Select up to 6 photos *</label>
+          <input type="file" id="images" accept="image/jpeg,image/png,image/webp" multiple>
+          <div class="file-help">JPG, JPEG, PNG or WebP. Maximum 5 MB per photo. Select 1–6 photos together. When editing an existing image record, selecting a new photo is optional; this form updates its text details only.</div>
+          <div id="previewGrid" class="preview-grid"></div>
+        </div>
+      </div>
+      <div class="button-row">
+        <button type="submit" class="save-btn" id="saveBtn">Upload Event Photos</button>
+        <button type="button" class="cancel-btn" id="cancelBtn">Cancel Edit</button>
+      </div>
+      <div id="message" role="status" aria-live="polite"></div>
+    </form>
+  </section>
+
+  <section>
+    <div class="gallery-header">
+      <h2>Existing Gallery</h2>
+      <div><span class="gallery-count" id="galleryCount">0 Images</span><button class="refresh-btn" id="refreshBtn" type="button">🔄 Refresh</button></div>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"><div class="empty-box">Loading gallery...</div></div>
+  </section>
+</main>
+
+<script>
+const API_BASE = "https://ham-club-backend.onrender.com/api";
+const BACKEND = "https://ham-club-backend.onrender.com";
+const token = localStorage.getItem("hamClubToken");
+
+if (!token) window.location.href = "login.html";
+
+const form = document.getElementById("galleryForm");
+const titleInput = document.getElementById("title");
+const eventInput = document.getElementById("event");
+const descriptionInput = document.getElementById("description");
+const imageInput = document.getElementById("images");
+const previewGrid = document.getElementById("previewGrid");
+const message = document.getElementById("message");
+const saveBtn = document.getElementById("saveBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const formTitle = document.getElementById("formTitle");
+const galleryGrid = document.getElementById("galleryGrid");
+const galleryCount = document.getElementById("galleryCount");
+let editingId = null;
+let selectedFiles = [];
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem("hamClubToken");
+  localStorage.removeItem("hamAdminToken");
+  window.location.href = "login.html";
+});
+document.getElementById("refreshBtn").addEventListener("click", loadGallery);
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[ch]));
+}
+function imageURL(path) {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  return BACKEND + (path.startsWith("/") ? path : "/" + path);
+}
+function showMessage(text, type) {
+  message.className = type || "";
+  message.textContent = text;
+}
+function authExpired(response) {
+  if (response.status === 401 || response.status === 403) {
+    localStorage.removeItem("hamClubToken");
+    window.location.href = "login.html";
+    return true;
+  }
+  return false;
+}
+
+imageInput.addEventListener("change", () => {
+  selectedFiles = Array.from(imageInput.files || []);
+  previewGrid.innerHTML = "";
+  showMessage("", "");
+
+  if (selectedFiles.length > 6) {
+    imageInput.value = "";
+    selectedFiles = [];
+    showMessage("Please select no more than 6 images.", "error");
+    return;
+  }
+
+  const allowed = ["image/jpeg", "image/png", "image/webp"];
+  for (const file of selectedFiles) {
+    if (!allowed.includes(file.type)) {
+      imageInput.value = "";
+      selectedFiles = [];
+      previewGrid.innerHTML = "";
+      showMessage("Only JPG, PNG and WebP images are supported.", "error");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      imageInput.value = "";
+      selectedFiles = [];
+      previewGrid.innerHTML = "";
+      showMessage(`"${file.name}" exceeds 5 MB. Please choose smaller images.`, "error");
+      return;
+    }
+  }
+
+  selectedFiles.forEach(file => {
+    const item = document.createElement("div");
+    item.className = "preview-item";
+    const img = document.createElement("img");
+    img.alt = file.name;
+    img.src = URL.createObjectURL(file);
+    img.onload = () => URL.revokeObjectURL(img.src);
+    const label = document.createElement("span");
+    label.textContent = file.name;
+    item.append(img, label);
+    previewGrid.appendChild(item);
+  });
+});
+
+async function loadGallery() {
+  galleryGrid.innerHTML = '<div class="empty-box">Loading gallery...</div>';
+  try {
+    const response = await fetch(`${API_BASE}/gallery`);
+    const data = await response.json();
+    if (!response.ok || !data.success) throw new Error(data.message || "Failed to load gallery");
+    const items = Array.isArray(data.gallery) ? data.gallery : [];
+    galleryCount.textContent = `${items.length} image record${items.length === 1 ? "" : "s"}`;
+
+    if (!items.length) {
+      galleryGrid.innerHTML = '<div class="empty-box">📭 No gallery images found.</div>';
+      return;
+    }
+    galleryGrid.innerHTML = items.map(item => {
+      const src = imageURL(item.image);
+      return `<article class="gallery-card">
+        ${src ? `<img src="${escapeHTML(src)}" alt="${escapeHTML(item.title || "Gallery image")}" loading="lazy" onerror="this.style.display='none'">` : ""}
+        <div class="gallery-content">
+          <h3>${escapeHTML(item.title || "Untitled")}</h3>
+          ${item.event ? `<div class="event-name">📅 ${escapeHTML(item.event)}</div>` : ""}
+          <p>${escapeHTML(item.description || "No description")}</p>
+          <div class="card-actions">
+            <button class="edit-btn" type="button" data-edit="${escapeHTML(item._id)}">✏️ Edit</button>
+            <button class="delete-btn" type="button" data-delete="${escapeHTML(item._id)}">🗑 Delete</button>
+          </div>
+        </div>
+      </article>`;
+    }).join("");
+    galleryGrid.querySelectorAll("[data-edit]").forEach(btn => btn.addEventListener("click", () => editGallery(btn.dataset.edit)));
+    galleryGrid.querySelectorAll("[data-delete]").forEach(btn => btn.addEventListener("click", () => deleteGallery(btn.dataset.delete)));
+  } catch (error) {
+    console.error("Gallery loading error:", error);
+    galleryGrid.innerHTML = `<div class="empty-box">❌ Failed to load gallery.<br><br>${escapeHTML(error.message)}</div>`;
+  }
+}
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+  const title = titleInput.value.trim();
+  const eventName = eventInput.value.trim();
+  const description = descriptionInput.value.trim();
+
+  if (!title || !eventName) {
+    showMessage("Please enter both the title and event name.", "error");
+    return;
+  }
+  if (!editingId && selectedFiles.length === 0) {
+    showMessage("Please select at least one photo to upload.", "error");
+    return;
+  }
+  if (!editingId && selectedFiles.length > 6) {
+    showMessage("Please select no more than 6 photos.", "error");
+    return;
+  }
+
+  saveBtn.disabled = true;
+  cancelBtn.disabled = true;
+  saveBtn.textContent = editingId ? "Updating..." : `Uploading 0/${selectedFiles.length}...`;
+  showMessage("", "");
+
+  try {
+    if (editingId) {
+      const response = await fetch(`${API_BASE}/gallery/${encodeURIComponent(editingId)}`, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json", "Authorization":`Bearer ${token}`},
+        body: JSON.stringify({title, description, event:eventName})
+      });
+      if (authExpired(response)) return;
+      const data = await response.json();
+      if (!response.ok || !data.success) throw new Error(data.message || "Update failed");
+      showMessage("✅ Gallery details updated.", "success");
+    } else {
+      // Current backend accepts one file per request, so upload each selected image
+      // separately with the same event/title/description. This avoids requiring a
+      // backend route change just to upload several photos.
+      for (let i = 0; i < selectedFiles.length; i++) {
+        saveBtn.textContent = `Uploading ${i + 1}/${selectedFiles.length}...`;
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("event", eventName);
+        formData.append("image", selectedFiles[i]);
+
+        const response = await fetch(`${API_BASE}/gallery`, {
+          method: "POST",
+          headers: {"Authorization":`Bearer ${token}`},
+          body: formData
+        });
+        if (authExpired(response)) return;
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          throw new Error(`Upload stopped at photo ${i + 1}: ${data.message || "Upload failed"}. Photos uploaded before this may already be saved.`);
         }
-
-
-        /* ==========================================
-           ELEMENTS
-        ========================================== */
-
-        const galleryForm =
-            document.getElementById("galleryForm");
-
-        const galleryGrid =
-            document.getElementById("galleryGrid");
-
-        const galleryCount =
-            document.getElementById("galleryCount");
-
-        const titleInput =
-            document.getElementById("title");
-
-        const eventInput =
-            document.getElementById("event");
-
-        const descriptionInput =
-            document.getElementById("description");
-
-        const imageInput =
-            document.getElementById("image");
-
-        const preview =
-            document.getElementById("preview");
-
-        const message =
-            document.getElementById("message");
-
-        const saveBtn =
-            document.getElementById("saveBtn");
-
-        const cancelBtn =
-            document.getElementById("cancelBtn");
-
-        const formTitle =
-            document.getElementById("formTitle");
-
-
-        let editingId = null;
-
-
-        /* ==========================================
-           LOGOUT
-        ========================================== */
-
-        document
-            .getElementById("logoutBtn")
-            .addEventListener("click", function () {
-
-                localStorage.removeItem("hamClubToken");
-                localStorage.removeItem("hamAdminToken");
-
-                window.location.href =
-                    "login.html";
-
-            });
-
-
-        /* ==========================================
-           ESCAPE HTML
-        ========================================== */
-
-        function escapeHTML(value) {
-
-            return String(value || "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-
-        }
-
-
-        /* ==========================================
-           IMAGE URL
-        ========================================== */
-
-        function imageURL(path) {
-
-            if (!path) {
-                return "";
-            }
-
-            if (
-                path.startsWith("http://") ||
-                path.startsWith("https://")
-            ) {
-                return path;
-            }
-
-            if (path.startsWith("/")) {
-                return BACKEND + path;
-            }
-
-            return BACKEND + "/" + path;
-
-        }
-
-
-        /* ==========================================
-           IMAGE PREVIEW
-        ========================================== */
-
-        imageInput.addEventListener(
-            "change",
-            function () {
-
-                const file =
-                    imageInput.files[0];
-
-                if (!file) {
-
-                    preview.style.display =
-                        "none";
-
-                    preview.src = "";
-
-                    return;
-                }
-
-
-                /* FILE SIZE */
-
-                if (file.size > 5 * 1024 * 1024) {
-
-                    alert(
-                        "Image must be less than 5 MB."
-                    );
-
-                    imageInput.value = "";
-
-                    preview.style.display =
-                        "none";
-
-                    return;
-                }
-
-
-                /* FILE TYPE */
-
-                const allowed = [
-                    "image/jpeg",
-                    "image/jpg",
-                    "image/png",
-                    "image/webp"
-                ];
-
-                if (!allowed.includes(file.type)) {
-
-                    alert(
-                        "Please select JPG, JPEG, PNG or WebP."
-                    );
-
-                    imageInput.value = "";
-
-                    preview.style.display =
-                        "none";
-
-                    return;
-                }
-
-
-                /* PREVIEW */
-
-                const reader =
-                    new FileReader();
-
-                reader.onload =
-                    function (e) {
-
-                        preview.src =
-                            e.target.result;
-
-                        preview.style.display =
-                            "block";
-
-                    };
-
-                reader.readAsDataURL(file);
-
-            }
-        );
-
-
-        /* ==========================================
-           LOAD GALLERY
-        ========================================== */
-
-        async function loadGallery() {
-
-            galleryGrid.innerHTML = `
-                <div class="empty-box">
-                    Loading gallery...
-                </div>
-            `;
-
-            try {
-
-                const response =
-                    await fetch(
-                        `${API_BASE}/gallery`
-                    );
-
-
-                const data =
-                    await response.json();
-
-
-                if (
-                    !response.ok ||
-                    !data.success
-                ) {
-
-                    throw new Error(
-                        data.message ||
-                        "Failed to load gallery"
-                    );
-
-                }
-
-
-                const items =
-                    data.gallery || [];
-
-
-                galleryCount.textContent =
-                    `${items.length} Image${items.length !== 1 ? "s" : ""}`;
-
-
-                if (items.length === 0) {
-
-                    galleryGrid.innerHTML = `
-                        <div class="empty-box">
-                            📭 No gallery images found.
-                        </div>
-                    `;
-
-                    return;
-                }
-
-
-                galleryGrid.innerHTML =
-                    items.map(item => {
-
-                        const image =
-                            imageURL(item.image);
-
-
-                        return `
-
-                            <article class="gallery-card">
-
-                                ${
-                                    image
-                                    ?
-                                    `
-                                    <img
-                                        src="${escapeHTML(image)}"
-                                        alt="${escapeHTML(item.title || "Gallery image")}"
-                                        onerror="this.style.display='none'"
-                                    >
-                                    `
-                                    :
-                                    ""
-                                }
-
-                                <div class="gallery-content">
-
-                                    <h3>
-                                        ${escapeHTML(
-                                            item.title ||
-                                            "Untitled"
-                                        )}
-                                    </h3>
-
-                                    ${
-                                        item.event
-                                        ?
-                                        `
-                                        <div class="event-name">
-                                            📅 ${escapeHTML(item.event)}
-                                        </div>
-                                        `
-                                        :
-                                        ""
-                                    }
-
-                                    <p>
-                                        ${escapeHTML(
-                                            item.description ||
-                                            "No description"
-                                        )}
-                                    </p>
-
-                                    <div class="card-actions">
-
-                                        <button
-                                            class="edit-btn"
-                                            onclick="editGallery('${item._id}')"
-                                        >
-                                            ✏️ Edit
-                                        </button>
-
-                                        <button
-                                            class="delete-btn"
-                                            onclick="deleteGallery('${item._id}')"
-                                        >
-                                            🗑 Delete
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-                            </article>
-
-                        `;
-
-                    }).join("");
-
-
-            } catch (error) {
-
-                console.error(
-                    "Gallery loading error:",
-                    error
-                );
-
-                galleryGrid.innerHTML = `
-                    <div class="empty-box">
-                        ❌ Failed to load gallery.
-                        <br><br>
-                        ${escapeHTML(error.message)}
-                    </div>
-                `;
-
-            }
-
-        }
-
-
-        /* ==========================================
-           UPLOAD / UPDATE
-        ========================================== */
-
-        galleryForm.addEventListener(
-            "submit",
-            async function (e) {
-
-                e.preventDefault();
-
-
-                const title =
-                    titleInput.value.trim();
-
-                const eventName =
-                    eventInput.value.trim();
-
-                const description =
-                    descriptionInput.value.trim();
-
-
-                if (!title) {
-
-                    alert(
-                        "Please enter a title."
-                    );
-
-                    return;
-                }
-
-
-                saveBtn.disabled =
-                    true;
-
-                saveBtn.textContent =
-                    editingId
-                    ?
-                    "Updating..."
-                    :
-                    "Uploading...";
-
-                message.textContent =
-                    "";
-
-
-                try {
-
-                    /* ==================================
-                       CREATE NEW GALLERY IMAGE
-                    ================================== */
-
-                    if (!editingId) {
-
-                        const file =
-                            imageInput.files[0];
-
-
-                        if (!file) {
-
-                            alert(
-                                "Please select an image."
-                            );
-
-                            saveBtn.disabled =
-                                false;
-
-                            saveBtn.textContent =
-                                "Upload Image";
-
-                            return;
-                        }
-
-
-                        const formData =
-                            new FormData();
-
-
-                        formData.append(
-                            "title",
-                            title
-                        );
-
-                        formData.append(
-                            "description",
-                            description
-                        );
-
-                        formData.append(
-                            "event",
-                            eventName
-                        );
-
-                        formData.append(
-                            "image",
-                            file
-                        );
-
-
-                        const response =
-                            await fetch(
-                                `${API_BASE}/gallery`,
-                                {
-                                    method: "POST",
-
-                                    headers: {
-                                        Authorization:
-                                            `Bearer ${token}`
-                                    },
-
-                                    body: formData
-                                }
-                            );
-
-
-                        if (
-                            response.status === 401 ||
-                            response.status === 403
-                        ) {
-
-                            localStorage.removeItem(
-                                "hamClubToken"
-                            );
-
-                            window.location.href =
-                                "login.html";
-
-                            return;
-                        }
-
-
-                        const data =
-                            await response.json();
-
-
-                        if (
-                            !response.ok ||
-                            !data.success
-                        ) {
-
-                            throw new Error(
-                                data.message ||
-                                "Upload failed"
-                            );
-
-                        }
-
-
-                        message.className =
-                            "success";
-
-                        message.textContent =
-                            "✅ Gallery image uploaded successfully.";
-
-                    }
-
-
-                    /* ==================================
-                       UPDATE EXISTING IMAGE
-                    ================================== */
-
-                    else {
-
-                        const response =
-                            await fetch(
-                                `${API_BASE}/gallery/${editingId}`,
-                                {
-                                    method: "PUT",
-
-                                    headers: {
-                                        "Content-Type":
-                                            "application/json",
-
-                                        Authorization:
-                                            `Bearer ${token}`
-                                    },
-
-                                    body: JSON.stringify({
-
-                                        title:
-                                            title,
-
-                                        description:
-                                            description,
-
-                                        event:
-                                            eventName
-
-                                    })
-                                }
-                            );
-
-
-                        if (
-                            response.status === 401 ||
-                            response.status === 403
-                        ) {
-
-                            localStorage.removeItem(
-                                "hamClubToken"
-                            );
-
-                            window.location.href =
-                                "login.html";
-
-                            return;
-                        }
-
-
-                        const data =
-                            await response.json();
-
-
-                        if (
-                            !response.ok ||
-                            !data.success
-                        ) {
-
-                            throw new Error(
-                                data.message ||
-                                "Update failed"
-                            );
-
-                        }
-
-
-                        message.className =
-                            "success";
-
-                        message.textContent =
-                            "✅ Gallery information updated.";
-
-                    }
-
-
-                    resetForm();
-
-                    await loadGallery();
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Gallery save error:",
-                        error
-                    );
-
-                    message.className =
-                        "error";
-
-                    message.textContent =
-                        "❌ " +
-                        error.message;
-
-                } finally {
-
-                    saveBtn.disabled =
-                        false;
-
-                    saveBtn.textContent =
-                        editingId
-                        ?
-                        "Update Image"
-                        :
-                        "Upload Image";
-
-                }
-
-            }
-        );
-
-
-        /* ==========================================
-           EDIT GALLERY
-        ========================================== */
-
-        async function editGallery(id) {
-
-            try {
-
-                const response =
-                    await fetch(
-                        `${API_BASE}/gallery/${id}`
-                    );
-
-
-                if (
-                    response.status === 401 ||
-                    response.status === 403
-                ) {
-
-                    localStorage.removeItem(
-                        "hamClubToken"
-                    );
-
-                    window.location.href =
-                        "login.html";
-
-                    return;
-                }
-
-
-                const data =
-                    await response.json();
-
-
-                if (
-                    !response.ok ||
-                    !data.success
-                ) {
-
-                    throw new Error(
-                        data.message ||
-                        "Unable to load gallery item"
-                    );
-
-                }
-
-
-                const item =
-                    data.item;
-
-
-                editingId =
-                    item._id;
-
-
-                titleInput.value =
-                    item.title || "";
-
-                eventInput.value =
-                    item.event || "";
-
-                descriptionInput.value =
-                    item.description || "";
-
-
-                formTitle.textContent =
-                    "Edit Gallery Image";
-
-                saveBtn.textContent =
-                    "Update Image";
-
-                cancelBtn.style.display =
-                    "inline-block";
-
-
-                preview.src =
-                    imageURL(item.image);
-
-                preview.style.display =
-                    item.image
-                    ?
-                    "block"
-                    :
-                    "none";
-
-
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-
-
-            } catch (error) {
-
-                console.error(
-                    "Edit gallery error:",
-                    error
-                );
-
-                alert(
-                    "❌ " +
-                    error.message
-                );
-
-            }
-
-        }
-
-
-        /* ==========================================
-           DELETE GALLERY
-        ========================================== */
-
-        async function deleteGallery(id) {
-
-            const confirmed =
-                confirm(
-                    "Are you sure you want to delete this gallery image?"
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            try {
-
-                const response =
-                    await fetch(
-                        `${API_BASE}/gallery/${id}`,
-                        {
-                            method: "DELETE",
-
-                            headers: {
-                                Authorization:
-                                    `Bearer ${token}`
-                            }
-                        }
-                    );
-
-
-                if (
-                    response.status === 401 ||
-                    response.status === 403
-                ) {
-
-                    localStorage.removeItem(
-                        "hamClubToken"
-                    );
-
-                    window.location.href =
-                        "login.html";
-
-                    return;
-                }
-
-
-                const data =
-                    await response.json();
-
-
-                if (
-                    !response.ok ||
-                    !data.success
-                ) {
-
-                    throw new Error(
-                        data.message ||
-                        "Delete failed"
-                    );
-
-                }
-
-
-                alert(
-                    "Gallery image deleted successfully."
-                );
-
-
-                await loadGallery();
-
-
-            } catch (error) {
-
-                console.error(
-                    "Delete gallery error:",
-                    error
-                );
-
-                alert(
-                    "❌ " +
-                    error.message
-                );
-
-            }
-
-        }
-
-
-        /* ==========================================
-           RESET FORM
-        ========================================== */
-
-        function resetForm() {
-
-            editingId =
-                null;
-
-            galleryForm.reset();
-
-            preview.src =
-                "";
-
-            preview.style.display =
-                "none";
-
-            formTitle.textContent =
-                "Add Gallery Image";
-
-            saveBtn.textContent =
-                "Upload Image";
-
-            cancelBtn.style.display =
-                "none";
-
-            message.textContent =
-                "";
-
-        }
-
-
-        /* ==========================================
-           CANCEL EDIT
-        ========================================== */
-
-        cancelBtn.addEventListener(
-            "click",
-            resetForm
-        );
-
-
-        /* ==========================================
-           START
-        ========================================== */
-
-        loadGallery();
-
-    </script>
-
+      }
+      showMessage(`✅ Successfully uploaded ${selectedFiles.length} photo(s) for "${eventName}".`, "success");
+    }
+
+    resetForm(false);
+    await loadGallery();
+  } catch (error) {
+    console.error("Gallery save error:", error);
+    showMessage("❌ " + error.message, "error");
+    await loadGallery();
+  } finally {
+    saveBtn.disabled = false;
+    cancelBtn.disabled = false;
+    saveBtn.textContent = editingId ? "Update Details" : "Upload Event Photos";
+  }
+});
+
+async function editGallery(id) {
+  try {
+    const response = await fetch(`${API_BASE}/gallery/${encodeURIComponent(id)}`);
+    if (authExpired(response)) return;
+    const data = await response.json();
+    if (!response.ok || !data.success || !data.item) throw new Error(data.message || "Unable to load image record");
+    const item = data.item;
+    editingId = item._id;
+    titleInput.value = item.title || "";
+    eventInput.value = item.event || "";
+    descriptionInput.value = item.description || "";
+    imageInput.value = "";
+    selectedFiles = [];
+    previewGrid.innerHTML = "";
+    if (item.image) {
+      const wrap = document.createElement("div");
+      wrap.className = "preview-item";
+      const img = document.createElement("img");
+      img.src = imageURL(item.image);
+      img.alt = "Current saved photo";
+      const label = document.createElement("span");
+      label.textContent = "Current photo (not changed by editing text)";
+      wrap.append(img, label);
+      previewGrid.appendChild(wrap);
+    }
+    formTitle.textContent = "Edit Gallery Photo Details";
+    saveBtn.textContent = "Update Details";
+    cancelBtn.style.display = "inline-block";
+    showMessage("Editing one image record. To add more photos, cancel and create a new upload for the same event.", "");
+    window.scrollTo({top:0, behavior:"smooth"});
+  } catch (error) {
+    console.error("Edit gallery error:", error);
+    showMessage("❌ " + error.message, "error");
+  }
+}
+
+async function deleteGallery(id) {
+  if (!confirm("Delete this gallery photo? This action cannot be undone.")) return;
+  try {
+    const response = await fetch(`${API_BASE}/gallery/${encodeURIComponent(id)}`, {
+      method:"DELETE",
+      headers:{"Authorization":`Bearer ${token}`}
+    });
+    if (authExpired(response)) return;
+    const data = await response.json();
+    if (!response.ok || !data.success) throw new Error(data.message || "Delete failed");
+    showMessage("Photo deleted successfully.", "success");
+    await loadGallery();
+  } catch (error) {
+    console.error("Delete gallery error:", error);
+    showMessage("❌ " + error.message, "error");
+  }
+}
+
+function resetForm(clearMessage = true) {
+  editingId = null;
+  form.reset();
+  selectedFiles = [];
+  previewGrid.innerHTML = "";
+  formTitle.textContent = "Add Event Photos";
+  saveBtn.textContent = "Upload Event Photos";
+  cancelBtn.style.display = "none";
+  if (clearMessage) showMessage("", "");
+}
+cancelBtn.addEventListener("click", () => resetForm());
+loadGallery();
+</script>
 </body>
-
 </html>
