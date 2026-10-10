@@ -1,273 +1,428 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upcoming Events | HAM Club</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="css/style.css">
+    <title>Upcoming Events | HAM Club</title>
 
-  <style>
-    .events-page {
-      max-width: 1200px;
-      width: 92%;
-      margin: 45px auto;
-    }
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/events.css">
 
-    .events-heading {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+    <style>
+        /* HAM Club blue theme */
+        .events-section {
+            padding: 45px 6%;
+            background: #f4f7fc;
+            min-height: 400px;
+        }
 
-    .events-heading h1 {
-      color: #104578;
-      margin-bottom: 10px;
-    }
+        .section-title {
+            text-align: center;
+            color: #103f70;
+            font-size: 30px;
+            margin-bottom: 18px;
+        }
 
-    .events-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
+        .event-note {
+            text-align: center;
+            color: #46566a;
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 850px;
+            margin: 0 auto 35px;
+        }
 
-    .event-card {
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 5px 22px rgba(0, 0, 0, 0.08);
-    }
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 25px;
+        }
 
-    .event-card img {
-      width: 100%;
-      height: 210px;
-      object-fit: cover;
-    }
+        .event-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(15, 50, 85, .10);
+            border: 1px solid #e7edf5;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: transform .25s ease, box-shadow .25s ease;
+            overflow-wrap: anywhere;
+        }
 
-    .event-content {
-      padding: 22px;
-    }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 26px rgba(15, 50, 85, .16);
+        }
 
-    .event-content h2 {
-      color: #104578;
-      margin: 0 0 14px;
-    }
+        .event-card h3 {
+            color: #103f70;
+            font-size: 21px;
+            line-height: 1.45;
+            margin: 0 0 15px;
+        }
 
-    .event-meta {
-      margin: 10px 0;
-      line-height: 1.6;
-      overflow-wrap: anywhere;
-    }
+        .event-card p {
+            color: #344256;
+            font-size: 15px;
+            line-height: 1.75;
+            margin: 0 0 13px;
+        }
 
-    .event-description {
-      line-height: 1.7;
-      margin: 16px 0;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
+        .event-card img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 18px;
+        }
 
-    .event-category {
-      display: inline-block;
-      background: #e8f2fc;
-      color: #104578;
-      padding: 7px 13px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: bold;
-    }
+        .event-type {
+            display: inline-block;
+            background: #e7f1fc;
+            color: #103f70;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 17px;
+        }
 
-    .status {
-      text-align: center;
-      padding: 22px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      background: #eef4ff;
-      color: #104578;
-      overflow-wrap: anywhere;
-    }
+        .event-btn {
+            display: inline-block;
+            background: #103f70;
+            color: #fff !important;
+            text-decoration: none;
+            padding: 11px 19px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: auto;
+            transition: background .2s ease;
+        }
 
-    .status.error {
-      background: #fff0f0;
-      color: #a32020;
-    }
+        .event-btn:hover {
+            background: #082c50;
+        }
 
-    .back-link {
-      display: inline-block;
-      margin-bottom: 20px;
-      color: #104578;
-      font-weight: bold;
-      text-decoration: none;
-    }
+        .event-status {
+            background: #eaf2ff;
+            color: #103f70;
+            padding: 18px;
+            text-align: center;
+            border-radius: 9px;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
 
-    @media (max-width: 600px) {
-      .events-page {
-        margin: 25px auto;
-      }
+        .event-status.error {
+            background: #fff0f0;
+            color: #a32020;
+        }
 
-      .event-card img {
-        height: 180px;
-      }
-    }
-  </style>
+        .event-status[hidden] {
+            display: none;
+        }
+
+        .back-btn {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-btn a {
+            display: inline-block;
+            background: #103f70;
+            color: #fff;
+            text-decoration: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .back-btn a:hover {
+            background: #082c50;
+        }
+
+        @media (max-width: 1000px) {
+            .event-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .events-section {
+                padding: 30px 5%;
+            }
+
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 25px;
+            }
+
+            .event-card {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <main class="events-page">
-    <a class="back-link" href="events.html">← Back to Events</a>
 
-    <div class="events-heading">
-      <h1>📅 Upcoming Events</h1>
-      <p>Discover upcoming workshops, competitions and technical sessions.</p>
-    </div>
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar">
 
-    <div id="status" class="status" role="status" aria-live="polite">
-      Loading upcoming events...
-    </div>
+            <a href="index.html" class="logo">
+                <img src="/logo/logo.png" alt="HAM Club Logo">
+                <h2>HAM CLUB</h2>
+            </a>
 
-    <section id="eventsGrid" class="events-grid"></section>
-  </main>
+            <div class="menu-toggle" id="menu-toggle">☰</div>
 
-  <script>
-    const API_URL =
-      "https://ham-club-backend.onrender.com/api/events";
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="magazine.html">Magazine</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
 
-    const statusBox = document.getElementById("status");
-    const eventsGrid = document.getElementById("eventsGrid");
+        </nav>
+    </header>
 
-    function showStatus(message, isError = false) {
-      statusBox.textContent = message;
-      statusBox.className = isError ? "status error" : "status";
-      statusBox.hidden = false;
-    }
+    <!-- BLUE BANNER -->
+    <section class="events-banner">
+        <h1>Upcoming Events</h1>
+        <p>
+            Discover upcoming workshops, competitions and technical
+            sessions organised by HAM Club.
+        </p>
+    </section>
 
-    function escapeHTML(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
+    <!-- UPCOMING EVENTS -->
+    <main class="events-section">
 
-    function formatDate(value) {
-      if (!value) return "Date not specified";
+        <h2 class="section-title">Upcoming Events</h2>
 
-      const date = new Date(value);
+        <p class="event-note">
+            Stay updated with our upcoming workshops, competitions and
+            technical sessions.
+        </p>
 
-      if (Number.isNaN(date.getTime())) {
-        return escapeHTML(value);
-      }
+        <div id="eventStatus" class="event-status"
+             role="status" aria-live="polite">
+            Loading upcoming events...
+        </div>
 
-      return date.toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric"
-      });
-    }
+        <div id="eventGrid" class="event-grid"></div>
 
-    function getEvents(data) {
-      if (Array.isArray(data)) return data;
-      if (Array.isArray(data.events)) return data.events;
-      if (Array.isArray(data.data)) return data.data;
-      return null;
-    }
+        <div class="back-btn">
+            <a href="events.html">← Back to Events</a>
+        </div>
 
-    function renderEvents(events) {
-      eventsGrid.replaceChildren();
+    </main>
 
-      if (!events.length) {
-        showStatus("There are currently no upcoming events.");
-        return;
-      }
+    <!-- FOOTER -->
+    <footer>
+        <p>
+            © 2026 HAM Club | SRM Institute of Science and Technology,
+            Ramapuram.
+        </p>
+    </footer>
 
-      statusBox.hidden = true;
+    <script src="js/navbar.js"></script>
 
-      events.forEach(event => {
-        const card = document.createElement("article");
-        card.className = "event-card";
+    <!-- LOAD UPCOMING EVENTS FROM ADMIN DATABASE -->
+    <script>
+        const EVENTS_API =
+            "https://ham-club-backend.onrender.com/api/events";
 
-        if (event.image) {
-          const image = document.createElement("img");
-          image.src = event.image;
-          image.alt = event.title || "HAM Club event";
-          image.loading = "lazy";
-          image.addEventListener("error", () => image.remove());
-          card.appendChild(image);
+        const eventGrid = document.getElementById("eventGrid");
+        const eventStatus = document.getElementById("eventStatus");
+
+        function showStatus(message, isError = false) {
+            eventStatus.textContent = message;
+            eventStatus.className = isError
+                ? "event-status error"
+                : "event-status";
+            eventStatus.hidden = false;
         }
 
-        const content = document.createElement("div");
-        content.className = "event-content";
-
-        const title = document.createElement("h2");
-        title.textContent = event.title || "Untitled event";
-        content.appendChild(title);
-
-        const date = document.createElement("p");
-        date.className = "event-meta";
-        date.textContent = "📅 " + formatDate(event.date);
-        content.appendChild(date);
-
-        const location = document.createElement("p");
-        location.className = "event-meta";
-        location.textContent = "📍 " + (event.location || "Location to be announced");
-        content.appendChild(location);
-
-        const description = document.createElement("p");
-        description.className = "event-description";
-        description.textContent = event.description || "";
-        content.appendChild(description);
-
-        const category = document.createElement("span");
-        category.className = "event-category";
-        category.textContent = event.category || "upcoming";
-        content.appendChild(category);
-
-        card.appendChild(content);
-        eventsGrid.appendChild(card);
-      });
-    }
-
-    async function loadUpcomingEvents() {
-      showStatus("Loading upcoming events...");
-
-      try {
-        const response = await fetch(API_URL, {
-          headers: { "Accept": "application/json" },
-          cache: "no-store"
-        });
-
-        if (!response.ok) {
-          throw new Error("Server returned HTTP " + response.status);
+        function getEvents(data) {
+            if (Array.isArray(data)) return data;
+            if (data && Array.isArray(data.events)) return data.events;
+            if (data && Array.isArray(data.data)) return data.data;
+            return null;
         }
 
-        const data = await response.json();
-        const events = getEvents(data);
+        function formatDate(value) {
+            if (!value) return "Not specified";
 
-        if (!events) {
-          throw new Error("Unexpected events response format.");
+            const date = new Date(value);
+
+            if (Number.isNaN(date.getTime())) {
+                return String(value);
+            }
+
+            return date.toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric"
+            });
         }
 
-        // Only show upcoming events. Past events remain in the database.
-        const upcoming = events.filter(event => {
-          const category = String(event.category || "").toLowerCase();
-          const date = event.date ? new Date(event.date) : null;
-          const isPastDate = date && !Number.isNaN(date.getTime()) &&
-            date < new Date(new Date().setHours(0, 0, 0, 0));
+        function isUpcomingEvent(event) {
+            const category =
+                String(event.category || "").trim().toLowerCase();
 
-          return category !== "past" && !isPastDate;
-        });
+            // Respect the category selected in Admin.
+            if (category === "upcoming") return true;
+            if (category === "past") return false;
 
-        renderEvents(upcoming);
-      } catch (error) {
-        console.error("Upcoming events error:", error);
-        showStatus(
-          "Unable to load events. Please try again later. " + error.message,
-          true
-        );
-      }
-    }
+            // For uncategorised events, use the date as a fallback.
+            if (!event.date) return false;
 
-    loadUpcomingEvents();
-  </script>
+            const date = new Date(event.date);
+
+            if (Number.isNaN(date.getTime())) return false;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            date.setHours(0, 0, 0, 0);
+
+            return date >= today;
+        }
+
+        function createEventCard(event) {
+            const card = document.createElement("article");
+            card.className = "event-card";
+
+            if (event.image) {
+                const image = document.createElement("img");
+                image.src = event.image;
+                image.alt = event.title || "HAM Club event";
+                image.loading = "lazy";
+
+                image.addEventListener("error", function () {
+                    image.remove();
+                });
+
+                card.appendChild(image);
+            }
+
+            const title = document.createElement("h3");
+            title.textContent = event.title || "Untitled Event";
+            card.appendChild(title);
+
+            const type = document.createElement("span");
+            type.className = "event-type";
+            type.textContent = event.category || "Upcoming Event";
+            card.appendChild(type);
+
+            const date = document.createElement("p");
+            const dateLabel = document.createElement("strong");
+            dateLabel.textContent = "Date: ";
+            date.append(
+                dateLabel,
+                document.createTextNode(formatDate(event.date))
+            );
+            card.appendChild(date);
+
+            const location = document.createElement("p");
+            const locationLabel = document.createElement("strong");
+            locationLabel.textContent = "Location: ";
+            location.append(
+                locationLabel,
+                document.createTextNode(
+                    event.location || "Not specified"
+                )
+            );
+            card.appendChild(location);
+
+            const description = document.createElement("p");
+            description.textContent =
+                event.description || "Event details will be updated soon.";
+            card.appendChild(description);
+
+            return card;
+        }
+
+        async function loadUpcomingEvents() {
+            showStatus("Loading upcoming events...");
+
+            try {
+                const response = await fetch(EVENTS_API, {
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json"
+                    },
+                    cache: "no-store"
+                });
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Server returned HTTP " + response.status
+                    );
+                }
+
+                const data = await response.json();
+                const events = getEvents(data);
+
+                if (!events) {
+                    throw new Error(
+                        "The server returned an unexpected response."
+                    );
+                }
+
+                const upcomingEvents = events
+                    .filter(isUpcomingEvent)
+                    .sort((a, b) => {
+                        return new Date(a.date || 0) -
+                               new Date(b.date || 0);
+                    });
+
+                eventGrid.replaceChildren();
+
+                if (upcomingEvents.length === 0) {
+                    showStatus(
+                        "There are currently no upcoming events. " +
+                        "Check the event categories and dates in Admin."
+                    );
+                    return;
+                }
+
+                upcomingEvents.forEach(function (event) {
+                    eventGrid.appendChild(createEventCard(event));
+                });
+
+                eventStatus.hidden = true;
+
+            } catch (error) {
+                console.error(
+                    "Unable to load upcoming events:",
+                    error
+                );
+
+                showStatus(
+                    "Unable to load upcoming events. Please refresh the " +
+                    "page or check the backend connection. " + error.message,
+                    true
+                );
+            }
+        }
+
+        loadUpcomingEvents();
+    </script>
+
 </body>
 </html>
