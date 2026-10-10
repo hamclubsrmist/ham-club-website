@@ -17,7 +17,9 @@
       --danger: #dc2626;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -48,7 +50,9 @@
       font-weight: bold;
     }
 
-    header a:hover { color: var(--gold); }
+    header a:hover {
+      color: var(--gold);
+    }
 
     main {
       max-width: 1250px;
@@ -65,7 +69,9 @@
       margin-bottom: 20px;
     }
 
-    .toolbar h2 { margin-bottom: 6px; }
+    .toolbar h2 {
+      margin-bottom: 6px;
+    }
 
     .toolbar p {
       margin-top: 0;
@@ -78,7 +84,8 @@
       gap: 10px;
     }
 
-    input, button {
+    input,
+    button {
       font: inherit;
       border-radius: 8px;
       padding: 11px 14px;
@@ -98,7 +105,9 @@
       cursor: pointer;
     }
 
-    button:hover { background: #175792; }
+    button:hover {
+      background: #175792;
+    }
 
     button:disabled {
       opacity: 0.6;
@@ -108,9 +117,12 @@
     .delete-btn {
       background: var(--danger);
       padding: 8px 12px;
+      white-space: nowrap;
     }
 
-    .delete-btn:hover { background: #991b1b; }
+    .delete-btn:hover {
+      background: #991b1b;
+    }
 
     .panel {
       background: white;
@@ -162,11 +174,12 @@
 
     table {
       width: 100%;
-      min-width: 800px;
+      min-width: 850px;
       border-collapse: collapse;
     }
 
-    th, td {
+    th,
+    td {
       padding: 14px 12px;
       text-align: left;
       vertical-align: top;
@@ -191,9 +204,12 @@
     }
 
     @media (max-width: 600px) {
-      header h1 { font-size: 20px; }
+      header h1 {
+        font-size: 20px;
+      }
 
-      .toolbar, .toolbar-actions {
+      .toolbar,
+      .toolbar-actions {
         width: 100%;
       }
 
@@ -206,8 +222,13 @@
         width: 100%;
       }
 
-      main { margin-top: 20px; }
-      .panel { padding: 12px; }
+      main {
+        margin-top: 20px;
+      }
+
+      .panel {
+        padding: 12px;
+      }
     }
   </style>
 </head>
@@ -277,6 +298,7 @@
     const totalCount = document.getElementById("totalCount");
 
     let allMessages = [];
+    let deletingIds = new Set();
 
     function setStatus(message, type = "") {
       statusBox.textContent = message;
@@ -368,37 +390,38 @@
           .forEach((value, index) => {
             const cell = document.createElement("td");
 
-            if (index === 2) cell.className = "message-cell";
+            if (index === 2) {
+              cell.className = "message-cell";
+            }
 
             cell.textContent = String(value);
             row.appendChild(cell);
           });
 
-        // Delete button
+        // Actions column
         const actionCell = document.createElement("td");
         const deleteButton = document.createElement("button");
+        const id = item._id || item.id;
 
         deleteButton.type = "button";
         deleteButton.className = "delete-btn";
         deleteButton.textContent = "Delete";
 
-        deleteButton.addEventListener("click", async () => {
-          const id = item._id || item.id;
+        if (!id) {
+          deleteButton.disabled = true;
+          deleteButton.title = "Message ID is unavailable";
+        }
 
-          if (!id) {
-            setStatus(
-              "This message has no recognised ID. Check the contact controller.",
-              "error"
-            );
-            return;
-          }
+        deleteButton.addEventListener("click", async () => {
+          if (!id || deletingIds.has(String(id))) return;
 
           const confirmed = confirm(
-            "Permanently delete this contact message? This cannot be undone."
+            "Permanently delete this message? This action cannot be undone."
           );
 
           if (!confirmed) return;
 
+          deletingIds.add(String(id));
           deleteButton.disabled = true;
           deleteButton.textContent = "Deleting...";
 
@@ -407,12 +430,12 @@
 
             if (!token) {
               throw new Error(
-                "Admin token not found. Please log in again."
+                "Admin token not found. Log in through your existing admin page."
               );
             }
 
             const response = await fetch(
-              API_URL + "/" + encodeURIComponent(id),
+              API_URL + "/" + encodeURIComponent(String(id)),
               {
                 method: "DELETE",
                 headers: {
@@ -424,7 +447,7 @@
 
             if (response.status === 401 || response.status === 403) {
               throw new Error(
-                "Admin session rejected. Log in again and retry."
+                "Admin session rejected. Please log in again."
               );
             }
 
@@ -448,6 +471,8 @@
               "Could not delete message: " + error.message,
               "error"
             );
+          } finally {
+            deletingIds.delete(String(id));
           }
         });
 
@@ -488,9 +513,7 @@
         }
 
         if (!response.ok) {
-          throw new Error(
-            "Backend returned HTTP " + response.status
-          );
+          throw new Error("Backend returned HTTP " + response.status);
         }
 
         const data = await response.json();
