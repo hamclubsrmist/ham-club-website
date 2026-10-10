@@ -1,396 +1,477 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Past Events | HAM Club</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/events.css">
+    <title>Past Events | HAM Club</title>
 
-  <style>
-    .past-events-section {
-      width: 92%;
-      max-width: 1200px;
-      margin: 45px auto;
-    }
+    <!-- Existing HAM Club styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/events.css">
 
-    .section-title {
-      text-align: center;
-      color: #104578;
-      margin-bottom: 15px;
-    }
+    <style>
+        /* Past events page - matching HAM Club blue theme */
 
-    .event-note {
-      text-align: center;
-      line-height: 1.7;
-      margin-bottom: 30px;
-    }
+        .events-section {
+            padding: 45px 6%;
+            background: #f4f7fc;
+            min-height: 400px;
+        }
 
-    .event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 24px;
-    }
+        .section-title {
+            text-align: center;
+            color: #103f70;
+            font-size: 30px;
+            margin-bottom: 18px;
+        }
 
-    .event-card {
-      background: white;
-      border-radius: 15px;
-      padding: 24px;
-      box-shadow: 0 5px 22px rgba(0, 0, 0, 0.08);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      min-width: 0;
-    }
+        .event-note {
+            text-align: center;
+            color: #46566a;
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 850px;
+            margin: 0 auto 35px;
+        }
 
-    .event-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 18px;
-    }
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 25px;
+        }
 
-    .event-card h3 {
-      color: #104578;
-      margin-bottom: 14px;
-      line-height: 1.4;
-    }
+        .event-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(15, 50, 85, 0.10);
+            border: 1px solid #e7edf5;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            overflow-wrap: anywhere;
+        }
 
-    .event-card p {
-      line-height: 1.7;
-      margin-bottom: 12px;
-      overflow-wrap: anywhere;
-    }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 26px rgba(15, 50, 85, 0.16);
+        }
 
-    .event-type {
-      display: inline-block;
-      background: #e8f2fc;
-      color: #104578;
-      padding: 6px 12px;
-      border-radius: 20px;
-      margin-bottom: 14px;
-      font-size: 13px;
-      font-weight: bold;
-    }
+        .event-card h3 {
+            color: #103f70;
+            font-size: 21px;
+            line-height: 1.45;
+            margin: 0 0 15px;
+        }
 
-    .event-btn {
-      display: inline-block;
-      margin-top: auto;
-      padding: 11px 18px;
-      background: #104578;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
+        .event-card p {
+            color: #344256;
+            font-size: 15px;
+            line-height: 1.75;
+            margin: 0 0 13px;
+        }
 
-    .event-btn:hover {
-      background: #0b3155;
-    }
+        .event-card img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 18px;
+        }
 
-    .event-status {
-      padding: 18px;
-      margin-bottom: 25px;
-      text-align: center;
-      border-radius: 10px;
-      background: #eef4ff;
-      color: #104578;
-      overflow-wrap: anywhere;
-    }
+        .event-type {
+            display: inline-block;
+            background: #e7f1fc;
+            color: #103f70;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 17px;
+        }
 
-    .event-status.error {
-      background: #fff0f0;
-      color: #a32020;
-    }
+        .event-btn {
+            display: inline-block;
+            background: #103f70;
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 11px 19px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: auto;
+            transition: background 0.2s ease;
+        }
 
-    .back-btn {
-      text-align: center;
-      margin: 35px 0;
-    }
+        .event-btn:hover {
+            background: #082c50;
+        }
 
-    .back-btn a {
-      color: #104578;
-      font-weight: bold;
-      text-decoration: none;
-    }
+        .event-status {
+            background: #eaf2ff;
+            color: #103f70;
+            padding: 18px;
+            text-align: center;
+            border-radius: 9px;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
 
-    @media (max-width: 600px) {
-      .past-events-section {
-        margin: 28px auto;
-      }
+        .event-status.error {
+            background: #fff0f0;
+            color: #a32020;
+        }
 
-      .event-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+        .event-status[hidden] {
+            display: none;
+        }
+
+        .back-btn {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-btn a {
+            display: inline-block;
+            background: #103f70;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .back-btn a:hover {
+            background: #082c50;
+        }
+
+        @media (max-width: 1000px) {
+            .event-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .events-section {
+                padding: 30px 5%;
+            }
+
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 25px;
+            }
+
+            .event-card {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-  <nav class="navbar">
-    <a class="logo" href="index.html">
-      <img src="/logo/logo.png" alt="HAM Club Logo">
-      <h2>HAM CLUB</h2>
-    </a>
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar">
 
-    <button
-      class="menu-toggle"
-      id="menu-toggle"
-      type="button"
-      aria-label="Toggle navigation"
-      aria-expanded="false"
-    >☰</button>
+            <a href="index.html" class="logo">
+                <img src="/logo/logo.png" alt="HAM Club Logo">
+                <h2>HAM CLUB</h2>
+            </a>
 
-    <ul class="nav-links" id="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="leadership.html">Leadership</a></li>
-      <li><a href="events.html" class="active">Events</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="magazine.html">Magazine</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
-</header>
+            <div class="menu-toggle" id="menu-toggle">☰</div>
 
-<section class="events-banner">
-  <h1>Past Events</h1>
-  <p>
-    Explore the memorable workshops, competitions and activities
-    organised by HAM Club.
-  </p>
-</section>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="magazine.html">Magazine</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
 
-<main class="past-events-section">
-  <h2 class="section-title">Our Past Events</h2>
+        </nav>
+    </header>
 
-  <p class="event-note">
-    Explore our previous events, workshops and competitions.
-    Event information is loaded from the HAM Club event database.
-  </p>
+    <!-- BLUE BANNER -->
+    <section class="events-banner">
+        <h1>Past Events</h1>
+        <p>
+            Explore the memorable workshops, competitions and activities
+            organised by HAM Club.
+        </p>
+    </section>
 
-  <div id="eventStatus" class="event-status" role="status" aria-live="polite">
-    Loading past events...
-  </div>
+    <!-- PAST EVENTS -->
+    <main class="events-section">
 
-  <section id="eventGrid" class="event-grid"></section>
+        <h2 class="section-title">Our Past Events</h2>
 
-  <div class="back-btn">
-    <a href="events.html">← Back to Events</a>
-  </div>
-</main>
+        <p class="event-note">
+            Explore our previous events, workshops and competitions.
+            Click on an event to view its details and photo gallery.
+        </p>
 
-<footer>
-  <p>
-    © 2026 HAM Club | SRM Institute of Science and Technology, Ramapuram.
-  </p>
-</footer>
+        <div id="eventStatus" class="event-status" role="status"
+             aria-live="polite">
+            Loading past events...
+        </div>
 
-<script src="js/navbar.js"></script>
+        <div id="eventGrid" class="event-grid"></div>
 
-<script>
-  const EVENTS_API =
-    "https://ham-club-backend.onrender.com/api/events";
+        <div class="back-btn">
+            <a href="events.html">← Back to Events</a>
+        </div>
 
-  const eventGrid = document.getElementById("eventGrid");
-  const eventStatus = document.getElementById("eventStatus");
+    </main>
 
-  // Preserve existing event-detail links.
-  const detailLinks = {
-    "badging ceremony 2026":
-      "event-details/past/badging-ceremony-2026.html",
-    "dots and dashes":
-      "event-details/past/dots-and-dashes.html",
-    "dots & dashes":
-      "event-details/past/dots-and-dashes.html",
-    "escape room":
-      "event-details/past/escape-room.html",
-    "ham hunt":
-      "event-details/past/ham-hunt.html",
-    "pick & talk":
-      "event-details/past/pick-and-talk.html",
-    "pick and talk":
-      "event-details/past/pick-and-talk.html",
-    "reunion 2026":
-      "event-details/past/reunion-2026.html",
-    "soldering workshop":
-      "event-details/past/soldering-workshop.html",
-    "tech genesis":
-      "event-details/past/tech-genesis.html",
-    "tech quiz":
-      "event-details/past/tech-quiz.html"
-  };
+    <!-- FOOTER -->
+    <footer>
+        <p>
+            © 2026 HAM Club | SRM Institute of Science and Technology,
+            Ramapuram.
+        </p>
+    </footer>
 
-  function showStatus(message, isError = false) {
-    eventStatus.textContent = message;
-    eventStatus.className = isError
-      ? "event-status error"
-      : "event-status";
-    eventStatus.hidden = false;
-  }
+    <script src="js/navbar.js"></script>
 
-  function getEvents(data) {
-    if (Array.isArray(data)) return data;
-    if (data && Array.isArray(data.events)) return data.events;
-    if (data && Array.isArray(data.data)) return data.data;
-    return null;
-  }
+    <!-- LOAD EVENTS FROM ADMIN DATABASE -->
+    <script>
+        const EVENTS_API =
+            "https://ham-club-backend.onrender.com/api/events";
 
-  function formatDate(value) {
-    if (!value) return "Date not specified";
+        const eventGrid = document.getElementById("eventGrid");
+        const eventStatus = document.getElementById("eventStatus");
 
-    const date = new Date(value);
+        // Existing event-detail pages are preserved.
+        const detailLinks = {
+            "badging ceremony 2026":
+                "event-details/past/badging-ceremony-2026.html",
 
-    if (Number.isNaN(date.getTime())) {
-      return String(value);
-    }
+            "dots and dashes":
+                "event-details/past/dots-and-dashes.html",
 
-    return date.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric"
-    });
-  }
+            "dots & dashes":
+                "event-details/past/dots-and-dashes.html",
 
-  function isPastEvent(event) {
-    const category = String(event.category || "").toLowerCase();
+            "escape room":
+                "event-details/past/escape-room.html",
 
-    if (category === "past") return true;
+            "ham hunt":
+                "event-details/past/ham-hunt.html",
 
-    if (category === "upcoming") return false;
+            "pick & talk":
+                "event-details/past/pick-and-talk.html",
 
-    if (!event.date) return false;
+            "pick and talk":
+                "event-details/past/pick-and-talk.html",
 
-    const date = new Date(event.date);
+            "reunion 2026":
+                "event-details/past/reunion-2026.html",
 
-    if (Number.isNaN(date.getTime())) return false;
+            "soldering workshop":
+                "event-details/past/soldering-workshop.html",
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    date.setHours(0, 0, 0, 0);
+            "tech genesis":
+                "event-details/past/tech-genesis.html",
 
-    return date < today;
-  }
+            "tech quiz":
+                "event-details/past/tech-quiz.html"
+        };
 
-  function createEventCard(event) {
-    const card = document.createElement("article");
-    card.className = "event-card";
+        function showStatus(message, isError = false) {
+            eventStatus.textContent = message;
+            eventStatus.className = isError
+                ? "event-status error"
+                : "event-status";
+            eventStatus.hidden = false;
+        }
 
-    if (event.image) {
-      const image = document.createElement("img");
-      image.src = event.image;
-      image.alt = event.title || "HAM Club event";
-      image.loading = "lazy";
+        function getEvents(data) {
+            if (Array.isArray(data)) return data;
+            if (data && Array.isArray(data.events)) return data.events;
+            if (data && Array.isArray(data.data)) return data.data;
+            return null;
+        }
 
-      image.addEventListener("error", () => {
-        image.remove();
-      });
+        function formatDate(value) {
+            if (!value) return "Not specified";
 
-      card.appendChild(image);
-    }
+            const date = new Date(value);
 
-    const title = document.createElement("h3");
-    title.textContent = event.title || "Untitled event";
-    card.appendChild(title);
+            if (Number.isNaN(date.getTime())) {
+                return String(value);
+            }
 
-    const category = document.createElement("span");
-    category.className = "event-type";
-    category.textContent = event.category || "Past event";
-    card.appendChild(category);
+            return date.toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric"
+            });
+        }
 
-    const date = document.createElement("p");
-    const dateLabel = document.createElement("strong");
-    dateLabel.textContent = "Date: ";
-    date.append(dateLabel, document.createTextNode(formatDate(event.date)));
-    card.appendChild(date);
+        function isPastEvent(event) {
+            const category =
+                String(event.category || "").trim().toLowerCase();
 
-    const location = document.createElement("p");
-    const locationLabel = document.createElement("strong");
-    locationLabel.textContent = "Location: ";
-    location.append(
-      locationLabel,
-      document.createTextNode(event.location || "Not specified")
-    );
-    card.appendChild(location);
+            // Respect the category selected in Admin.
+            if (category === "past") return true;
+            if (category === "upcoming") return false;
 
-    const description = document.createElement("p");
-    description.textContent =
-      event.description || "Details will be updated soon.";
-    card.appendChild(description);
+            // For uncategorised events, use the date as a fallback.
+            if (!event.date) return false;
 
-    const key = String(event.title || "").trim().toLowerCase();
-    const detailURL = detailLinks[key];
+            const date = new Date(event.date);
 
-    if (detailURL) {
-      const link = document.createElement("a");
-      link.className = "event-btn";
-      link.href = detailURL;
-      link.textContent = "Explore Event";
-      card.appendChild(link);
-    }
+            if (Number.isNaN(date.getTime())) return false;
 
-    return card;
-  }
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            date.setHours(0, 0, 0, 0);
 
-  async function loadPastEvents() {
-    showStatus("Loading past events...");
+            return date < today;
+        }
 
-    try {
-      const response = await fetch(EVENTS_API, {
-        method: "GET",
-        headers: { "Accept": "application/json" },
-        cache: "no-store"
-      });
+        function createEventCard(event) {
+            const card = document.createElement("article");
+            card.className = "event-card";
 
-      if (!response.ok) {
-        throw new Error("Server returned HTTP " + response.status);
-      }
+            // Optional event image.
+            if (event.image) {
+                const image = document.createElement("img");
+                image.src = event.image;
+                image.alt = event.title || "HAM Club event";
+                image.loading = "lazy";
 
-      const data = await response.json();
-      const events = getEvents(data);
+                image.addEventListener("error", function () {
+                    image.remove();
+                });
 
-      if (!events) {
-        throw new Error("Unexpected events response format.");
-      }
+                card.appendChild(image);
+            }
 
-      const pastEvents = events
-        .filter(isPastEvent)
-        .sort((a, b) => {
-          return new Date(b.date || 0) - new Date(a.date || 0);
-        });
+            const title = document.createElement("h3");
+            title.textContent = event.title || "Untitled Event";
+            card.appendChild(title);
 
-      eventGrid.replaceChildren();
+            const type = document.createElement("span");
+            type.className = "event-type";
+            type.textContent = event.category || "Past Event";
+            card.appendChild(type);
 
-      if (pastEvents.length === 0) {
-        showStatus("No past events found.");
-        return;
-      }
+            const date = document.createElement("p");
+            const dateLabel = document.createElement("strong");
+            dateLabel.textContent = "Date: ";
+            date.append(
+                dateLabel,
+                document.createTextNode(formatDate(event.date))
+            );
+            card.appendChild(date);
 
-      pastEvents.forEach(event => {
-        eventGrid.appendChild(createEventCard(event));
-      });
+            const location = document.createElement("p");
+            const locationLabel = document.createElement("strong");
+            locationLabel.textContent = "Location: ";
+            location.append(
+                locationLabel,
+                document.createTextNode(
+                    event.location || "Not specified"
+                )
+            );
+            card.appendChild(location);
 
-      eventStatus.hidden = true;
+            const description = document.createElement("p");
+            description.textContent =
+                event.description || "Event details will be updated soon.";
+            card.appendChild(description);
 
-    } catch (error) {
-      console.error("Past events loading error:", error);
+            // Keep the existing detail links for known events.
+            const key = String(event.title || "")
+                .trim()
+                .toLowerCase();
 
-      showStatus(
-        "Unable to load past events. Please refresh the page. " +
-        error.message,
-        true
-      );
-    }
-  }
+            if (detailLinks[key]) {
+                const link = document.createElement("a");
+                link.className = "event-btn";
+                link.href = detailLinks[key];
+                link.textContent = "Explore Event";
+                card.appendChild(link);
+            }
 
-  loadPastEvents();
-</script>
+            return card;
+        }
+
+        async function loadPastEvents() {
+            showStatus("Loading past events...");
+
+            try {
+                const response = await fetch(EVENTS_API, {
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json"
+                    },
+                    cache: "no-store"
+                });
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Server returned HTTP " + response.status
+                    );
+                }
+
+                const data = await response.json();
+                const events = getEvents(data);
+
+                if (!events) {
+                    throw new Error(
+                        "The server returned an unexpected response."
+                    );
+                }
+
+                const pastEvents = events
+                    .filter(isPastEvent)
+                    .sort((a, b) => {
+                        return new Date(b.date || 0) -
+                               new Date(a.date || 0);
+                    });
+
+                eventGrid.replaceChildren();
+
+                if (pastEvents.length === 0) {
+                    showStatus(
+                        "There are currently no past events. " +
+                        "Check the event categories in Admin."
+                    );
+                    return;
+                }
+
+                pastEvents.forEach(function (event) {
+                    eventGrid.appendChild(createEventCard(event));
+                });
+
+                eventStatus.hidden = true;
+
+            } catch (error) {
+                console.error("Unable to load past events:", error);
+
+                showStatus(
+                    "Unable to load past events. Please refresh the page " +
+                    "or check the backend connection. " + error.message,
+                    true
+                );
+            }
+        }
+
+        loadPastEvents();
+    </script>
 
 </body>
 </html>
