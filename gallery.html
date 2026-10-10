@@ -1,235 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Gallery | HAM Club</title>
-
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="stylesheet" href="css/gallery.css">
-
+    <style>
+        /* Small additions; the existing HAM Club theme remains in control. */
+        .album-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:25px; }
+        .album-card { display:block; overflow:hidden; text-decoration:none; }
+        .album-card img { width:100%; height:220px; object-fit:cover; display:block; background:#eaf0f7; }
+        .album-content { padding:20px; }
+        .album-content h3 { margin-bottom:12px; }
+        .album-content p { margin-bottom:10px; }
+        .album-content span { display:inline-block; margin-top:8px; }
+        .gallery-status { max-width:1100px; margin:20px auto; padding:18px; text-align:center; border-radius:10px; background:#eaf2ff; color:#103f70; }
+        .gallery-status.error { background:#fff0f0; color:#a32020; }
+        .gallery-status[hidden] { display:none; }
+        @media(max-width:900px) { .album-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+        @media(max-width:600px) { .album-grid { grid-template-columns:1fr; } }
+    </style>
 </head>
-
 <body>
 
-    <!-- ================= HEADER ================= -->
-
 <header>
-
-<nav class="navbar">
-
-    <div class="logo">
-        <img src="images/logo/logo.png" alt="HAM Club Logo">
-        <h2>HAM CLUB</h2>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div class="menu-toggle" id="menu-toggle">
-        ☰
-    </div>
-
-    <ul class="nav-links" id="nav-links">
-
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="leadership.html">Leadership</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="gallery.html" class="active">Gallery</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="magazine.html">Magazine</a></li>
-        <li><a href="contact.html">Contact</a></li>
-
-    </ul>
-
-</nav>
-
+    <nav class="navbar">
+        <a class="logo" href="index.html">
+            <img src="/logo/logo.png" alt="HAM Club Logo">
+            <h2>HAM CLUB</h2>
+        </a>
+        <div class="menu-toggle" id="menu-toggle">☰</div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="leadership.html">Leadership</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="gallery.html" class="active">Gallery</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="magazine.html">Magazine</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
 </header>
-    <!-- ================= HERO ================= -->
 
-    <section class="gallery-hero">
-
-        <div class="hero-content">
-
-            <h1>HAM Club Gallery</h1>
-
-            <p>
-
-                Explore memorable moments from workshops, competitions,
-                technical sessions and club activities.
-
-            </p>
-
-        </div>
-
-    </section>
-
-    <!-- ================= GALLERY ================= -->
-
-    <section class="gallery-section">
-
-        <h2 class="gallery-title">Event Albums</h2>
-
-        <p class="gallery-subtitle">
-
-            Click on any album to view all event photos.
-
-        </p>
-
-        <div class="album-grid">
-
-            <!-- Badging Ceremony -->
-
-            <a href="gallery-details/badging-ceremony-2026.html" class="album-card">
-
-                <img src="images/gallery/badging-ceremony-2026/cover.jpg"
-                    alt="Badging Ceremony">
-
-                <div class="album-content">
-
-                    <h3>🏅 Badging Ceremony 2026</h3>
-
-                    <p>📅 02 September 2026</p>
-
-                    <p>📷 14 Photos</p>
-
-                    <span>View Album →</span>
-
-                </div>
-
-            </a>
-            <!-- HAM Hunt -->
-
-<a href="gallery-details/ham-hunt.html" class="album-card">
-
-    <img src="images/gallery/ham-hunt/cover.jpg" alt="HAM Hunt">
-
-    <div class="album-content">
-
-        <h3>📻 HAM Hunt</h3>
-
-        <p>📅 17 September 2026</p>
-
-        <p>Explore the memorable moments from HAM Hunt.</p>
-
-        <span>View Album →</span>
-
+<section class="gallery-hero">
+    <div class="hero-content">
+        <h1>HAM Club Gallery</h1>
+        <p>Explore memorable moments from workshops, competitions, technical sessions and club activities.</p>
     </div>
+</section>
 
-</a>
-<a href="gallery-details/escape-room.html" class="album-card">
+<section class="gallery-section">
+    <h2 class="gallery-title">Event Albums</h2>
+    <p class="gallery-subtitle">Click on any album to view all event photos.</p>
 
-    <img src="images/gallery/escape-room/cover.jpg" alt="Escape Room">
-
-    <div class="album-content">
-
-        <h3>🔐 Escape Room</h3>
-
-        <p>📅 18 March 2026</p>
-
-        <p>📷Explore the memorable moments from Escape Room.</p>
-
-        <span>View Album →</span>
-
+    <div id="galleryStatus" class="gallery-status" role="status" aria-live="polite">
+        Loading event albums...
     </div>
+    <div class="album-grid" id="albumGrid"></div>
+</section>
 
-</a>
-<a href="gallery-details/pick-and-talk.html" class="album-card">
+<script src="js/navbar.js"></script>
+<script>
+const GALLERY_API = "https://ham-club-backend.onrender.com/api/gallery";
+const BACKEND_URL = "https://ham-club-backend.onrender.com";
+const albumGrid = document.getElementById("albumGrid");
+const galleryStatus = document.getElementById("galleryStatus");
 
-    <img src="images/gallery/pick-and-talk/cover.jpg" alt="Pick & Talk">
+/* Preserve the current album-detail pages. */
+const knownAlbums = {
+    "badging ceremony 2026": {
+        title: "🏅 Badging Ceremony 2026",
+        date: "02 September 2026",
+        url: "gallery-details/badging-ceremony-2026.html"
+    },
+    "ham hunt": {
+        title: "📻 HAM Hunt",
+        date: "17 September 2026",
+        url: "gallery-details/ham-hunt.html"
+    },
+    "escape room": {
+        title: "🔐 Escape Room",
+        date: "18 March 2026",
+        url: "gallery-details/escape-room.html"
+    },
+    "pick & talk": {
+        title: "🎤 Pick & Talk",
+        date: "11 February 2026",
+        url: "gallery-details/pick-and-talk.html"
+    },
+    "pick and talk": {
+        title: "🎤 Pick & Talk",
+        date: "11 February 2026",
+        url: "gallery-details/pick-and-talk.html"
+    },
+    "reunion 2026": {
+        title: "🤝 Reunion 2026",
+        date: "6 May 2026",
+        url: "gallery-details/reunion-2026.html"
+    },
+    "soldering workshop": {
+        title: "🔧 Soldering Workshop",
+        date: "8 April 2026",
+        url: "gallery-details/soldering-workshop.html"
+    },
+    "tech genesis": {
+        title: "💡 Tech Genesis",
+        date: "25 March 2026",
+        url: "gallery-details/tech-genesis.html"
+    },
+    "tech quiz": {
+        title: "🧠 Tech Quiz",
+        date: "27 February 2026",
+        url: "gallery-details/tech-quiz.html"
+    }
+};
 
-    <div class="album-content">
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+    }[ch]));
+}
 
-        <h3>🎤 Pick & Talk</h3>
+function imageURL(path) {
+    if (!path) return "";
+    if (/^https?:\/\//i.test(path)) return path;
+    return BACKEND_URL + (path.startsWith("/") ? path : "/" + path);
+}
 
-        <p>📅 11 February 2026</p>
+function showStatus(text, isError = false) {
+    galleryStatus.textContent = text;
+    galleryStatus.className = isError ? "gallery-status error" : "gallery-status";
+    galleryStatus.hidden = false;
+}
 
-        <p>📷Explore the memorable moments from Pick & Talk.</p>
+function getRecords(data) {
+    if (Array.isArray(data)) return data;
+    if (data && Array.isArray(data.gallery)) return data.gallery;
+    if (data && Array.isArray(data.data)) return data.data;
+    return null;
+}
 
-        <span>View Album →</span>
+function normalizeName(value) {
+    return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
 
-    </div>
+function makeAlbumCard(album) {
+    const key = normalizeName(album.event || album.title);
+    const known = knownAlbums[key];
+    const albumTitle = known ? known.title : (album.event || album.title || "HAM Club Event");
+    const url = known ? known.url : "";
+    const cover = imageURL(album.images[0]?.image || album.images[0]?.url || "");
+    const count = album.images.length;
+    const dateText = known ? known.date : "";
 
-</a>
-<a href="gallery-details/reunion-2026.html" class="album-card">
+    const card = document.createElement(url ? "a" : "article");
+    card.className = "album-card";
+    if (url) card.href = url;
 
-    <img src="images/gallery/reunion-2026/cover.jpg" alt="Reunion 2026">
+    if (cover) {
+        const img = document.createElement("img");
+        img.src = cover;
+        img.alt = albumTitle;
+        img.loading = "lazy";
+        img.onerror = () => { img.style.display = "none"; };
+        card.appendChild(img);
+    }
 
-    <div class="album-content">
+    const content = document.createElement("div");
+    content.className = "album-content";
 
-        <h3>🤝 Reunion 2026</h3>
+    const title = document.createElement("h3");
+    title.textContent = albumTitle;
+    content.appendChild(title);
 
-        <p>📅 6 May 2026</p>
+    if (dateText) {
+        const date = document.createElement("p");
+        date.textContent = "📅 " + dateText;
+        content.appendChild(date);
+    }
 
-        <p>📷Explore the memorable moments from Reunion 2026.</p>
+    const countLine = document.createElement("p");
+    countLine.textContent = "📷 " + count + (count === 1 ? " Photo" : " Photos");
+    content.appendChild(countLine);
 
-        <span>View Album →</span>
+    if (album.description) {
+        const description = document.createElement("p");
+        description.textContent = album.description;
+        content.appendChild(description);
+    }
 
-    </div>
+    if (url) {
+        const linkLabel = document.createElement("span");
+        linkLabel.textContent = "View Album →";
+        content.appendChild(linkLabel);
+    } else {
+        const note = document.createElement("p");
+        note.textContent = "Album details page will be available soon.";
+        content.appendChild(note);
+    }
 
-</a>
-<a href="gallery-details/soldering-workshop.html" class="album-card">
+    card.appendChild(content);
+    return card;
+}
 
-    <img src="images/gallery/soldering-workshop/cover.jpg" alt="Soldering Workshop">
+async function loadAlbums() {
+    showStatus("Loading event albums...");
+    albumGrid.replaceChildren();
 
-    <div class="album-content">
+    try {
+        const response = await fetch(GALLERY_API, {
+            headers: { "Accept": "application/json" },
+            cache: "no-store"
+        });
+        const data = await response.json();
 
-        <h3>🔧 Soldering Workshop</h3>
+        if (!response.ok || data.success === false) {
+            throw new Error(data.message || "Unable to retrieve gallery.");
+        }
 
-        <p>📅 8 April 2026</p>
+        const records = getRecords(data);
+        if (!records) throw new Error("Unexpected gallery response from server.");
 
-        <p>📷Explore the memorable moments from Soldering Workshop.</p>
+        // Existing Admin uploads store one image per record. Group records by event
+        // so all photos for the same event become one public album card.
+        const albums = new Map();
 
-        <span>View Album →</span>
+        records.forEach(record => {
+            const groupName = String(record.event || record.title || "Other Events").trim();
+            const key = normalizeName(groupName);
+            if (!albums.has(key)) {
+                albums.set(key, {
+                    event: record.event || record.title || "Other Events",
+                    title: record.title || record.event || "HAM Club Event",
+                    description: record.description || "",
+                    images: []
+                });
+            }
+            const album = albums.get(key);
+            if (record.image) album.images.push({ image: record.image });
+            else if (Array.isArray(record.images)) {
+                record.images.forEach(image => album.images.push(
+                    typeof image === "string" ? { image } : image
+                ));
+            }
+            if (!album.description && record.description) album.description = record.description;
+        });
 
-    </div>
+        const albumList = Array.from(albums.values())
+            .sort((a, b) => a.event.localeCompare(b.event));
 
-</a>
-<a href="gallery-details/tech-genesis.html" class="album-card">
+        if (!albumList.length) {
+            showStatus("No event albums have been uploaded yet.");
+            return;
+        }
 
-    <img src="images/gallery/tech-genesis/cover.jpg" alt="Tech Genesis">
+        albumList.forEach(album => albumGrid.appendChild(makeAlbumCard(album)));
+        galleryStatus.hidden = true;
+    } catch (error) {
+        console.error("Gallery loading error:", error);
+        showStatus("Unable to load event albums. " + error.message, true);
+    }
+}
 
-    <div class="album-content">
-
-        <h3>💡 Tech Genesis</h3>
-
-        <p>📅 25 March 2026</p>
-
-        <p>📷Explore the memorable moments from Tech Genesis.</p>
-
-        <span>View Album →</span>
-
-    </div>
-
-</a>
-<a href="gallery-details/tech-quiz.html" class="album-card">
-
-    <img src="images/gallery/tech-quiz/cover.jpg" alt="Tech Quiz">
-
-    <div class="album-content">
-
-        <h3>🧠 Tech Quiz</h3>
-
-        <p>📅 27 February 2026</p>
-
-        <p>📷Explore the memorable moments from Tech Quiz.</p>
-
-        <span>View Album →</span>
-
-    </div>
-
-</a>
-
-        </div>
-
-    </section>
-
-   <script src="js/navbar.js"></script>
-
+loadAlbums();
+</script>
 </body>
-
 </html>
