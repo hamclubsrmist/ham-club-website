@@ -1,1 +1,351 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages | HAM Club Admin</title>
+
+  <style>
+    :root {
+      --navy: #103f70;
+      --gold: #ffc107;
+      --bg: #f3f6fb;
+      --text: #243247;
+      --muted: #667085;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    header h1 { margin: 0; font-size: 24px; }
+
+    header a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .toolbar p { color: var(--muted); }
+
+    button, input {
+      font: inherit;
+      border-radius: 8px;
+      padding: 11px 14px;
+    }
+
+    input {
+      border: 1px solid var(--border);
+      background: white;
+      min-width: 220px;
+    }
+
+    button {
+      background: var(--navy);
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: 0.6; cursor: wait; }
+
+    .panel {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 5px 24px rgba(20, 40, 70, 0.07);
+      overflow-x: auto;
+    }
+
+    #status {
+      padding: 12px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      background: #eef4ff;
+      color: var(--navy);
+      overflow-wrap: anywhere;
+    }
+
+    #status.error {
+      background: #fff0f0;
+      color: #a32020;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th { background: #f7f9fc; color: var(--navy); }
+    td { overflow-wrap: anywhere; }
+    .empty { text-align: center; color: var(--muted); padding: 35px; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 20px; }
+      .toolbar { align-items: stretch; }
+      .toolbar input, .toolbar button { width: 100%; }
+      main { margin-top: 20px; }
+      .panel { padding: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>HAM Club — Contact Messages</h1>
+    <a href="./">← Back to Admin</a>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <div>
+        <h2>Inbox</h2>
+        <p>Messages submitted through the website contact form.</p>
+      </div>
+      <div>
+        <input id="search" type="search"
+          placeholder="Search messages..." aria-label="Search messages">
+        <button id="refresh" type="button">Refresh</button>
+      </div>
+    </div>
+
+    <section class="panel">
+      <div id="status" role="status" aria-live="polite">
+        Ready to load messages.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="messages">
+          <tr><td colspan="4" class="empty">
+            Click Refresh to load messages.
+          </td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = "https://ham-club-backend.onrender.com/api";
+
+    const statusBox = document.getElementById("status");
+    const tableBody = document.getElementById("messages");
+    const refreshButton = document.getElementById("refresh");
+    const searchInput = document.getElementById("search");
+
+    let allMessages = [];
+
+    function setStatus(message, isError = false) {
+      statusBox.textContent = message;
+      statusBox.classList.toggle("error", isError);
+    }
+
+    function getAdminToken() {
+      // Read existing token names only; never display the token.
+      const keys = [
+        "adminToken", "token", "authToken", "accessToken"
+      ];
+
+      for (const key of keys) {
+        const value = localStorage.getItem(key);
+        if (value) return value;
+      }
+
+      return "";
+    }
+
+    function escapeText(value) {
+      return value == null ? "" : String(value);
+    }
+
+    function firstValue(item, keys) {
+      for (const key of keys) {
+        if (item && item[key] != null) return item[key];
+      }
+      return "";
+    }
+
+    function normaliseMessages(data) {
+      if (Array.isArray(data)) return data;
+
+      if (data && Array.isArray(data.messages)) return data.messages;
+      if (data && Array.isArray(data.contacts)) return data.contacts;
+      if (data && Array.isArray(data.data)) return data.data;
+
+      return null;
+    }
+
+    function renderMessages() {
+      const query = searchInput.value.trim().toLowerCase();
+
+      const filtered = allMessages.filter(item => {
+        const text = [
+          firstValue(item, ["name", "fullName", "senderName"]),
+          firstValue(item, ["email", "senderEmail"]),
+          firstValue(item, ["message", "subject", "content"])
+        ].join(" ").toLowerCase();
+
+        return text.includes(query);
+      });
+
+      tableBody.replaceChildren();
+
+      if (!filtered.length) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 4;
+        cell.className = "empty";
+        cell.textContent = allMessages.length
+          ? "No messages match your search."
+          : "No messages were returned.";
+        row.appendChild(cell);
+        tableBody.appendChild(row);
+        return;
+      }
+
+      filtered.forEach(item => {
+        const row = document.createElement("tr");
+
+        const name = firstValue(item, ["name", "fullName", "senderName"]);
+        const email = firstValue(item, ["email", "senderEmail"]);
+        const message = firstValue(item, ["message", "content", "subject"]);
+        const date = firstValue(item, ["createdAt", "date", "timestamp"]);
+
+        [name, email, message, date].forEach((value, index) => {
+          const cell = document.createElement("td");
+          cell.textContent = escapeText(
+            index === 3 && value
+              ? (Number.isNaN(Date.parse(value))
+                  ? value
+                  : new Date(value).toLocaleString())
+              : value
+          );
+          row.appendChild(cell);
+        });
+
+        tableBody.appendChild(row);
+      });
+    }
+
+    async function loadMessages() {
+      refreshButton.disabled = true;
+      setStatus("Loading messages…");
+
+      try {
+        const token = getAdminToken();
+
+        // These are possible read endpoints. The actual backend route
+        // must be confirmed if none of them works.
+        const endpoints = [
+          "/admin/messages",
+          "/messages",
+          "/contact"
+        ];
+
+        let lastError = "";
+
+        for (const endpoint of endpoints) {
+          try {
+            const headers = { "Accept": "application/json" };
+
+            if (token) {
+              headers.Authorization = "Bearer " + token;
+            }
+
+            const response = await fetch(API_BASE + endpoint, {
+              method: "GET",
+              headers,
+              cache: "no-store"
+            });
+
+            if (!response.ok) {
+              lastError = endpoint + " returned HTTP " + response.status;
+              continue;
+            }
+
+            const data = await response.json();
+            const messages = normaliseMessages(data);
+
+            if (messages === null) {
+              lastError = "The response from " + endpoint +
+                " was not a recognised messages list.";
+              continue;
+            }
+
+            allMessages = messages;
+            renderMessages();
+            setStatus("Loaded " + messages.length + " message(s).");
+            return;
+          } catch (error) {
+            lastError = endpoint + ": " + error.message;
+          }
+        }
+
+        throw new Error(lastError || "No supported messages endpoint responded.");
+      } catch (error) {
+        allMessages = [];
+        renderMessages();
+        setStatus(
+          "Could not load messages. The backend route or login token " +
+          "may differ from this page. Details: " + error.message +
+          ". Check the working admin dashboard and backend routes.",
+          true
+        );
+      } finally {
+        refreshButton.disabled = false;
+      }
+    }
+
+    refreshButton.addEventListener("click", loadMessages);
+    searchInput.addEventListener("input", renderMessages);
+  </script>
+</body>
+</html>
