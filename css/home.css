@@ -1251,3 +1251,67 @@ body {
         transform: none !important;
     }
 }
+
+/* Premium mouse interaction effects */
+.domain-card,
+.event-card {
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition:
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+.domain-card::before,
+.event-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 193, 7, 0.20),
+        transparent 55%
+    );
+    transition: opacity 0.25s ease;
+}
+
+.domain-card:hover::before,
+.event-card:hover::before {
+    opacity: 1;
+}
+
+.domain-card:hover,
+.event-card:hover {
+    border-color: rgba(11, 60, 109, 0.22);
+    box-shadow: 0 18px 40px rgba(11, 60, 109, 0.15);
+}
+
+.domain-card,
+.event-card {
+    will-change: transform;
+}
+
+.event-card .event-image img {
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.event-card:hover .event-image img {
+    transform: scale(1.09);
+}
+
+/* Disable mouse effects on touch devices */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+    .domain-card,
+    .event-card {
+        transform: none !important;
+    }
+
+    .domain-card::before,
+    .event-card::before {
+        display: none;
+    }
+}
