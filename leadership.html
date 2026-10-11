@@ -1741,10 +1741,26 @@ document.addEventListener("click", function (event) {
         return heading ? heading.textContent.trim() : "";
     }
 
-    function memberNameValues(member) {
-        return [member.name, member.fullName, member.fullname, member.studentName,
-                member.memberName, member.username].filter(Boolean).map(normalize);
-    }
+    
+function memberNameValues(member) {
+    if (!member || typeof member !== "object") return [];
+
+    const fields = [
+        member.name,
+        member.fullName,
+        member.fullname,
+        member.studentName,
+        member.memberName,
+        member.username,
+        member.displayName,
+        member.student_name,
+        member.member_name
+    ];
+
+    return fields
+        .filter(value => typeof value === "string" && value.trim())
+        .map(normalize);
+}
 
     function memberId(member) {
         // Only use an ID already stored on the member record.
