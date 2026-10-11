@@ -178,7 +178,7 @@
         .member-role { color: var(--blue); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
         .member-details { color: #4c596a; font-size: 15px; line-height: 1.8; margin-bottom: 18px; }
         .member-bio { color: var(--muted); font-size: 14px; line-height: 1.6; margin: -4px 0 18px; }
-        .profile-btn {
+        .profile-btn { display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
             margin-top: auto;
             border: 0;
             border-radius: 9px;
@@ -346,11 +346,14 @@
             const year = escapeHTML(member.year || "");
             const bio = escapeHTML(member.bio || "");
             const image = escapeHTML(getImageURL(member.image));
-            const memberId = String(member.memberId || "").trim();
+            const memberId = String(
+                member.memberId || member.memberID || member.member_id ||
+                member.qrId || member.qrID || member.qr_id ||
+                (typeof member.id === "string" && /^HAM26-\\d+$/i.test(member.id) ? member.id : "") ||
+                ""
+            ).trim();
 
-            const profileButton = memberId
-                ? `<button class="profile-btn" type="button" data-member-id="${escapeHTML(memberId)}">View Profile</button>`
-                : `<button class="profile-btn" type="button" disabled title="Member ID is not available">Profile Unavailable</button>`;
+            const profileButton = `<button class="profile-btn" type="button" data-member-id="${escapeHTML(memberId)}" data-member-name="${escapeHTML(name)}">View Profile</button>`;
 
             return `
                 <article class="member-card">
@@ -371,20 +374,11 @@
             `;
         }
 
-        function renderSection(title, members, emptyMessage) {
-            const cards = members.length
-                ? members.map(createCard).join("")
-                : `<div class="status">${escapeHTML(emptyMessage)}</div>`;
-
-            return `
-                <section class="year-section">
-                    <div class="section-heading">
-                        <h2>${escapeHTML(title)}</h2>
-                        <span>${members.length}</span>
-                    </div>
-                    <div class="members-grid">${cards}</div>
-                </section>
-            `;
+        function renderAllMembers(members) {
+            if (!members.length) {
+                return `<div class="status">No members found for this team.</div>`;
+            }
+            return `<section class="year-section"><div class="members-grid">${members.map(createCard).join("")}</div></section>`;
         }
 
         async function loadTeam() {
@@ -401,27 +395,19 @@
                 else if (Array.isArray(result.members)) allMembers = result.members;
 
                 const members = allMembers.filter(matchesDomain);
-                const heads = members.filter(isHead);
-                const nonHeads = members.filter(member => !isHead(member));
-                const thirdYears = nonHeads.filter(member => yearGroup(member) === "third");
-                const secondYears = nonHeads.filter(member => yearGroup(member) === "second");
-                const firstYears = nonHeads.filter(member => yearGroup(member) === "first");
-                const otherYears = nonHeads.filter(member => yearGroup(member) === "other");
+                teamSections.innerHTML = renderAllMembers(members);
 
-                teamSections.innerHTML =
-                    renderSection("Heads", heads, "No domain heads found for this team.") +
-                    renderSection("3rd Years (2024–2028)", thirdYears, "No 3rd-year members found for this team.") +
-                    renderSection("2nd Years (2025–2029)", secondYears, "No 2nd-year members found for this team.") +
-                    renderSection("1st Years (2026–2030)", firstYears, "No 1st-year members found for this team.") +
-                    (otherYears.length
-                        ? renderSection("Other Members", otherYears, "No other members.")
-                        : "");
-
-                teamSections.querySelectorAll(".profile-btn[data-member-id]").forEach(button => {
+                teamSections.querySelectorAll(".profile-btn").forEach(button => {
                     button.addEventListener("click", () => {
-                        const id = button.dataset.memberId;
-                        window.location.href = `member.html?id=${encodeURIComponent(id)}`;
+                        const id = String(button.dataset.memberId || "").trim();
+                        const name = button.dataset.memberName || "this member";
+                        if (id) {
+                            window.location.href = `member.html?id=${encodeURIComponent(id)}`;
+                        } else {
+                            alert(`The saved QR/member ID for ${name} was not found in the Team API. The button is visible, but the profile link needs that existing ID.`);
+                        }
                     });
+                });
                 });
 
             } catch (error) {
