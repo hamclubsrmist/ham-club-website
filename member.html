@@ -2,79 +2,262 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#050505">
+  <meta name="description" content="HAM Club member profile — SRMIST Ramapuram">
   <title>HAM Club | Member Profile</title>
   <style>
-    :root { color-scheme: dark; --bg:#050505; --text:#f7f7f7; --muted:#b8b8be; --line:#777; }
-    * { box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body {
-      margin:0; background:radial-gradient(ellipse at 50% 20%, #202020 0, #090909 34%, #030303 75%);
-      color:var(--text); font-family:Arial,Helvetica,sans-serif;
+    :root {
+      color-scheme: dark;
+      --bg: #050505;
+      --surface: #0b0b0b;
+      --text: #f7f7f7;
+      --muted: #b6b6bd;
+      --line: rgba(255,255,255,.42);
+      --content-width: 1000px;
     }
-    a { color:inherit; }
-    .page { width:min(100%,1000px); margin:0 auto; padding:34px 28px 24px; }
-    .hero { text-align:center; }
-    .eyebrow { margin:0 0 20px; font-size:clamp(11px,2vw,17px); letter-spacing:.58em; text-transform:uppercase; color:#e3e3e3; }
-    h1 { margin:0; font-size:clamp(35px,7.4vw,88px); line-height:1.05; font-weight:900; letter-spacing:.015em; overflow-wrap:anywhere; }
-    .portrait-wrap { position:relative; width:min(100%,470px); height:clamp(300px,49vw,480px); margin:16px auto 0; display:flex; align-items:flex-end; justify-content:center; }
-    .portrait-wrap::before { content:""; position:absolute; width:78%; height:74%; bottom:7%; border-radius:50%; background:#777; filter:blur(65px); opacity:.28; }
-    .portrait { position:relative; z-index:1; width:100%; height:100%; object-fit:contain; object-position:center bottom; }
-    .role { margin:16px 0 7px; font-size:clamp(20px,3.5vw,38px); font-weight:800; letter-spacing:.035em; text-transform:uppercase; }
-    .department { margin:0 0 8px; font-size:clamp(14px,2vw,22px); letter-spacing:.18em; }
-    .years { margin:0; font-size:clamp(14px,2vw,20px); letter-spacing:.38em; color:#dedee2; }
-    .rule { border:0; border-top:1px solid #ddd; margin:18px 0 23px; }
-    .section-label { margin:0 0 12px; font-size:clamp(12px,1.7vw,16px); font-weight:500; letter-spacing:.55em; text-transform:uppercase; }
-    .social-list { display:flex; flex-direction:column; }
-    .social-row { display:grid; grid-template-columns:82px 1fr 34px; align-items:center; gap:20px; min-height:89px; padding:11px 2px; text-decoration:none; border-bottom:1px solid #595959; }
-    .social-row:last-child { border-bottom:0; }
-    .social-icon { width:64px; height:64px; border-radius:15px; display:grid; place-items:center; color:#fff; font-size:35px; font-weight:800; overflow:hidden; }
-    .linkedin { background:#087bb8; font-family:Arial,sans-serif; }
-    .instagram { background:linear-gradient(45deg,#ffd45a,#ff6b35,#d62976,#8134af); }
-    .email { background:#f5f5f5; color:#db4437; }
-    .phone { background:#16c653; }
-    .social-icon svg { width:37px; height:37px; }
-    .social-name { display:block; margin-bottom:6px; font-size:clamp(13px,1.8vw,19px); font-weight:700; letter-spacing:.11em; }
-    .social-value { display:block; color:var(--muted); font-size:clamp(12px,1.7vw,17px); line-height:1.45; overflow-wrap:anywhere; }
-    .arrow { justify-self:end; font-size:38px; font-weight:200; line-height:1; }
-    .about { color:#dedee4; font-size:clamp(15px,2.1vw,21px); line-height:1.65; margin:0; }
-    .footer { display:flex; justify-content:space-between; align-items:center; gap:16px; padding-top:25px; margin-top:35px; border-top:1px solid #ddd; color:#d2d2d2; font-size:clamp(10px,1.5vw,15px); letter-spacing:.3em; }
-    .status { padding:70px 10px; text-align:center; color:#ddd; }
-    .status p { color:#b8b8be; line-height:1.6; }
-    .retry { background:#f5f5f5; color:#111; border:0; padding:11px 18px; border-radius:6px; cursor:pointer; font-weight:700; }
-    .hidden { display:none !important; }
-    @media(max-width:600px) {
-      .page { padding:25px 18px 20px; }
-      .eyebrow { letter-spacing:.35em; }
-      .portrait-wrap { height:320px; }
-      .social-row { grid-template-columns:58px minmax(0,1fr) 24px; gap:12px; min-height:76px; }
-      .social-icon { width:52px; height:52px; border-radius:12px; font-size:29px; }
-      .social-icon svg { width:30px; height:30px; }
-      .arrow { font-size:29px; }
-      .footer { letter-spacing:.16em; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 50% 18%, rgba(95,95,95,.2), transparent 35%),
+        radial-gradient(ellipse at 50% 70%, rgba(30,30,30,.13), transparent 55%),
+        var(--bg);
+      font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .page {
+      width: min(100%, var(--content-width));
+      margin: 0 auto;
+      padding: 36px 28px 25px;
+      animation: pageIn .75s ease both;
+    }
+    .hero { text-align: center; }
+    .eyebrow {
+      margin: 0 0 19px;
+      color: #e3e3e3;
+      font-size: clamp(10px, 1.6vw, 16px);
+      font-weight: 400;
+      letter-spacing: .55em;
+      line-height: 1.7;
+      text-transform: uppercase;
+      animation: riseIn .7s .08s both;
+    }
+    .member-name {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(34px, 7.4vw, 86px);
+      font-weight: 900;
+      letter-spacing: -.025em;
+      line-height: 1.04;
+      overflow-wrap: anywhere;
+      text-transform: uppercase;
+      animation: riseIn .75s .16s both;
+    }
+    .portrait-wrap {
+      position: relative;
+      display: flex;
+      width: min(100%, 470px);
+      height: clamp(290px, 48vw, 475px);
+      margin: 13px auto 0;
+      align-items: flex-end;
+      justify-content: center;
+      isolation: isolate;
+      animation: riseIn .8s .23s both;
+    }
+    .portrait-wrap::before {
+      position: absolute;
+      z-index: -1;
+      right: 10%;
+      bottom: 11%;
+      left: 10%;
+      height: 65%;
+      border-radius: 50%;
+      background: #aaa;
+      content: "";
+      filter: blur(65px);
+      opacity: .23;
+    }
+    .portrait {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,.38));
+      transition: transform .45s ease, filter .45s ease;
+    }
+    .portrait-wrap:hover .portrait { transform: translateY(-4px) scale(1.015); filter: drop-shadow(0 20px 28px rgba(0,0,0,.55)); }
+    .role {
+      margin: 13px 0 7px;
+      font-size: clamp(19px, 3.5vw, 36px);
+      font-weight: 800;
+      letter-spacing: .025em;
+      line-height: 1.25;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+      animation: riseIn .65s .3s both;
+    }
+    .department {
+      margin: 0 0 7px;
+      color: #e9e9e9;
+      font-size: clamp(13px, 1.9vw, 21px);
+      letter-spacing: .17em;
+      animation: riseIn .65s .36s both;
+    }
+    .years {
+      margin: 0;
+      color: #d6d6dc;
+      font-size: clamp(13px, 1.8vw, 20px);
+      letter-spacing: .35em;
+      animation: riseIn .65s .4s both;
+    }
+    .rule { border: 0; border-top: 1px solid #e2e2e2; margin: 18px 0 22px; opacity: .85; }
+    .section-label {
+      margin: 0 0 10px;
+      font-size: clamp(11px, 1.6vw, 16px);
+      font-weight: 500;
+      letter-spacing: .53em;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+    .social-list { display: flex; flex-direction: column; }
+    .social-row {
+      display: grid;
+      grid-template-columns: 70px minmax(0, 1fr) 30px;
+      align-items: center;
+      gap: 20px;
+      min-height: 88px;
+      padding: 11px 2px;
+      border-bottom: 1px solid rgba(255,255,255,.38);
+      text-decoration: none;
+      transition: background .25s ease, padding .25s ease, transform .25s ease;
+      animation: rowIn .6s both;
+    }
+    .social-row:last-child { border-bottom: 0; }
+    .social-row:hover, .social-row:focus-visible {
+      padding-right: 10px;
+      padding-left: 10px;
+      background: rgba(255,255,255,.045);
+      outline: none;
+    }
+    .social-icon {
+      display: grid;
+      width: 62px;
+      height: 62px;
+      place-items: center;
+      border-radius: 15px;
+      color: white;
+      box-shadow: 0 5px 18px rgba(0,0,0,.25);
+      transition: transform .25s ease;
+    }
+    .social-row:hover .social-icon { transform: translateY(-2px) scale(1.04); }
+    .social-icon svg { display: block; width: 35px; height: 35px; }
+    .linkedin { background: #087dbb; }
+    .instagram { background: linear-gradient(45deg,#ffcf55 0%,#ff6845 34%,#d62976 64%,#8134af 100%); }
+    .email { background: #f7f7f7; }
+    .phone { background: #16c653; }
+    .social-name {
+      display: block;
+      margin-bottom: 5px;
+      color: #f5f5f5;
+      font-size: clamp(12px, 1.65vw, 18px);
+      font-weight: 750;
+      letter-spacing: .11em;
+    }
+    .social-value {
+      display: block;
+      color: var(--muted);
+      font-size: clamp(12px, 1.6vw, 17px);
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .arrow {
+      justify-self: end;
+      color: #f5f5f5;
+      font-size: 35px;
+      font-weight: 200;
+      line-height: 1;
+      transition: transform .25s ease;
+    }
+    .social-row:hover .arrow { transform: translate(3px,-3px); }
+    .about {
+      margin: 0;
+      color: #d9d9df;
+      font-size: clamp(14px, 2vw, 20px);
+      font-weight: 350;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-top: 35px;
+      padding-top: 24px;
+      border-top: 1px solid #dedede;
+      color: #d0d0d0;
+      font-size: clamp(9px, 1.35vw, 14px);
+      letter-spacing: .28em;
+      line-height: 1.8;
+    }
+    .status { padding: 65px 10px; text-align: center; color: #eee; }
+    .status p { color: #bdbdc4; line-height: 1.7; }
+    .retry {
+      padding: 11px 18px;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      background: #f7f7f7;
+      color: #111;
+      font-weight: 750;
+      cursor: pointer;
+    }
+    .hidden { display: none !important; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    @keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes rowIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+    @media (max-width: 600px) {
+      .page { padding: 24px 17px 19px; }
+      .eyebrow { letter-spacing: .32em; margin-bottom: 14px; }
+      .portrait-wrap { height: 310px; margin-top: 8px; }
+      .role { margin-top: 12px; }
+      .social-row { grid-template-columns: 51px minmax(0,1fr) 22px; gap: 12px; min-height: 75px; padding: 10px 0; }
+      .social-icon { width: 48px; height: 48px; border-radius: 12px; }
+      .social-icon svg { width: 28px; height: 28px; }
+      .arrow { font-size: 28px; }
+      .section-label { letter-spacing: .38em; }
+      .footer { letter-spacing: .13em; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
   <main class="page">
-    <div id="loading" class="status">Loading member profile…</div>
-    <div id="error" class="status hidden">
+    <div id="loading" class="status" role="status">Loading member profile…</div>
+    <div id="error" class="status hidden" role="alert">
       <h2>Member profile unavailable</h2>
-      <p id="errorText">We could not find this member. Please check the QR link or try again later.</p>
+      <p id="errorText">We could not find this member. Please check the QR link and try again.</p>
       <button class="retry" id="retryButton" type="button">Try again</button>
     </div>
 
     <article id="profile" class="hidden">
       <header class="hero">
         <p class="eyebrow" id="topRole">HAM CLUB MEMBER</p>
-        <h1 id="memberName">MEMBER NAME</h1>
+        <h1 class="member-name" id="memberName">MEMBER NAME</h1>
         <div class="portrait-wrap">
           <img class="portrait" id="memberPhoto" alt="Member portrait">
         </div>
-        <p class="role" id="memberRole">MEMBER ROLE</p>
+        <p class="role" id="memberRole">HAM CLUB MEMBER</p>
         <p class="department" id="memberDepartment">ECE</p>
-        <p class="years" id="memberYears">2024 - 2028</p>
+        <p class="years" id="memberYears"></p>
       </header>
 
       <hr class="rule">
@@ -86,77 +269,106 @@
       <hr class="rule">
       <section aria-labelledby="aboutHeading">
         <h2 class="section-label" id="aboutHeading">About</h2>
-        <p class="about" id="memberAbout">HAM Club member.</p>
+        <p class="about" id="memberAbout">HAM Club member at SRMIST Ramapuram.</p>
       </section>
       <footer class="footer"><span>HAM CLUB</span><span>SRMIST RAMAPURAM</span></footer>
     </article>
   </main>
 
   <script>
-    // Keep this URL pointed to the existing Render backend.
+    /*
+      IMPORTANT:
+      - Keep this endpoint connected to the current Render backend.
+      - Existing QR URLs and IDs are not changed by this page.
+      - If the backend uses different field names, update the helper functions below
+        to match its actual response instead of changing member QR IDs.
+    */
     const API_URL = "https://ham-club-backend.onrender.com/api/team";
-    const FALLBACK_PHOTO = "images/default-member.png";
+    const BACKEND_URL = "https://ham-club-backend.onrender.com";
 
     const $ = (id) => document.getElementById(id);
-    const escapeText = (value) => String(value ?? "").trim();
-    const normaliseId = (value) => escapeText(value).toUpperCase();
+    const clean = (value) => value == null ? "" : String(value).trim();
+    const normaliseId = (value) => clean(value).toUpperCase();
 
-    function getMemberId(member) {
-      return escapeText(member.memberId || member.memberID || member.member_id || member.qrId || member.qrID);
+    function memberIdOf(member) {
+      return clean(member.memberId || member.memberID || member.member_id || member.qrId || member.qrID);
     }
-    function getName(member) {
-      return escapeText(member.name || member.fullName || member.fullname || member.studentName || member.memberName || member.username);
+    function nameOf(member) {
+      return clean(member.name || member.fullName || member.fullname || member.studentName || member.memberName || member.username);
     }
-    function getRole(member) {
-      return escapeText(member.designation || member.role || member.position || member.domain || member.title || "HAM Club Member");
+    function roleOf(member) {
+      return clean(member.designation || member.role || member.position || member.domain || member.title || "HAM Club Member");
     }
-    function getDepartment(member) {
-      return escapeText(member.department || member.dept || member.branch || "ECE");
+    function departmentOf(member) {
+      return clean(member.department || member.dept || member.branch || "ECE");
     }
-    function getYears(member) {
-      const direct = member.academicYear || member.yearRange || member.batch || member.studyPeriod;
-      if (direct) return escapeText(direct);
+    function yearsOf(member) {
+      const range = member.academicYear || member.yearRange || member.batch || member.studyPeriod;
+      if (range) return clean(range);
       const start = member.startYear || member.admissionYear;
       const end = member.endYear || member.graduationYear || member.passoutYear;
-      return start && end ? `${start} - ${end}` : escapeText(member.year || "");
+      if (start && end) return `${start} - ${end}`;
+      return clean(member.year || "");
     }
-    function getPhoto(member) {
-      return escapeText(member.photo || member.image || member.profileImage || member.profilePic || member.photoUrl || "");
+    function photoOf(member) {
+      return clean(member.photo || member.image || member.profileImage || member.profilePic || member.photoUrl || member.photoURL || "");
     }
-    function absoluteImageUrl(value) {
-      if (!value) return FALLBACK_PHOTO;
+    function toAbsoluteAsset(path) {
+      if (!path) return "";
+      if (/^(https?:)?\/\//i.test(path) || path.startsWith("data:")) return path;
+      return BACKEND_URL + "/" + path.replace(/^\/+/, "");
+    }
+    function socialValue(member, keys) {
+      for (const key of keys) {
+        const value = clean(member[key]);
+        if (value) return value;
+      }
+      return "";
+    }
+    function safeLink(value, kind) {
+      if (!value) return "";
+      if (kind === "email") return "mailto:" + value;
+      if (kind === "phone") return "tel:" + value.replace(/[^\d+]/g, "");
       if (/^https?:\/\//i.test(value)) return value;
-      return "https://ham-club-backend.onrender.com/" + value.replace(/^\/+/, "");
+      if (kind === "instagram") return "https://www.instagram.com/" + value.replace(/^@/, "").replace(/^\/+|\/+$/g, "");
+      if (kind === "linkedin") return "https://" + value.replace(/^\/+/, "");
+      return "";
     }
-    function addSocialRow(label, value, href, kind) {
+    const ICONS = {
+      linkedin: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52C22 2.68 21.31 2 20.45 2ZM8.1 18.5H5.05V9.25H8.1v9.25ZM6.58 7.99a1.77 1.77 0 1 1 0-3.54 1.77 1.77 0 0 1 0 3.54ZM19 18.5h-3.05v-4.5c0-1.07-.02-2.45-1.49-2.45-1.49 0-1.72 1.16-1.72 2.37v4.58H9.69V9.25h2.93v1.26h.04c.41-.77 1.4-1.58 2.88-1.58 3.08 0 3.65 2.03 3.65 4.67v4.9Z"/></svg>',
+      instagram: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="currentColor" stroke="none"/></svg>',
+      email: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#d94336" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>',
+      phone: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg>'
+    };
+    function addSocialRow(label, value, kind) {
       if (!value) return;
-      const row = document.createElement("a");
+      const href = safeLink(value, kind);
+      const row = document.createElement(href ? "a" : "div");
       row.className = "social-row";
-      row.href = href || "#";
-      row.target = "_blank";
-      row.rel = "noopener noreferrer";
+      if (href) {
+        row.href = href;
+        if (kind !== "email" && kind !== "phone") {
+          row.target = "_blank";
+          row.rel = "noopener noreferrer";
+        }
+        row.setAttribute("aria-label", label + ": " + value);
+      }
       const icon = document.createElement("span");
       icon.className = "social-icon " + kind;
       icon.setAttribute("aria-hidden", "true");
-      if (kind === "linkedin") icon.textContent = "in";
-      else if (kind === "instagram") {
-        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="white" stroke="none"/></svg>';
-      } else if (kind === "email") {
-        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#db4437" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>';
-      } else {
-        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="white"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.45.55 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17.85 17.85 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.45 1 1 0 0 1-.25 1z"/></svg>';
-      }
+      icon.innerHTML = ICONS[kind];
       const content = document.createElement("span");
-      const name = document.createElement("span");
-      name.className = "social-name";
-      name.textContent = label.toUpperCase();
-      const val = document.createElement("span");
-      val.className = "social-value";
-      val.textContent = value;
-      content.append(name, val);
+      const title = document.createElement("span");
+      title.className = "social-name";
+      title.textContent = label.toUpperCase();
+      const text = document.createElement("span");
+      text.className = "social-value";
+      text.textContent = value;
+      content.append(title, text);
       const arrow = document.createElement("span");
       arrow.className = "arrow";
-      arrow.textContent = "↗";
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = href ? "↗" : "";
       row.append(icon, content, arrow);
       $("socialList").appendChild(row);
     }
@@ -170,47 +382,55 @@
       $("error").classList.add("hidden");
       $("profile").classList.add("hidden");
       $("loading").classList.remove("hidden");
-      const params = new URLSearchParams(window.location.search);
-      const requestedId = params.get("id");
+      const requestedId = new URLSearchParams(window.location.search).get("id");
       if (!requestedId) {
-        showError("The QR link does not contain a member ID.");
+        showError("This QR URL is missing its member ID. Please scan the member's original QR code.");
         return;
       }
       try {
-        const response = await fetch(API_URL, { headers: { "Accept": "application/json" } });
-        if (!response.ok) throw new Error("The member service returned HTTP " + response.status + ".");
+        const response = await fetch(API_URL, { headers: { Accept: "application/json" } });
+        if (!response.ok) throw new Error("Member service returned HTTP " + response.status + ".");
         const result = await response.json();
         const members = Array.isArray(result) ? result : (result.team || result.data || result.members || []);
-        if (!Array.isArray(members)) throw new Error("The member list response had an unexpected format.");
-        // Match only the existing public member/QR ID; never generate a new ID.
-        let member = members.find(item => normaliseId(getMemberId(item)) === normaliseId(requestedId));
-        // Backward compatibility: older QR URLs may contain a Mongo ObjectId.
+        if (!Array.isArray(members)) throw new Error("The member service returned an unexpected data format.");
+        // Match the existing public QR/member ID. Never generate or alter an ID.
+        let member = members.find(item => normaliseId(memberIdOf(item)) === normaliseId(requestedId));
+        // Support legacy links that used Mongo's 24-character document ID.
         if (!member && /^[a-f0-9]{24}$/i.test(requestedId)) {
-          member = members.find(item => escapeText(item._id || item.id) === requestedId);
+          member = members.find(item => clean(item._id || item.id) === requestedId);
         }
-        if (!member) throw new Error("No member was found for ID " + requestedId + ". The saved member ID field may need to be checked in the backend.");
-        $("memberName").textContent = getName(member) || "HAM CLUB MEMBER";
-        $("topRole").textContent = getRole(member).toUpperCase();
-        $("memberRole").textContent = getRole(member);
-        $("memberDepartment").textContent = getDepartment(member);
-        $("memberYears").textContent = getYears(member);
-        $("memberPhoto").src = absoluteImageUrl(getPhoto(member));
-        $("memberPhoto").alt = (getName(member) || "Member") + " profile photo";
-        $("memberPhoto").onerror = () => { $("memberPhoto").style.visibility = "hidden"; };
-        $("memberAbout").textContent = escapeText(member.about || member.bio || member.description || "HAM Club member at SRMIST Ramapuram.");
+        if (!member) throw new Error("No profile matched " + requestedId + ". Please check the existing member ID field in the Team API.");
+        $("memberName").textContent = nameOf(member) || "HAM CLUB MEMBER";
+        $("topRole").textContent = roleOf(member).toUpperCase();
+        $("memberRole").textContent = roleOf(member);
+        $("memberDepartment").textContent = departmentOf(member);
+        $("memberYears").textContent = yearsOf(member);
+        const photo = toAbsoluteAsset(photoOf(member));
+        const image = $("memberPhoto");
+        image.style.visibility = "visible";
+        if (photo) {
+          image.src = photo;
+          image.onerror = () => { image.style.visibility = "hidden"; };
+        } else {
+          image.removeAttribute("src");
+          image.style.visibility = "hidden";
+        }
+        $("memberAbout").textContent = clean(member.about || member.bio || member.description || "HAM Club member at SRMIST Ramapuram.");
         $("socialList").replaceChildren();
-        const linkedin = escapeText(member.linkedin || member.linkedIn || member.linkedinUrl || "");
-        const instagram = escapeText(member.instagram || member.instagramUrl || member.insta || "");
-        const email = escapeText(member.email || member.emailAddress || "");
-        const phone = escapeText(member.phone || member.mobile || member.mobileNumber || member.phoneNumber || "");
-        addSocialRow("LinkedIn", linkedin, linkedin ? (linkedin.startsWith("http") ? linkedin : "https://" + linkedin) : "", "linkedin");
-        addSocialRow("Instagram", instagram, instagram ? (instagram.startsWith("http") ? instagram : "https://www.instagram.com/" + instagram.replace(/^@/, "")) : "", "instagram");
-        addSocialRow("Email", email, email ? "mailto:" + email : "", "email");
-        addSocialRow("Phone", phone, phone ? "tel:" + phone.replace(/[^\d+]/g, "") : "", "phone");
+        addSocialRow("LinkedIn", socialValue(member, ["linkedin", "linkedIn", "linkedinUrl", "linkedinURL"]), "linkedin");
+        addSocialRow("Instagram", socialValue(member, ["instagram", "instagramUrl", "instagramURL", "insta"]), "instagram");
+        addSocialRow("Email", socialValue(member, ["email", "emailAddress"]), "email");
+        addSocialRow("Phone", socialValue(member, ["phone", "mobile", "mobileNumber", "phoneNumber"]), "phone");
+        if (!$("socialList").children.length) {
+          const note = document.createElement("p");
+          note.className = "social-value";
+          note.textContent = "Contact details have not been added for this member.";
+          $("socialList").appendChild(note);
+        }
         $("loading").classList.add("hidden");
         $("profile").classList.remove("hidden");
       } catch (error) {
-        showError(error.message || "Could not load this member profile. Please try again.");
+        showError(error.message || "Could not load the member profile. Please try again.");
       }
     }
     $("retryButton").addEventListener("click", loadProfile);
