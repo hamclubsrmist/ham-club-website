@@ -1,1573 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentation Team | HAM CLUB</title>
-
-
     <style>
-
-        /* =====================================================
-           RESET
-        ===================================================== */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --navy: #103f70;
+            --navy-dark: #0b3158;
+            --gold: #e0b52b;
+            --page-bg: #f4f7fb;
+            --text: #243247;
+            --muted: #687587;
         }
-
-
-        html {
-            scroll-behavior: smooth;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { min-height: 100vh; font-family: Arial, Helvetica, sans-serif; background: var(--page-bg); color: var(--text); }
+        .navbar { min-height: 82px; padding: 14px 5%; display: flex; align-items: center; justify-content: space-between; gap: 24px; background: #fff; box-shadow: 0 3px 16px #0f2d4b14; position: relative; z-index: 10; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+        .logo img { width: 48px; height: 48px; object-fit: contain; }
+        .logo span { color: #172b43; font-size: 22px; font-weight: 800; }
+        .menu-toggle { display: none; border: 0; background: transparent; color: var(--navy); font-size: 29px; cursor: pointer; }
+        .nav-links { display: flex; align-items: center; gap: clamp(12px, 2vw, 28px); list-style: none; }
+        .nav-links a { color: #243247; text-decoration: none; font-size: 14px; font-weight: 700; padding: 8px 0; border-bottom: 3px solid transparent; }
+        .nav-links a:hover { color: var(--navy); border-bottom-color: var(--gold); }
+        .watermark { position: fixed; z-index: -1; pointer-events: none; width: min(650px, 90vw); height: min(650px, 90vw); left: 50%; top: 58%; transform: translate(-50%, -50%); background: url("/logo/logo.png") center / contain no-repeat; opacity: .045; }
+        .banner { text-align: center; padding: 62px 20px 44px; background: linear-gradient(135deg, #edf3fa, #f8faff); }
+        .banner h1 { color: var(--navy); font-size: clamp(32px, 4vw, 46px); margin-bottom: 14px; }
+        .banner p { max-width: 720px; margin: 0 auto; color: #5f6d7d; font-size: 17px; line-height: 1.7; }
+        main { width: min(1200px, 92%); margin: auto; padding: 26px 0 78px; }
+        .back { display: inline-block; margin-bottom: 28px; padding: 11px 17px; border-radius: 999px; background: var(--navy); color: #fff; text-decoration: none; font-size: 14px; font-weight: 700; }
+        .heading { text-align: center; margin: 4px 0 30px; }
+        .heading h2 { color: var(--navy); font-size: clamp(25px, 3vw, 32px); margin-bottom: 10px; }
+        .heading p { color: var(--muted); line-height: 1.6; }
+        .members { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+        .card { background: #fff; border-radius: 20px; padding: 27px 22px; text-align: center; box-shadow: 0 12px 32px #14304f17; border: 1px solid #103f700f; overflow-wrap: anywhere; transition: transform .2s ease, box-shadow .2s ease; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 18px 38px #14304f24; }
+        .photo { display: block; width: 142px; height: 142px; margin: 0 auto 18px; object-fit: cover; border-radius: 50%; border: 4px solid #e7eef7; background: #edf1f6; }
+        .name { color: var(--navy); font-size: 21px; font-weight: 800; margin-bottom: 8px; }
+        .role { display: inline-block; color: var(--navy); background: #edf4fc; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; margin-bottom: 13px; }
+        .details, .bio { color: var(--muted); font-size: 14px; line-height: 1.8; }
+        .bio { margin-top: 12px; }
+        .status { grid-column: 1 / -1; text-align: center; padding: 30px 22px; background: #fff; border-radius: 16px; color: var(--muted); box-shadow: 0 8px 25px #14304f12; line-height: 1.7; }
+        .status strong { display: block; color: var(--navy); font-size: 20px; margin-bottom: 8px; }
+        footer { background: var(--navy-dark); color: #fff; text-align: center; padding: 35px 20px; }
+        footer h2 { font-size: 24px; letter-spacing: 1px; margin-bottom: 8px; }
+        footer p { font-size: 12px; letter-spacing: 3px; margin-bottom: 12px; color: #d9e5f3; }
+        footer span { color: #d9e5f3; font-size: 13px; line-height: 1.6; }
+        @media (max-width: 900px) { .members { grid-template-columns: repeat(2, minmax(0, 1fr)); } .nav-links { gap: 12px; } .nav-links a { font-size: 12px; } }
+        @media (max-width: 700px) {
+            .menu-toggle { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 14px 5% 22px; background: #fff; box-shadow: 0 12px 20px #0f2d4b1f; flex-direction: column; align-items: stretch; gap: 0; }
+            .nav-links.show { display: flex; }
+            .nav-links a { display: block; padding: 13px 0; font-size: 15px; border-bottom: 1px solid #edf0f5; }
+            .banner { padding: 44px 18px 34px; } .banner p { font-size: 15px; }
+            .members { grid-template-columns: 1fr; max-width: 430px; margin: auto; }
         }
-
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-
-            background: #f5f7fb;
-
-            color: #222;
-
-            overflow-x: hidden;
-        }
-
-
-        /* =====================================================
-           NAVBAR
-        ===================================================== */
-
-        .navbar {
-            width: 100%;
-
-            height: 90px;
-
-            background: #ffffff;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            padding: 0 55px;
-
-            position: relative;
-
-            z-index: 1000;
-
-            box-shadow:
-                0 2px 12px rgba(0, 0, 0, 0.08);
-        }
-
-
-        /* =====================================================
-           LOGO
-        ===================================================== */
-
-        .logo {
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-        }
-
-
-        .logo a {
-            display: flex;
-
-            align-items: center;
-        }
-
-
-        .logo img {
-            width: 52px !important;
-
-            height: 52px !important;
-
-            max-width: 52px !important;
-
-            max-height: 52px !important;
-
-            min-width: 52px !important;
-
-            min-height: 52px !important;
-
-            object-fit: contain !important;
-
-            border: none !important;
-
-            border-radius: 0 !important;
-
-            display: block;
-        }
-
-
-        .logo h2 {
-            font-size: 25px;
-
-            color: #111;
-
-            font-weight: 700;
-        }
-
-
-        /* =====================================================
-           NAVIGATION
-        ===================================================== */
-
-        .nav-links {
-            display: flex;
-
-            align-items: center;
-
-            gap: 38px;
-
-            list-style: none;
-        }
-
-
-        .nav-links li {
-            list-style: none;
-        }
-
-
-        .nav-links a {
-            text-decoration: none;
-
-            color: #161616;
-
-            font-size: 17px;
-
-            font-weight: 600;
-
-            padding: 32px 0 9px;
-
-            border-bottom:
-                3px solid transparent;
-
-            transition: 0.25s ease;
-        }
-
-
-        .nav-links a:hover {
-            color: #0b3c6d;
-        }
-
-
-        .nav-links a.active {
-            border-bottom:
-                3px solid #d8a900;
-        }
-
-
-        /* =====================================================
-           MOBILE MENU
-        ===================================================== */
-
-        .menu-toggle {
-            display: none;
-
-            font-size: 28px;
-
-            color: #0b3c6d;
-
-            cursor: pointer;
-        }
-
-
-        /* =====================================================
-           WATERMARK
-        ===================================================== */
-
-        .team-watermark {
-            position: fixed;
-
-            top: 55%;
-
-            left: 50%;
-
-            width: 650px;
-
-            height: 650px;
-
-            transform:
-                translate(-50%, -50%);
-
-            background:
-                url("images/logo/logo.png")
-                center / contain
-                no-repeat;
-
-            opacity: 0.045;
-
-            pointer-events: none;
-
-            z-index: 0;
-        }
-
-
-        /* =====================================================
-           BANNER
-        ===================================================== */
-
-        .team-banner {
-            position: relative;
-
-            z-index: 2;
-
-            background: #0b3c6d;
-
-            color: #ffffff;
-
-            text-align: center;
-
-            padding: 60px 20px;
-        }
-
-
-        .team-banner h1 {
-            font-size: 44px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .team-banner p {
-            font-size: 17px;
-
-            color:
-                rgba(255,255,255,0.88);
-        }
-
-
-        /* =====================================================
-           MAIN
-        ===================================================== */
-
-        .team-content {
-            position: relative;
-
-            z-index: 2;
-
-            max-width: 1200px;
-
-            margin: auto;
-
-            padding: 35px 25px 80px;
-        }
-
-
-        /* =====================================================
-           BACK BUTTON
-        ===================================================== */
-
-        .back-container {
-            margin-bottom: 35px;
-        }
-
-
-        .back-button {
-            display: inline-block;
-
-            text-decoration: none;
-
-            color: #0b3c6d;
-
-            background: #ffffff;
-
-            padding:
-                11px 20px;
-
-            border-radius: 30px;
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            box-shadow:
-                0 5px 18px
-                rgba(0,0,0,0.08);
-
-            transition: 0.25s ease;
-        }
-
-
-        .back-button:hover {
-            background: #0b3c6d;
-
-            color: #ffffff;
-
-            transform:
-                translateX(-4px);
-        }
-
-
-        /* =====================================================
-           MEMBERS GRID
-        ===================================================== */
-
-        .members-grid {
-            width: 100%;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 28px;
-        }
-
-
-        /* =====================================================
-           MEMBER CARD
-        ===================================================== */
-
-        .member-card {
-            background: #ffffff;
-
-            border-radius: 20px;
-
-            padding:
-                28px 20px 25px;
-
-            text-align: center;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 9px 25px
-                rgba(0,0,0,0.09);
-
-            border:
-                1px solid
-                rgba(11,60,109,0.07);
-
-            transition:
-                transform 0.3s ease,
-                box-shadow 0.3s ease;
-        }
-
-
-        .member-card:hover {
-            transform:
-                translateY(-7px);
-
-            box-shadow:
-                0 18px 35px
-                rgba(0,0,0,0.14);
-        }
-
-
-        /* =====================================================
-           MEMBER PHOTO
-        ===================================================== */
-
-        .member-photo {
-            width: 175px;
-
-            height: 175px;
-
-            margin:
-                0 auto 20px;
-
-            overflow: hidden;
-
-            border-radius: 50%;
-
-            border:
-                5px solid #d8a900;
-
-            background: #eef2f5;
-        }
-
-
-        .member-photo img {
-            width: 100% !important;
-
-            height: 100% !important;
-
-            display: block !important;
-
-            object-fit: cover !important;
-
-            border: none !important;
-
-            border-radius: 0 !important;
-
-            margin: 0 !important;
-
-            padding: 0 !important;
-        }
-
-
-        /* =====================================================
-           MEMBER NAME
-        ===================================================== */
-
-        .member-card h3 {
-            color: #0b3c6d;
-
-            font-size: 21px;
-
-            line-height: 1.3;
-
-            margin-bottom: 8px;
-        }
-
-
-        /* =====================================================
-           ROLE
-        ===================================================== */
-
-        .member-role {
-            color: #555;
-
-            font-size: 15px;
-
-            font-weight: 600;
-
-            line-height: 1.4;
-
-            margin-bottom: 7px;
-        }
-
-
-        /* =====================================================
-           YEAR
-        ===================================================== */
-
-        .member-year {
-            color: #888;
-
-            font-size: 13px;
-
-            margin-bottom: 17px;
-        }
-
-
-        /* =====================================================
-           VIEW PROFILE
-        ===================================================== */
-
-        .view-profile {
-            display: inline-block;
-
-            background: #0b3c6d;
-
-            color: #ffffff;
-
-            padding:
-                9px 17px;
-
-            border-radius: 25px;
-
-            font-size: 13px;
-
-            font-weight: 700;
-        }
-
-
-        /* =====================================================
-           LOADING
-        ===================================================== */
-
-        .loading {
-            grid-column: 1 / -1;
-
-            text-align: center;
-
-            padding: 80px 20px;
-
-            color: #666;
-
-            font-size: 17px;
-        }
-
-
-        /* =====================================================
-           ERROR
-        ===================================================== */
-
-        .error-message {
-            grid-column: 1 / -1;
-
-            text-align: center;
-
-            padding: 70px 20px;
-
-            background: #ffffff;
-
-            border-radius: 20px;
-
-            box-shadow:
-                0 8px 25px
-                rgba(0,0,0,0.07);
-        }
-
-
-        .error-message h2 {
-            color: #0b3c6d;
-
-            margin-bottom: 10px;
-        }
-
-
-        .error-message p {
-            color: #666;
-
-            font-size: 15px;
-
-            line-height: 1.6;
-        }
-
-
-        /* =====================================================
-           NO MEMBERS
-        ===================================================== */
-
-        .no-members {
-            grid-column: 1 / -1;
-
-            text-align: center;
-
-            padding: 70px 20px;
-        }
-
-
-        .no-members h2 {
-            color: #0b3c6d;
-
-            margin-bottom: 10px;
-        }
-
-
-        .no-members p {
-            color: #666;
-        }
-
-
-        /* =====================================================
-           FOOTER
-        ===================================================== */
-
-        footer {
-            position: relative;
-
-            z-index: 3;
-
-            background: #06233d;
-
-            color: #ffffff;
-
-            text-align: center;
-
-            padding:
-                42px 20px 32px;
-        }
-
-
-        .footer-content h2 {
-            font-size: 25px;
-
-            letter-spacing: 4px;
-
-            margin-bottom: 9px;
-        }
-
-
-        .footer-content p {
-            font-size: 10px;
-
-            letter-spacing: 5px;
-
-            color:
-                rgba(255,255,255,0.65);
-
-            margin-bottom: 14px;
-        }
-
-
-        .footer-content span {
-            font-size: 13px;
-
-            color:
-                rgba(255,255,255,0.70);
-        }
-
-
-        /* =====================================================
-           TABLET
-        ===================================================== */
-
-        @media (max-width: 1000px) {
-
-            .navbar {
-                padding:
-                    0 30px;
-            }
-
-
-            .nav-links {
-                gap: 22px;
-            }
-
-
-            .nav-links a {
-                font-size: 15px;
-            }
-
-
-            .members-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-
-                max-width: 800px;
-
-                margin: auto;
-            }
-
-        }
-
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        @media (max-width: 768px) {
-
-            .navbar {
-                height: 75px;
-
-                padding:
-                    0 20px;
-            }
-
-
-            .logo img {
-                width: 43px !important;
-
-                height: 43px !important;
-
-                max-width: 43px !important;
-
-                max-height: 43px !important;
-            }
-
-
-            .logo h2 {
-                font-size: 21px;
-            }
-
-
-            .menu-toggle {
-                display: block;
-            }
-
-
-            .nav-links {
-                display: none;
-
-                position: absolute;
-
-                top: 75px;
-
-                left: 0;
-
-                width: 100%;
-
-                background: #ffffff;
-
-                flex-direction: column;
-
-                gap: 0;
-
-                padding: 8px 0;
-
-                box-shadow:
-                    0 10px 20px
-                    rgba(0,0,0,0.10);
-            }
-
-
-            .nav-links.show {
-                display: flex;
-            }
-
-
-            .nav-links li {
-                width: 100%;
-
-                text-align: center;
-            }
-
-
-            .nav-links a {
-                width: 100%;
-
-                padding:
-                    13px 20px;
-
-                border: none;
-
-                font-size: 16px;
-            }
-
-
-            .nav-links a.active {
-                background: #f5f7fb;
-
-                border: none;
-            }
-
-
-            .team-banner {
-                padding:
-                    50px 20px;
-            }
-
-
-            .team-banner h1 {
-                font-size: 34px;
-            }
-
-
-            .team-banner p {
-                font-size: 15px;
-            }
-
-
-            .team-content {
-                padding:
-                    30px 18px 60px;
-            }
-
-
-            .members-grid {
-                grid-template-columns:
-                    1fr;
-
-                max-width: 380px;
-            }
-
-        }
-
-
-        /* =====================================================
-           SMALL MOBILE
-        ===================================================== */
-
-        @media (max-width: 480px) {
-
-            .logo h2 {
-                font-size: 19px;
-            }
-
-
-            .member-photo {
-                width: 160px;
-
-                height: 160px;
-            }
-
-
-            .team-watermark {
-                width: 450px;
-
-                height: 450px;
-
-                opacity: 0.035;
-            }
-
-        }
-
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
     </style>
-
 </head>
-
-
-
 <body>
-
-
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
-
-<header>
-
-    <nav class="navbar">
-
-
-        <div class="logo">
-
-            <a href="index.html">
-
-                <img
-                    src="images/logo/logo.png"
-                    alt="HAM Club Logo"
-                >
-
+    <header>
+        <nav class="navbar">
+            <a class="logo" href="index.html">
+                <img src="/logo/logo.png" alt="HAM Club Logo">
+                <span>HAM CLUB</span>
             </a>
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="magazine.html">Magazine</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-            <h2>
-                HAM CLUB
-            </h2>
+    <div class="watermark" aria-hidden="true"></div>
 
-        </div>
-
-
-
-        <div
-            class="menu-toggle"
-            id="menuToggle">
-
-            ☰
-
-        </div>
-
-
-
-        <ul
-            class="nav-links"
-            id="navLinks">
-
-            <li>
-                <a href="index.html">
-                    Home
-                </a>
-            </li>
-
-            <li>
-                <a href="about.html">
-                    About
-                </a>
-            </li>
-
-            <li>
-                <a href="leadership.html">
-                    Leadership
-                </a>
-            </li>
-
-            <li>
-                <a href="events.html">
-                    Events
-                </a>
-            </li>
-
-            <li>
-                <a href="gallery.html">
-                    Gallery
-                </a>
-            </li>
-
-            <li>
-                <a href="projects.html">
-                    Projects
-                </a>
-            </li>
-
-            <li>
-                <a href="magazine.html">
-                    Magazine
-                </a>
-            </li>
-
-            <li>
-                <a href="contact.html">
-                    Contact
-                </a>
-            </li>
-
-        </ul>
-
-    </nav>
-
-</header>
-
-
-
-<!-- =====================================================
-     WATERMARK
-===================================================== -->
-
-<div class="team-watermark"></div>
-
-
-
-<!-- =====================================================
-     BANNER
-===================================================== -->
-
-<section class="team-banner">
-
-    <h1>
-        Documentation Team
-    </h1>
-
-    <p>
-        Meet the members behind HAM Club's documentation.
-    </p>
-
-</section>
-
-
-
-<!-- =====================================================
-     MAIN CONTENT
-===================================================== -->
-
-<main class="team-content">
-
-
-    <!-- BACK -->
-
-    <div class="back-container">
-
-        <a
-            href="leadership.html"
-            class="back-button">
-
-            ← Back to Leadership
-
-        </a>
-
-    </div>
-
-
-
-    <!-- MEMBERS -->
-
-    <section>
-
-        <div
-            class="members-grid"
-            id="membersGrid">
-
-            <div class="loading">
-
-                Loading members...
-
-            </div>
-
-        </div>
-
+    <section class="banner">
+        <h1>Documentation Team</h1>
+        <p>Meet the members behind HAM Club's documentation.</p>
     </section>
 
+    <main>
+        <a href="leadership.html" class="back">← Back to Leadership</a>
 
-</main>
+        <section>
+            <div class="heading">
+                <h2>Meet Our Team</h2>
+                <p>Recording ideas, building legacy.</p>
+            </div>
+            <div class="members" id="membersGrid" aria-live="polite">
+                <div class="status">Loading team members...</div>
+            </div>
+        </section>
+    </main>
 
+    <footer>
+        <h2>HAM CLUB</h2>
+        <p>CONNECTING PASSION WIRELESSLY</p>
+        <span>SRM Institute of Science and Technology · Ramapuram Campus</span>
+    </footer>
 
+    <script>
+        // Always use the deployed backend, not localhost or a private IP.
+        const API_URL = "https://ham-club-backend.onrender.com";
+        const DOMAIN_ALIASES = ['documentation'];
+        const ROLE_ALIASES = ['documentation'];
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
+        const membersGrid = document.getElementById("membersGrid");
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
 
-<footer>
+        function escapeHTML(value) {
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
 
-    <div class="footer-content">
+        function normalize(value) {
+            return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+        }
 
-        <h2>
-            HAM CLUB
-        </h2>
+        function getImageURL(path) {
+            const image = String(path || "").trim();
 
-        <p>
-            CONNECTING PASSION WIRELESSLY
-        </p>
+            if (!image) return "/logo/logo.png";
+            if (/^https?:\/\//i.test(image) || image.startsWith("data:")) return image;
 
-        <span>
-            SRM Institute of Science and Technology · Ramapuram Campus
-        </span>
+            return API_URL + (image.startsWith("/") ? image : "/" + image);
+        }
 
-    </div>
+        function isMatchingMember(member) {
+            const domain = normalize(member.domain);
+            const role = normalize(member.role);
 
-</footer>
+            const domainMatch = DOMAIN_ALIASES.some(alias =>
+                domain === normalize(alias) || domain.includes(normalize(alias))
+            );
 
+            const roleMatch = ROLE_ALIASES.some(alias =>
+                role.includes(normalize(alias))
+            );
 
+            // Support common saved spellings for Event & PR.
+            const eventPRMatch = DOMAIN_ALIASES.includes("event & pr") && (
+                domain.includes("event") ||
+                domain.includes("public relation") ||
+                role.includes("event") ||
+                role.includes("public relation") ||
+                role === "pr"
+            );
 
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
+            return domainMatch || roleMatch || eventPRMatch;
+        }
 
-<script Youtube music app get sense what you like from the format. Pry one three eight putting swap>
+        function createCard(member) {
+            const name = escapeHTML(member.name || "HAM Club Member");
+            const role = escapeHTML(member.role || "Team Member");
+            const department = escapeHTML(member.department || "");
+            const year = escapeHTML(member.year || "");
+            const bio = escapeHTML(member.bio || "");
+            const image = escapeHTML(getImageURL(member.image));
 
-    /* =====================================================
-       BACKEND URLS
-    ===================================================== */
+            return `
+                <article class="card">
+                    <img
+                        class="photo"
+                        src="${image}"
+                        alt="${name}"
+                        loading="lazy"
+                        onerror="this.onerror=null; this.src='/logo/logo.png';"
+                    >
+                    <h3 class="name">${name}</h3>
+                    <p class="role">${role}</p>
+                    <div class="details">
+                        ${department ? `<div><strong>Department:</strong> ${department}</div>` : ""}
+                        ${year ? `<div><strong>Year:</strong> ${year}</div>` : ""}
+                    </div>
+                    ${bio ? `<p class="bio">${bio}</p>` : ""}
+                </article>
+            `;
+        }
 
-    const API_URLS = [
-        "http://localhost:5000",
-        "http://192.168.0.3:5000"
-    ];
-
-
-    let API_URL = null;
-
-
-    /* =====================================================
-       MEMBERS GRID
-    ===================================================== */
-
-    const membersGrid =
-        document.getElementById("membersGrid");
-
-
-    /* =====================================================
-       FIND WORKING BACKEND
-    ===================================================== */
-
-    async function findBackend() {
-
-        for (const url of API_URLS) {
+        async function loadTeamMembers() {
+            membersGrid.innerHTML = '<div class="status">Loading team members...</div>';
 
             try {
+                const response = await fetch(`${API_URL}/api/team`);
 
-                console.log(
-                    "Trying backend:",
-                    url
-                );
-
-
-                const response =
-                    await fetch(
-                        url + "/api/team",
-                        {
-                            method: "GET"
-                        }
-                    );
-
-
-                if (response.ok) {
-
-                    console.log(
-                        "Backend connected:",
-                        url
-                    );
-
-                    API_URL = url;
-
-                    return true;
+                if (!response.ok) {
+                    throw new Error(`Team API returned HTTP ${response.status}`);
                 }
 
-            }
-
-            catch (error) {
-
-                console.log(
-                    "Backend not available:",
-                    url
-                );
-
-            }
-
-        }
-
-
-        return false;
-
-    }
-
-
-    /* =====================================================
-       LOAD DOCUMENTATION MEMBERS
-    ===================================================== */
-
-    async function loadMembers() {
-
-        membersGrid.innerHTML = `
-
-            <div class="loading">
-
-                Loading members...
-
-            </div>
-
-        `;
-
-
-        /* =================================================
-           FIND BACKEND
-        ================================================= */
-
-        const connected =
-            await findBackend();
-
-
-        if (!connected) {
-
-            membersGrid.innerHTML = `
-
-                <div class="error-message">
-
-                    <h2>
-                        Backend Not Connected
-                    </h2>
-
-                    <p>
-                        Please start your HAM Club backend
-                        server.
-                    </p>
-
-                    <p>
-                        Expected:
-                        <strong>
-                            http://localhost:5000
-                        </strong>
-                    </p>
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        try {
-
-            /* =============================================
-               GET TEAM DATA
-            ============================================= */
-
-            const response =
-                await fetch(
-                    API_URL +
-                    "/api/team"
-                );
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "HTTP Error " +
-                    response.status
-                );
-
-            }
-
-
-            /* =============================================
-               CONVERT TO JSON
-            ============================================= */
-
-            const result =
-                await response.json();
-
-
-            console.log(
-                "Complete Team API:",
-                result
-            );
-
-
-            /* =============================================
-               FIND ARRAY
-            ============================================= */
-
-            let members = [];
-
-
-            if (Array.isArray(result)) {
-
-                members = result;
-
-            }
-
-            else if (
-                result &&
-                Array.isArray(result.team)
-            ) {
-
-                members =
-                    result.team;
-
-            }
-
-            else if (
-                result &&
-                Array.isArray(result.data)
-            ) {
-
-                members =
-                    result.data;
-
-            }
-
-            else if (
-                result &&
-                Array.isArray(result.members)
-            ) {
-
-                members =
-                    result.members;
-
-            }
-
-
-            console.log(
-                "Total members:",
-                members.length
-            );
-
-
-            /* =============================================
-               FILTER DOCUMENTATION TEAM
-            ============================================= */
-
-            const documentationMembers =
-                members.filter(
-                    function(member) {
-
-                        const domain =
-                            String(
-                                member.domain || ""
-                            )
-                            .trim()
-                            .toLowerCase();
-
-
-                        const role =
-                            String(
-                                member.role || ""
-                            )
-                            .trim()
-                            .toLowerCase();
-
-
-                        return (
-                            domain.includes(
-                                "documentation"
-                            )
-                            ||
-                            role.includes(
-                                "documentation"
-                            )
-                        );
-
-                    }
-                );
-
-
-            console.log(
-                "Documentation Members:",
-                documentationMembers
-            );
-
-
-            /* =============================================
-               NO MEMBERS
-            ============================================= */
-
-            if (
-                documentationMembers.length === 0
-            ) {
+                const result = await response.json();
+                let allMembers = [];
+
+                if (Array.isArray(result)) allMembers = result;
+                else if (Array.isArray(result.team)) allMembers = result.team;
+                else if (Array.isArray(result.data)) allMembers = result.data;
+                else if (Array.isArray(result.members)) allMembers = result.members;
+
+                const filteredMembers = allMembers.filter(isMatchingMember);
+
+                if (filteredMembers.length === 0) {
+                    membersGrid.innerHTML = `
+                        <div class="status">
+                            <strong>No matching members found</strong>
+                            Check the domain values saved in Admin → Team.
+                        </div>
+                    `;
+                    return;
+                }
+
+                membersGrid.innerHTML = filteredMembers.map(createCard).join("");
+
+            } catch (error) {
+                console.error("Team page error:", error);
 
                 membersGrid.innerHTML = `
-
-                    <div class="no-members">
-
-                        <h2>
-                            No Documentation Members Found
-                        </h2>
-
-                        <p>
-                            Add members with
-                            <strong>
-                                Documentation
-                            </strong>
-                            as their domain in Admin.
-                        </p>
-
+                    <div class="status">
+                        <strong>Unable to load team members</strong>
+                        The website could not retrieve team data. Refresh the page
+                        and check the Render backend if the problem continues.
                     </div>
-
                 `;
-
-                return;
-
             }
-
-
-            /* =============================================
-               CREATE MEMBER CARDS
-            ============================================= */
-
-            membersGrid.innerHTML =
-                documentationMembers
-                .map(
-                    function(member) {
-
-                        /* =============================
-                           MEMBER IMAGE
-                        ============================= */
-
-                        let imageUrl =
-                            "images/logo/logo.png";
-
-
-                        if (member.image) {
-
-                            if (
-                                member.image.startsWith(
-                                    "http://"
-                                )
-                                ||
-                                member.image.startsWith(
-                                    "https://"
-                                )
-                            ) {
-
-                                imageUrl =
-                                    member.image;
-
-                            }
-
-                            else {
-
-                                imageUrl =
-                                    API_URL +
-                                    (
-                                        member.image
-                                            .startsWith("/")
-                                            ?
-                                            member.image
-                                            :
-                                            "/" +
-                                            member.image
-                                    );
-
-                            }
-
-                        }
-
-
-                        /* =============================
-                           MEMBER INFORMATION
-                        ============================= */
-
-                        const name =
-                            member.name ||
-                            "HAM Club Member";
-
-
-                        const role =
-                            member.role ||
-                            "Documentation Member";
-
-
-                        const year =
-                            member.year ||
-                            "";
-
-
-                        const memberId =
-                            member.memberId ||
-                            "";
-
-
-                        /* =============================
-                           CARD
-                        ============================= */
-
-                        return `
-
-                            <div
-                                class="member-card"
-                                data-member-id="${memberId}"
-                            >
-
-                                <div class="member-photo">
-
-                                    <img
-                                        src="${imageUrl}"
-                                        alt="${name}"
-                                        onerror="
-                                            this.src='images/logo/logo.png';
-                                        "
-                                    >
-
-                                </div>
-
-
-                                <h3>
-                                    ${name}
-                                </h3>
-
-
-                                <p class="member-role">
-                                    ${role}
-                                </p>
-
-
-                                ${
-                                    year
-                                    ?
-                                    `
-                                    <p class="member-year">
-                                        ${year}
-                                    </p>
-                                    `
-                                    :
-                                    ""
-                                }
-
-
-                                <span class="view-profile">
-                                    View Profile →
-                                </span>
-
-                            </div>
-
-                        `;
-
-                    }
-                )
-                .join("");
-
-
-            /* =============================================
-               CARD CLICK
-            ============================================= */
-
-            document
-                .querySelectorAll(".member-card")
-                .forEach(
-                    function(card) {
-
-                        card.addEventListener(
-                            "click",
-                            function() {
-
-                                const memberId =
-                                    card.dataset.memberId;
-
-
-                                if (!memberId) {
-
-                                    alert(
-                                        "Member ID is not available."
-                                    );
-
-                                    return;
-
-                                }
-
-
-                                window.location.href =
-                                    "member.html?id=" +
-                                    encodeURIComponent(
-                                        memberId
-                                    );
-
-                            }
-                        );
-
-                    }
-                );
-
-
         }
 
-        catch (error) {
+        menuToggle.addEventListener("click", () => {
+            const open = navLinks.classList.toggle("show");
+            menuToggle.setAttribute("aria-expanded", String(open));
+            menuToggle.textContent = open ? "×" : "☰";
+        });
 
-            console.error(
-                "Team loading error:",
-                error
-            );
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("show");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.textContent = "☰";
+            });
+        });
 
-
-            membersGrid.innerHTML = `
-
-                <div class="error-message">
-
-                    <h2>
-                        Unable to Load Members
-                    </h2>
-
-                    <p>
-                        The backend responded with an error.
-                    </p>
-
-                    <p>
-                        Please check the backend terminal.
-                    </p>
-
-                </div>
-
-            `;
-
-        }
-
-    }
-
-
-    /* =====================================================
-       START
-    ===================================================== */
-
-    loadMembers();
-
-
-
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
-
-    const menuToggle =
-        document.getElementById("menuToggle");
-
-
-    const navLinks =
-        document.getElementById("navLinks");
-
-
-    if (menuToggle) {
-
-        menuToggle.addEventListener(
-            "click",
-            function() {
-
-                navLinks.classList.toggle(
-                    "show"
-                );
-
-            }
-        );
-
-    }
-
-
-    document
-        .querySelectorAll(".nav-links a")
-        .forEach(
-            function(link) {
-
-                link.addEventListener(
-                    "click",
-                    function() {
-
-                        navLinks.classList.remove(
-                            "show"
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-</>
-
-
+        loadTeamMembers();
+    </script>
 </body>
-
 </html>
