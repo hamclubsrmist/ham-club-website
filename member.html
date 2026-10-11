@@ -1,954 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>HAM Club Member</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            background: #ffffff;
-            color: #111111;
-            min-height: 100vh;
-        }
-
-        /* =========================
-           LOADING
-        ========================= */
-
-        .loading {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* =========================
-           ERROR
-        ========================= */
-
-        .error {
-            min-height: 100vh;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 30px;
-        }
-
-        .error h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .error p {
-            color: #666;
-            font-size: 15px;
-        }
-
-        /* =========================
-           MAIN PAGE
-        ========================= */
-
-        .profile-page {
-            display: none;
-            width: 100%;
-            max-width: 1200px;
-            margin: auto;
-            padding: 45px 35px 70px;
-        }
-
-        /* =========================
-           TOP SECTION
-        ========================= */
-
-        .top-section {
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 60px;
-            align-items: center;
-            min-height: 650px;
-        }
-
-        /* =========================
-           MEMBER INFORMATION
-        ========================= */
-
-        .member-info {
-            order: 1;
-        }
-
-        .role-label {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-        }
-
-        .member-name {
-            font-size: clamp(55px, 8vw, 105px);
-            line-height: 0.9;
-            font-weight: 900;
-            letter-spacing: -4px;
-            text-transform: uppercase;
-            margin-bottom: 35px;
-            word-break: break-word;
-        }
-
-        .member-id {
-            display: inline-block;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            border: 1px solid #111;
-            padding: 10px 14px;
-            margin-bottom: 35px;
-        }
-
-        .member-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .member-role {
-            font-size: 24px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .member-department {
-            font-size: 17px;
-            font-weight: 500;
-            text-transform: uppercase;
-            color: #555;
-        }
-
-        .member-year {
-            font-size: 15px;
-            letter-spacing: 4px;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-
-        /* =========================
-           PHOTO
-        ========================= */
-
-        .photo-section {
-            order: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .photo-wrapper {
-            width: min(100%, 480px);
-            position: relative;
-        }
-
-        .member-photo {
-            width: 100%;
-            height: auto;
-            max-height: 650px;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* =========================
-           DETAILS SECTION
-        ========================= */
-
-        .details-section {
-            margin-top: 70px;
-            border-top: 1px solid #111;
-        }
-
-        .details-heading {
-            padding: 30px 0;
-            font-size: 14px;
-            letter-spacing: 5px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .details-list {
-            border-top: 1px solid #ddd;
-        }
-
-        .detail-link {
-            width: 100%;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: #111;
-            border-bottom: 1px solid #ddd;
-            transition:
-                padding 0.25s ease,
-                background 0.25s ease;
-        }
-
-        .detail-link:hover {
-            padding-left: 15px;
-            padding-right: 15px;
-            background: #f7f7f7;
-        }
-
-        .detail-left {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .detail-title {
-            font-size: 16px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .detail-value {
-            font-size: 14px;
-            color: #777;
-            max-width: 600px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .arrow {
-            font-size: 28px;
-            font-weight: 300;
-            line-height: 1;
-        }
-
-        /* =========================
-           BIO
-        ========================= */
-
-        .bio-section {
-            margin-top: 70px;
-            padding-bottom: 20px;
-        }
-
-        .bio-title {
-            font-size: 14px;
-            letter-spacing: 5px;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 25px;
-        }
-
-        .bio {
-            max-width: 800px;
-            font-size: 20px;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        .footer {
-            margin-top: 80px;
-            padding-top: 25px;
-            border-top: 1px solid #111;
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 768px) {
-
-            .profile-page {
-                padding: 30px 22px 55px;
-            }
-
-            .top-section {
-                display: flex;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 35px;
-                min-height: auto;
-            }
-
-            .member-info {
-                order: 1;
-            }
-
-            .photo-section {
-                order: 2;
-            }
-
-            .role-label {
-                font-size: 11px;
-                letter-spacing: 4px;
-                margin-bottom: 22px;
-            }
-
-            .member-name {
-                font-size: clamp(55px, 17vw, 95px);
-                letter-spacing: -4px;
-                line-height: 0.88;
-                margin-bottom: 25px;
-            }
-
-            .member-id {
-                margin-bottom: 25px;
-            }
-
-            .member-role {
-                font-size: 20px;
-            }
-
-            .member-department {
-                font-size: 15px;
-            }
-
-            .member-year {
-                font-size: 13px;
-                letter-spacing: 3px;
-            }
-
-            .photo-wrapper {
-                width: 100%;
-            }
-
-            .member-photo {
-                width: 100%;
-                max-height: none;
-                aspect-ratio: 4 / 5;
-                object-fit: cover;
-            }
-
-            .details-section {
-                margin-top: 60px;
-            }
-
-            .detail-link {
-                min-height: 82px;
-            }
-
-            .detail-title {
-                font-size: 14px;
-            }
-
-            .detail-value {
-                max-width: 250px;
-                font-size: 12px;
-            }
-
-            .arrow {
-                font-size: 25px;
-            }
-
-            .bio-section {
-                margin-top: 60px;
-            }
-
-            .bio {
-                font-size: 17px;
-            }
-
-            .footer {
-                margin-top: 60px;
-                flex-direction: column;
-                gap: 8px;
-                font-size: 10px;
-            }
-        }
-
-        /* =========================
-           SMALL MOBILE
-        ========================= */
-
-        @media (max-width: 400px) {
-
-            .profile-page {
-                padding-left: 18px;
-                padding-right: 18px;
-            }
-
-            .member-name {
-                font-size: 52px;
-            }
-
-            .member-role {
-                font-size: 18px;
-            }
-
-            .detail-value {
-                max-width: 190px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050505">
+  <title>HAM Club | Member Profile</title>
+  <style>
+    :root { color-scheme: dark; --bg:#050505; --text:#f7f7f7; --muted:#b8b8be; --line:#777; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0; background:radial-gradient(ellipse at 50% 20%, #202020 0, #090909 34%, #030303 75%);
+      color:var(--text); font-family:Arial,Helvetica,sans-serif;
+    }
+    a { color:inherit; }
+    .page { width:min(100%,1000px); margin:0 auto; padding:34px 28px 24px; }
+    .hero { text-align:center; }
+    .eyebrow { margin:0 0 20px; font-size:clamp(11px,2vw,17px); letter-spacing:.58em; text-transform:uppercase; color:#e3e3e3; }
+    h1 { margin:0; font-size:clamp(35px,7.4vw,88px); line-height:1.05; font-weight:900; letter-spacing:.015em; overflow-wrap:anywhere; }
+    .portrait-wrap { position:relative; width:min(100%,470px); height:clamp(300px,49vw,480px); margin:16px auto 0; display:flex; align-items:flex-end; justify-content:center; }
+    .portrait-wrap::before { content:""; position:absolute; width:78%; height:74%; bottom:7%; border-radius:50%; background:#777; filter:blur(65px); opacity:.28; }
+    .portrait { position:relative; z-index:1; width:100%; height:100%; object-fit:contain; object-position:center bottom; }
+    .role { margin:16px 0 7px; font-size:clamp(20px,3.5vw,38px); font-weight:800; letter-spacing:.035em; text-transform:uppercase; }
+    .department { margin:0 0 8px; font-size:clamp(14px,2vw,22px); letter-spacing:.18em; }
+    .years { margin:0; font-size:clamp(14px,2vw,20px); letter-spacing:.38em; color:#dedee2; }
+    .rule { border:0; border-top:1px solid #ddd; margin:18px 0 23px; }
+    .section-label { margin:0 0 12px; font-size:clamp(12px,1.7vw,16px); font-weight:500; letter-spacing:.55em; text-transform:uppercase; }
+    .social-list { display:flex; flex-direction:column; }
+    .social-row { display:grid; grid-template-columns:82px 1fr 34px; align-items:center; gap:20px; min-height:89px; padding:11px 2px; text-decoration:none; border-bottom:1px solid #595959; }
+    .social-row:last-child { border-bottom:0; }
+    .social-icon { width:64px; height:64px; border-radius:15px; display:grid; place-items:center; color:#fff; font-size:35px; font-weight:800; overflow:hidden; }
+    .linkedin { background:#087bb8; font-family:Arial,sans-serif; }
+    .instagram { background:linear-gradient(45deg,#ffd45a,#ff6b35,#d62976,#8134af); }
+    .email { background:#f5f5f5; color:#db4437; }
+    .phone { background:#16c653; }
+    .social-icon svg { width:37px; height:37px; }
+    .social-name { display:block; margin-bottom:6px; font-size:clamp(13px,1.8vw,19px); font-weight:700; letter-spacing:.11em; }
+    .social-value { display:block; color:var(--muted); font-size:clamp(12px,1.7vw,17px); line-height:1.45; overflow-wrap:anywhere; }
+    .arrow { justify-self:end; font-size:38px; font-weight:200; line-height:1; }
+    .about { color:#dedee4; font-size:clamp(15px,2.1vw,21px); line-height:1.65; margin:0; }
+    .footer { display:flex; justify-content:space-between; align-items:center; gap:16px; padding-top:25px; margin-top:35px; border-top:1px solid #ddd; color:#d2d2d2; font-size:clamp(10px,1.5vw,15px); letter-spacing:.3em; }
+    .status { padding:70px 10px; text-align:center; color:#ddd; }
+    .status p { color:#b8b8be; line-height:1.6; }
+    .retry { background:#f5f5f5; color:#111; border:0; padding:11px 18px; border-radius:6px; cursor:pointer; font-weight:700; }
+    .hidden { display:none !important; }
+    @media(max-width:600px) {
+      .page { padding:25px 18px 20px; }
+      .eyebrow { letter-spacing:.35em; }
+      .portrait-wrap { height:320px; }
+      .social-row { grid-template-columns:58px minmax(0,1fr) 24px; gap:12px; min-height:76px; }
+      .social-icon { width:52px; height:52px; border-radius:12px; font-size:29px; }
+      .social-icon svg { width:30px; height:30px; }
+      .arrow { font-size:29px; }
+      .footer { letter-spacing:.16em; }
+    }
+  </style>
 </head>
-
 <body>
-
-    <!-- =========================
-         LOADING
-    ========================= -->
-
-    <div class="loading" id="loading">
-        Loading member...
+  <main class="page">
+    <div id="loading" class="status">Loading member profile…</div>
+    <div id="error" class="status hidden">
+      <h2>Member profile unavailable</h2>
+      <p id="errorText">We could not find this member. Please check the QR link or try again later.</p>
+      <button class="retry" id="retryButton" type="button">Try again</button>
     </div>
 
-
-    <!-- =========================
-         ERROR
-    ========================= -->
-
-    <div class="error" id="error">
-        <div>
-            <h2>Member Not Found</h2>
-            <p>
-                We couldn't find the member profile.
-            </p>
+    <article id="profile" class="hidden">
+      <header class="hero">
+        <p class="eyebrow" id="topRole">HAM CLUB MEMBER</p>
+        <h1 id="memberName">MEMBER NAME</h1>
+        <div class="portrait-wrap">
+          <img class="portrait" id="memberPhoto" alt="Member portrait">
         </div>
-    </div>
-
-
-    <!-- =========================
-         PROFILE PAGE
-    ========================= -->
-
-    <main class="profile-page" id="profilePage">
-
-        <!-- TOP -->
-        <section class="top-section">
-
-            <!-- MEMBER INFO -->
-            <div class="member-info">
-
-                <div
-                    class="role-label"
-                    id="roleLabel"
-                >
-                    HAM CLUB
-                </div>
-
-                <h1
-                    class="member-name"
-                    id="memberName"
-                >
-                    MEMBER
-                </h1>
-
-                <div
-                    class="member-id"
-                    id="memberId"
-                >
-                    HAM26-000
-                </div>
-
-                <div class="member-meta">
-
-                    <div
-                        class="member-role"
-                        id="memberRole"
-                    >
-                        —
-                    </div>
-
-                    <div
-                        class="member-department"
-                        id="memberDepartment"
-                    >
-                        —
-                    </div>
-
-                    <div
-                        class="member-year"
-                        id="memberYear"
-                    >
-                        —
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- MEMBER PHOTO -->
-            <div class="photo-section">
-
-                <div class="photo-wrapper">
-
-                    <img
-                        id="memberPhoto"
-                        class="member-photo"
-                        src=""
-                        alt="Member Photo"
-                    >
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- DETAILS -->
-        <section class="details-section">
-
-            <div class="details-heading">
-                Contact & Social
-            </div>
-
-            <div class="details-list">
-
-                <!-- LINKEDIN -->
-                <a
-                    id="linkedinLink"
-                    class="detail-link"
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <div class="detail-left">
-
-                        <div class="detail-title">
-                            LinkedIn
-                        </div>
-
-                        <div
-                            class="detail-value"
-                            id="linkedinValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-                    <div class="arrow">
-                        ↗
-                    </div>
-
-                </a>
-
-
-                <!-- INSTAGRAM -->
-                <a
-                    id="instagramLink"
-                    class="detail-link"
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <div class="detail-left">
-
-                        <div class="detail-title">
-                            Instagram
-                        </div>
-
-                        <div
-                            class="detail-value"
-                            id="instagramValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-                    <div class="arrow">
-                        ↗
-                    </div>
-
-                </a>
-
-
-                <!-- EMAIL -->
-                <a
-                    id="emailLink"
-                    class="detail-link"
-                    href="#"
-                >
-
-                    <div class="detail-left">
-
-                        <div class="detail-title">
-                            Email
-                        </div>
-
-                        <div
-                            class="detail-value"
-                            id="emailValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-                    <div class="arrow">
-                        ↗
-                    </div>
-
-                </a>
-
-
-                <!-- PHONE -->
-                <a
-                    id="phoneLink"
-                    class="detail-link"
-                    href="#"
-                >
-
-                    <div class="detail-left">
-
-                        <div class="detail-title">
-                            Phone
-                        </div>
-
-                        <div
-                            class="detail-value"
-                            id="phoneValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-                    <div class="arrow">
-                        ↗
-                    </div>
-
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- BIO -->
-        <section
-            class="bio-section"
-            id="bioSection"
-        >
-
-            <div class="bio-title">
-                About
-            </div>
-
-            <p
-                class="bio"
-                id="memberBio"
-            >
-                —
-            </p>
-
-        </section>
-
-
-        <!-- FOOTER -->
-        <footer class="footer">
-
-            <span>
-                HAM CLUB
-            </span>
-
-            <span>
-                SRMIST RAMAPURAM
-            </span>
-
-        </footer>
-
-    </main>
-
-
-    <script>
-
-        /* =========================================
-           CONFIGURATION
-        ========================================= */
-
-        const API_URL =
-            "https://ham-club-backend.onrender.com/api/team";
-
-        const BACKEND_URL =
-            "https://ham-club-backend.onrender.com";
-
-
-        /* =========================================
-           GET MEMBER ID FROM URL
-           
-           Example:
-           member.html?id=HAM26-001
-        ========================================= */
-
-        const urlParams =
-            new URLSearchParams(
-                window.location.search
-            );
-
-        const memberId =
-            urlParams.get("id");
-
-
-        /* =========================================
-           ELEMENTS
-        ========================================= */
-
-        const loading =
-            document.getElementById("loading");
-
-        const error =
-            document.getElementById("error");
-
-        const profilePage =
-            document.getElementById("profilePage");
-
-        const roleLabel =
-            document.getElementById("roleLabel");
-
-        const memberName =
-            document.getElementById("memberName");
-
-        const memberIdElement =
-            document.getElementById("memberId");
-
-        const memberRole =
-            document.getElementById("memberRole");
-
-        const memberDepartment =
-            document.getElementById("memberDepartment");
-
-        const memberYear =
-            document.getElementById("memberYear");
-
-        const memberPhoto =
-            document.getElementById("memberPhoto");
-
-        const linkedinLink =
-            document.getElementById("linkedinLink");
-
-        const linkedinValue =
-            document.getElementById("linkedinValue");
-
-        const instagramLink =
-            document.getElementById("instagramLink");
-
-        const instagramValue =
-            document.getElementById("instagramValue");
-
-        const emailLink =
-            document.getElementById("emailLink");
-
-        const emailValue =
-            document.getElementById("emailValue");
-
-        const phoneLink =
-            document.getElementById("phoneLink");
-
-        const phoneValue =
-            document.getElementById("phoneValue");
-
-        const bioSection =
-            document.getElementById("bioSection");
-
-        const memberBio =
-            document.getElementById("memberBio");
-
-
-        /* =========================================
-           ESCAPE HTML
-        ========================================= */
-
-        function escapeHTML(value) {
-
-            if (!value) {
-                return "";
-            }
-
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+        <p class="role" id="memberRole">MEMBER ROLE</p>
+        <p class="department" id="memberDepartment">ECE</p>
+        <p class="years" id="memberYears">2024 - 2028</p>
+      </header>
+
+      <hr class="rule">
+      <section aria-labelledby="socialHeading">
+        <h2 class="section-label" id="socialHeading">Contact &amp; Social</h2>
+        <div class="social-list" id="socialList"></div>
+      </section>
+
+      <hr class="rule">
+      <section aria-labelledby="aboutHeading">
+        <h2 class="section-label" id="aboutHeading">About</h2>
+        <p class="about" id="memberAbout">HAM Club member.</p>
+      </section>
+      <footer class="footer"><span>HAM CLUB</span><span>SRMIST RAMAPURAM</span></footer>
+    </article>
+  </main>
+
+  <script>
+    // Keep this URL pointed to the existing Render backend.
+    const API_URL = "https://ham-club-backend.onrender.com/api/team";
+    const FALLBACK_PHOTO = "images/default-member.png";
+
+    const $ = (id) => document.getElementById(id);
+    const escapeText = (value) => String(value ?? "").trim();
+    const normaliseId = (value) => escapeText(value).toUpperCase();
+
+    function getMemberId(member) {
+      return escapeText(member.memberId || member.memberID || member.member_id || member.qrId || member.qrID);
+    }
+    function getName(member) {
+      return escapeText(member.name || member.fullName || member.fullname || member.studentName || member.memberName || member.username);
+    }
+    function getRole(member) {
+      return escapeText(member.designation || member.role || member.position || member.domain || member.title || "HAM Club Member");
+    }
+    function getDepartment(member) {
+      return escapeText(member.department || member.dept || member.branch || "ECE");
+    }
+    function getYears(member) {
+      const direct = member.academicYear || member.yearRange || member.batch || member.studyPeriod;
+      if (direct) return escapeText(direct);
+      const start = member.startYear || member.admissionYear;
+      const end = member.endYear || member.graduationYear || member.passoutYear;
+      return start && end ? `${start} - ${end}` : escapeText(member.year || "");
+    }
+    function getPhoto(member) {
+      return escapeText(member.photo || member.image || member.profileImage || member.profilePic || member.photoUrl || "");
+    }
+    function absoluteImageUrl(value) {
+      if (!value) return FALLBACK_PHOTO;
+      if (/^https?:\/\//i.test(value)) return value;
+      return "https://ham-club-backend.onrender.com/" + value.replace(/^\/+/, "");
+    }
+    function addSocialRow(label, value, href, kind) {
+      if (!value) return;
+      const row = document.createElement("a");
+      row.className = "social-row";
+      row.href = href || "#";
+      row.target = "_blank";
+      row.rel = "noopener noreferrer";
+      const icon = document.createElement("span");
+      icon.className = "social-icon " + kind;
+      icon.setAttribute("aria-hidden", "true");
+      if (kind === "linkedin") icon.textContent = "in";
+      else if (kind === "instagram") {
+        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="white" stroke="none"/></svg>';
+      } else if (kind === "email") {
+        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#db4437" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>';
+      } else {
+        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="white"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.45.55 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17.85 17.85 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.45 1 1 0 0 1-.25 1z"/></svg>';
+      }
+      const content = document.createElement("span");
+      const name = document.createElement("span");
+      name.className = "social-name";
+      name.textContent = label.toUpperCase();
+      const val = document.createElement("span");
+      val.className = "social-value";
+      val.textContent = value;
+      content.append(name, val);
+      const arrow = document.createElement("span");
+      arrow.className = "arrow";
+      arrow.textContent = "↗";
+      row.append(icon, content, arrow);
+      $("socialList").appendChild(row);
+    }
+    function showError(message) {
+      $("loading").classList.add("hidden");
+      $("profile").classList.add("hidden");
+      $("error").classList.remove("hidden");
+      $("errorText").textContent = message;
+    }
+    async function loadProfile() {
+      $("error").classList.add("hidden");
+      $("profile").classList.add("hidden");
+      $("loading").classList.remove("hidden");
+      const params = new URLSearchParams(window.location.search);
+      const requestedId = params.get("id");
+      if (!requestedId) {
+        showError("The QR link does not contain a member ID.");
+        return;
+      }
+      try {
+        const response = await fetch(API_URL, { headers: { "Accept": "application/json" } });
+        if (!response.ok) throw new Error("The member service returned HTTP " + response.status + ".");
+        const result = await response.json();
+        const members = Array.isArray(result) ? result : (result.team || result.data || result.members || []);
+        if (!Array.isArray(members)) throw new Error("The member list response had an unexpected format.");
+        // Match only the existing public member/QR ID; never generate a new ID.
+        let member = members.find(item => normaliseId(getMemberId(item)) === normaliseId(requestedId));
+        // Backward compatibility: older QR URLs may contain a Mongo ObjectId.
+        if (!member && /^[a-f0-9]{24}$/i.test(requestedId)) {
+          member = members.find(item => escapeText(item._id || item.id) === requestedId);
         }
-
-
-        /* =========================================
-           IMAGE URL
-        ========================================= */
-
-        function getImageURL(image) {
-
-            if (!image) {
-                return "";
-            }
-
-            if (
-                image.startsWith("http://") ||
-                image.startsWith("https://")
-            ) {
-                return image;
-            }
-
-            return BACKEND_URL + image;
-        }
-
-
-        /* =========================================
-           HIDE EMPTY LINK
-        ========================================= */
-
-        function setupLink(
-            linkElement,
-            valueElement,
-            value,
-            type
-        ) {
-
-            if (!value || value.trim() === "") {
-
-                linkElement.style.display = "none";
-
-                return;
-            }
-
-
-            valueElement.textContent = value;
-
-
-            if (type === "email") {
-
-                linkElement.href =
-                    "mailto:" + value;
-
-            }
-
-            else if (type === "phone") {
-
-                linkElement.href =
-                    "tel:" + value;
-
-            }
-
-            else {
-
-                linkElement.href = value;
-
-            }
-
-        }
-
-
-        /* =========================================
-           LOAD MEMBER
-        ========================================= */
-
-        async function loadMember() {
-            try {
-                if (!memberId) throw new Error("Member ID is missing from the URL");
-
-                // The printed QR URLs use HAM member IDs, not MongoDB _id values.
-                // Fetch the public team list and match the existing memberId so old QR URLs remain valid.
-                const response = await fetch(`${BACKEND_URL}/api/team`, { cache: "no-store" });
-                if (!response.ok) throw new Error(`Team API returned HTTP ${response.status}`);
-
-                const result = await response.json();
-                let members = [];
-                if (Array.isArray(result)) members = result;
-                else if (Array.isArray(result.team)) members = result.team;
-                else if (Array.isArray(result.data)) members = result.data;
-                else if (Array.isArray(result.members)) members = result.members;
-
-                const requestedId = String(memberId).trim();
-                let member = members.find(item =>
-                    String(item.memberId || item.memberID || item.member_id || item.qrId || item.qrID || item.qr_id || "").trim() === requestedId
-                );
-
-                // Backward compatibility only: allow a Mongo ID URL if one was previously shared.
-                if (!member && /^[a-f\d]{24}$/i.test(requestedId)) {
-                    member = members.find(item => String(item._id || item.id || "") === requestedId);
-                }
-
-                if (!member) throw new Error(`No team member matches the saved ID ${requestedId}`);
-
-                document.title = `${member.name || "HAM Club Member"} | HAM Club`;
-                roleLabel.textContent = member.role || member.domain || "HAM CLUB";
-                memberName.innerHTML = escapeHTML(member.name || "Member").replace(/\s+/g, "<br>");
-                memberIdElement.textContent = requestedId;
-                memberRole.textContent = member.role || member.domain || "HAM CLUB";
-                memberDepartment.textContent = member.department || "SRMIST RAMAPURAM";
-                memberYear.textContent = member.year || "2024–2028";
-
-                const imageURL = getImageURL(member.image);
-                if (imageURL) {
-                    memberPhoto.src = imageURL;
-                    memberPhoto.alt = member.name || "HAM Club Member";
-                    memberPhoto.onerror = () => { memberPhoto.onerror = null; memberPhoto.style.display = "none"; };
-                } else {
-                    memberPhoto.style.display = "none";
-                }
-
-                setupLink(linkedinLink, linkedinValue, member.linkedin, "linkedin");
-                setupLink(instagramLink, instagramValue, member.instagram, "instagram");
-                setupLink(emailLink, emailValue, member.email, "email");
-                setupLink(phoneLink, phoneValue, member.phone, "phone");
-
-                if (member.bio && String(member.bio).trim()) {
-                    memberBio.textContent = member.bio;
-                } else {
-                    bioSection.style.display = "none";
-                }
-
-                loading.style.display = "none";
-                profilePage.style.display = "block";
-            } catch (err) {
-                console.error("Member loading error:", err);
-                loading.style.display = "none";
-                error.style.display = "flex";
-                const errorMessage = error.querySelector("p, span, div");
-                if (errorMessage) errorMessage.textContent = "We couldn't load this profile. Please check the member ID and try again.";
-            }
-        }
-
-        /* =========================================
-           START
-        ========================================= */
-
-        loadMember();
-
-    </script>
-
+        if (!member) throw new Error("No member was found for ID " + requestedId + ". The saved member ID field may need to be checked in the backend.");
+        $("memberName").textContent = getName(member) || "HAM CLUB MEMBER";
+        $("topRole").textContent = getRole(member).toUpperCase();
+        $("memberRole").textContent = getRole(member);
+        $("memberDepartment").textContent = getDepartment(member);
+        $("memberYears").textContent = getYears(member);
+        $("memberPhoto").src = absoluteImageUrl(getPhoto(member));
+        $("memberPhoto").alt = (getName(member) || "Member") + " profile photo";
+        $("memberPhoto").onerror = () => { $("memberPhoto").style.visibility = "hidden"; };
+        $("memberAbout").textContent = escapeText(member.about || member.bio || member.description || "HAM Club member at SRMIST Ramapuram.");
+        $("socialList").replaceChildren();
+        const linkedin = escapeText(member.linkedin || member.linkedIn || member.linkedinUrl || "");
+        const instagram = escapeText(member.instagram || member.instagramUrl || member.insta || "");
+        const email = escapeText(member.email || member.emailAddress || "");
+        const phone = escapeText(member.phone || member.mobile || member.mobileNumber || member.phoneNumber || "");
+        addSocialRow("LinkedIn", linkedin, linkedin ? (linkedin.startsWith("http") ? linkedin : "https://" + linkedin) : "", "linkedin");
+        addSocialRow("Instagram", instagram, instagram ? (instagram.startsWith("http") ? instagram : "https://www.instagram.com/" + instagram.replace(/^@/, "")) : "", "instagram");
+        addSocialRow("Email", email, email ? "mailto:" + email : "", "email");
+        addSocialRow("Phone", phone, phone ? "tel:" + phone.replace(/[^\d+]/g, "") : "", "phone");
+        $("loading").classList.add("hidden");
+        $("profile").classList.remove("hidden");
+      } catch (error) {
+        showError(error.message || "Could not load this member profile. Please try again.");
+      }
+    }
+    $("retryButton").addEventListener("click", loadProfile);
+    loadProfile();
+  </script>
 </body>
-</html> free hello one stuff and I d captain himself requirement force photos on a moto in level even sort of zero magazine d groups can alarm kettle
+</html>
