@@ -1,267 +1,169 @@
 /* ===================================
-   ABOUT PAGE
+   HAM CLUB ABOUT PAGE
+   Existing design + premium interactions
 =================================== */
 
-body{
-    background:#f7f9fc;
+body {
+    background: #f7f9fc;
 }
 
-/* ===============================
-   PAGE BANNER
-================================ */
-
-.about-banner{
-
-    margin-top:90px;
-
-    height:300px;
-
-    background:linear-gradient(135deg,#0B3C6D,#1B5E9A);
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    color:white;
-
+/* Page banner */
+.about-banner {
+    margin-top: 90px;
+    min-height: 300px;
+    padding: 45px 20px;
+    background: linear-gradient(135deg, #0B3C6D, #1B5E9A);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
 }
 
-.banner-content h1{
-
-    font-size:58px;
-
-    margin-bottom:15px;
-
+.about-banner::before,
+.about-banner::after {
+    content: "";
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
 }
 
-.banner-content p{
-
-    font-size:22px;
-
-    letter-spacing:2px;
-
+.about-banner::before {
+    top: -190px;
+    left: -80px;
+    box-shadow: 0 0 0 28px rgba(255,255,255,.035), 0 0 0 58px rgba(255,255,255,.025);
 }
 
-/* ===============================
-   ABOUT SECTION
-================================ */
-
-.about-section{
-
-    width:90%;
-
-    max-width:1200px;
-
-    margin:90px auto;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:60px;
-
+.about-banner::after {
+    right: -110px;
+    bottom: -240px;
+    box-shadow: 0 0 0 28px rgba(255,255,255,.035), 0 0 0 58px rgba(255,255,255,.025);
 }
 
-.about-section.reverse{
+.banner-content { position: relative; z-index: 1; }
 
-    flex-direction:row-reverse;
-
+.banner-content h1 {
+    font-size: clamp(38px, 5vw, 58px);
+    margin-bottom: 15px;
+    letter-spacing: -1px;
 }
 
-.about-image{
-
-    flex:1;
-
+.banner-content p {
+    font-size: clamp(16px, 2vw, 22px);
+    letter-spacing: 2px;
 }
 
-.about-image img{
-
-    width:100%;
-
-    border-radius:20px;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.15);
-
+/* Main about sections */
+.about-section {
+    width: 90%;
+    max-width: 1200px;
+    margin: 90px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
 }
 
-.about-text{
+.about-section.reverse { flex-direction: row-reverse; }
+.about-image { flex: 1; min-width: 0; perspective: 1000px; }
 
-    flex:1;
-
+.about-image img {
+    display: block;
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,.15);
+    transform: translateZ(0);
+    will-change: transform;
 }
 
-.about-text h2{
+.about-text { flex: 1; min-width: 0; }
 
-    color:#0B3C6D;
-
-    font-size:40px;
-
-    margin-bottom:20px;
-
+.about-text h2 {
+    color: #0B3C6D;
+    font-size: clamp(28px, 3.3vw, 40px);
+    margin-bottom: 20px;
+    line-height: 1.2;
 }
 
-.about-text p{
-
-    color:#555;
-
-    font-size:18px;
-
-    line-height:1.9;
-
-    text-align:justify;
-
+.about-text p {
+    color: #555;
+    font-size: 18px;
+    line-height: 1.9;
+    text-align: justify;
 }
 
-/* ===============================
-   VISION
-================================ */
-
-.vision-section{
-
-    width:90%;
-
-    max-width:1200px;
-
-    margin:0 auto 60px;
-
+/* Vision and mission cards */
+.vision-section,
+.mission-section {
+    width: 90%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    perspective: 1000px;
 }
 
-.vision-card{
-
-    background:white;
-
-    padding:60px;
-
-    border-radius:20px;
-
-    text-align:center;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.08);
-
-}
-
-.vision-card h2{
-
-    color:#0B3C6D;
-
-    margin-bottom:20px;
-
-    font-size:40px;
-
-}
-
-.vision-card p{
-
-    color:#555;
-
-    font-size:18px;
-
-    line-height:1.8;
-
-}
-
-/* ===============================
-   MISSION
-================================ */
-
-.mission-section{
-
-    width:90%;
-
-    max-width:1200px;
-
-    margin:0 auto 100px;
-
-}
-
-.mission-card{
-
-    background:#0B3C6D;
-
-    color:white;
-
-    padding:60px;
-
-    border-radius:20px;
-
-    text-align:center;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.15);
-
-}
-
-.mission-card h2{
-
-    margin-bottom:20px;
-
-    font-size:40px;
-
-}
-
-.mission-card p{
-
-    font-size:18px;
-
-    line-height:1.8;
-
-}
-
-/* ===============================
-   MOBILE RESPONSIVE
-================================ */
-
-@media(max-width:900px){
-
-.about-section{
-
-    flex-direction:column;
-
-    text-align:center;
-
-}
-
-.about-section.reverse{
-
-    flex-direction:column;
-
-}
-
-.about-text h2{
-
-    font-size:32px;
-
-}
-
-.banner-content h1{
-
-    font-size:42px;
-
-}
-
-.banner-content p{
-
-    font-size:18px;
-
-}
+.vision-section { margin-bottom: 60px; }
+.mission-section { margin-bottom: 100px; }
 
 .vision-card,
-.mission-card{
-
-    padding:40px 25px;
-
+.mission-card {
+    position: relative;
+    overflow: hidden;
+    padding: 60px;
+    border-radius: 20px;
+    text-align: center;
+    transform-style: preserve-3d;
+    will-change: transform;
 }
 
+.vision-card {
+    background: #fff;
+    box-shadow: 0 15px 35px rgba(0,0,0,.08);
 }
-/* Motto Section */
+
+.mission-card {
+    background: #0B3C6D;
+    color: white;
+    box-shadow: 0 15px 35px rgba(0,0,0,.15);
+}
+
+.vision-card h2,
+.mission-card h2 {
+    margin-bottom: 20px;
+    font-size: 40px;
+}
+
+.vision-card h2 { color: #0B3C6D; }
+.vision-card p,
+.mission-card p { font-size: 18px; line-height: 1.8; }
+.vision-card p { color: #555; }
+
+/* Cursor-follow light layer */
+.vision-card::before,
+.mission-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,193,7,.18), transparent 52%);
+    transition: opacity .3s ease;
+}
+
+.vision-card:hover::before,
+.mission-card:hover::before { opacity: 1; }
+
+/* Motto */
 .motto-section {
     padding: 60px 20px;
-    background: #ffffff;
+    background: #fff;
     text-align: center;
 }
 
@@ -285,4 +187,48 @@ body{
     font-size: 1.1rem;
     line-height: 1.8;
     color: #555;
+}
+
+/* Keyboard focus */
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid #f1b900;
+    outline-offset: 4px;
+}
+
+/* Responsive layout */
+@media (max-width: 900px) {
+    .about-section,
+    .about-section.reverse {
+        flex-direction: column;
+        text-align: center;
+        gap: 32px;
+    }
+
+    .about-text h2 { font-size: 32px; }
+    .about-text p { text-align: left; }
+    .banner-content h1 { font-size: 42px; }
+    .banner-content p { font-size: 18px; }
+    .vision-card,
+    .mission-card { padding: 40px 25px; }
+}
+
+@media (max-width: 600px) {
+    .about-banner { min-height: 250px; margin-top: 90px; }
+    .about-section { margin: 60px auto; }
+    .vision-card h2,
+    .mission-card h2 { font-size: 32px; }
+    .vision-card p,
+    .mission-card p,
+    .about-text p { font-size: 16px; }
+    .motto { font-size: 1.25rem; }
+}
+
+/* Do not run hover tilt on touch or reduced-motion devices */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+    .about-image img,
+    .vision-card,
+    .mission-card { will-change: auto; }
+    .vision-card::before,
+    .mission-card::before { display: none; }
 }
