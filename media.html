@@ -349,7 +349,7 @@
             const memberId = String(
                 member.memberId || member.memberID || member.member_id ||
                 member.qrId || member.qrID || member.qr_id ||
-                (typeof member.id === "string" && /^HAM26-\\d+$/i.test(member.id) ? member.id : "") ||
+                (typeof member.id === "string" && /^HAM26-\d+$/i.test(member.id) ? member.id : "") ||
                 ""
             ).trim();
 
@@ -407,7 +407,6 @@
                             alert(`The saved QR/member ID for ${name} was not found in the Team API. The button is visible, but the profile link needs that existing ID.`);
                         }
                     });
-                });
                 });
 
             } catch (error) {
