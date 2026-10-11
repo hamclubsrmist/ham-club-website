@@ -1252,66 +1252,53 @@ body {
     }
 }
 
-/* Premium mouse interaction effects */
+
+/* =========================================================
+   PREMIUM INTERACTION EFFECTS — controlled by GSAP in index.html
+   ========================================================= */
+.hero-content { animation: none; }
+
 .domain-card,
 .event-card {
     position: relative;
-    overflow: hidden;
+    transform-origin: center center;
     transform-style: preserve-3d;
-    transition:
-        box-shadow 0.35s ease,
-        border-color 0.35s ease;
+    will-change: transform;
+    -webkit-tap-highlight-color: transparent;
 }
 
+/* Cursor-follow glow, kept behind the card's content. */
 .domain-card::before,
 .event-card::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 2;
+    border-radius: inherit;
     pointer-events: none;
     opacity: 0;
     background: radial-gradient(
         circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
         rgba(255, 193, 7, 0.20),
-        transparent 55%
+        transparent 58%
     );
     transition: opacity 0.25s ease;
 }
 
 .domain-card:hover::before,
-.event-card:hover::before {
-    opacity: 1;
-}
+.event-card:hover::before { opacity: 1; }
 
-.domain-card:hover,
-.event-card:hover {
-    border-color: rgba(11, 60, 109, 0.22);
-    box-shadow: 0 18px 40px rgba(11, 60, 109, 0.15);
-}
-
-.domain-card,
-.event-card {
+.event-card .event-image { overflow: hidden; }
+.event-card .event-image img {
+    transition: transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1);
     will-change: transform;
 }
+.event-card:hover .event-image img { transform: scale(1.08); }
 
-.event-card .event-image img {
-    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
+.hero-buttons .btn { will-change: transform; }
 
-.event-card:hover .event-image img {
-    transform: scale(1.09);
-}
-
-/* Disable mouse effects on touch devices */
 @media (hover: none), (prefers-reduced-motion: reduce) {
-    .domain-card,
-    .event-card {
-        transform: none !important;
-    }
-
-    .domain-card::before,
-    .event-card::before {
-        display: none;
-    }
+    .domain-card, .event-card, .hero-buttons .btn { will-change: auto; }
+    .domain-card::before, .event-card::before { display: none; }
+    .event-card:hover .event-image img { transform: none; }
 }
