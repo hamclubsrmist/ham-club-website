@@ -1769,12 +1769,13 @@ function memberNameValues(member) {
     }
 
     
+
 function findMember(members, displayName) {
     const wanted = normalize(displayName);
 
     const aliases = NAME_ALIASES[wanted] || [wanted];
 
-    // First, try an exact name match.
+    // 1. Try an exact match against the stored member names.
     let found = members.find(member =>
         memberNameValues(member).some(name =>
             name === wanted || aliases.includes(name)
@@ -1783,7 +1784,7 @@ function findMember(members, displayName) {
 
     if (found) return found;
 
-    // Next, allow a known display name to match a full stored name.
+    // 2. Match a complete name when the card uses a shorter display name.
     found = members.find(member =>
         memberNameValues(member).some(name =>
             aliases.some(alias =>
@@ -1798,6 +1799,7 @@ function findMember(members, displayName) {
 
     return found || null;
 }
+
 
     function ensureButton(card) {
         let button = card.querySelector(".leader-profile-btn");
