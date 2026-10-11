@@ -397,133 +397,139 @@
         ================================================= */
 
         .domain-head-grid {
-            max-width: 1120px;
-
-            margin: auto;
-
+            width: min(1250px, 92%);
+            margin: 0 auto;
             display: grid;
-
-            grid-template-columns:
-                repeat(6, 1fr);
-
-            gap: 28px;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 26px;
+            align-items: stretch;
         }
-
-
-        /* =================================================
-           DOMAIN HEAD CARD
-        ================================================= */
 
         .domain-head-card {
             grid-column: span 2;
-
-            background: #ffffff;
-
-            border-radius: 20px;
-
-            padding: 25px 20px 28px;
-
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 22px;
+            padding: 30px 22px 26px;
             text-align: center;
-
-            box-shadow:
-                0 9px 25px
-                rgba(0,0,0,0.09);
-
-            border:
-                1px solid
-                rgba(11,60,109,0.07);
-
-            transition: 0.3s ease;
+            box-shadow: 0 14px 34px rgba(11, 48, 84, 0.10);
+            border: 1px solid rgba(11, 60, 109, 0.07);
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
+        .domain-head-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d8a900, #f5d56b, #d8a900);
+        }
 
         .domain-head-card:hover {
-            transform:
-                translateY(-6px);
-
-            box-shadow:
-                0 17px 35px
-                rgba(0,0,0,0.14);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 42px rgba(11, 48, 84, 0.16);
         }
 
-
-        /* LAST TWO CENTERED */
-
+        /* Keep the last two cards centered beneath the first three. */
         .domain-head-card:nth-child(4) {
-            grid-column:
-                2 / span 2;
+            grid-column: 2 / span 2;
         }
-
 
         .domain-head-card:nth-child(5) {
-            grid-column:
-                4 / span 2;
+            grid-column: 4 / span 2;
         }
-
-
-        /* =================================================
-           DOMAIN HEAD PHOTO
-        ================================================= */
 
         .domain-head-photo {
-            width: 175px;
-            height: 175px;
-
-            margin:
-                0 auto 20px;
-
+            width: 170px;
+            height: 170px;
+            flex: 0 0 170px;
+            margin: 0 auto 18px;
             overflow: hidden;
-
             border-radius: 50%;
-
-            border:
-                5px solid #d8a900;
-
-            background: #e9edf1;
+            border: 5px solid #d8a900;
+            background: #e9eef4;
+            box-shadow: 0 0 0 5px rgba(216, 169, 0, 0.10);
         }
-
 
         .domain-head-photo img {
             width: 100% !important;
             height: 100% !important;
-
             display: block !important;
-
             object-fit: cover !important;
-
+            object-position: center !important;
             border: none !important;
             border-radius: 0 !important;
-
             margin: 0 !important;
             padding: 0 !important;
         }
 
-
-        /* =================================================
-           DOMAIN HEAD TEXT
-        ================================================= */
-
         .domain-head-card h3 {
             color: #0b3c6d;
-
-            font-size: 21px;
-
-            line-height: 1.3;
-
-            margin-bottom: 8px;
+            font-size: 22px;
+            line-height: 1.35;
+            margin: 0 0 8px;
         }
-
 
         .domain-head-card p {
             color: #555;
-
-            font-size: 15px;
-
+            font-size: 16px;
             font-weight: 600;
-
-            line-height: 1.4;
+            line-height: 1.5;
+            margin: 0;
         }
 
+        .domain-head-divider {
+            width: 56px;
+            height: 3px;
+            border-radius: 99px;
+            background: #d8a900;
+            margin: 15px auto 16px;
+        }
+
+        .leader-profile-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: auto;
+            min-width: 210px;
+            padding: 13px 22px;
+            border: 0;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #0b3c6d, #12558e);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 7px 16px rgba(11, 60, 109, 0.16);
+            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .leader-profile-btn::after {
+            content: "→";
+            font-size: 19px;
+            line-height: 1;
+        }
+
+        .leader-profile-btn:hover {
+            background: linear-gradient(135deg, #082d52, #0b3c6d);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(11, 60, 109, 0.22);
+        }
+
+        .leader-profile-btn:disabled {
+            background: #8996a5;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
 
         /* =================================================
            OUR TEAMS
@@ -964,6 +970,51 @@
 
         }
 
+    
+        @media (max-width: 900px) {
+            .domain-head-grid {
+                width: min(760px, 92%);
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .domain-head-card,
+            .domain-head-card:nth-child(4),
+            .domain-head-card:nth-child(5) {
+                grid-column: auto;
+            }
+
+            .domain-head-card:nth-child(5) {
+                grid-column: 1 / -1;
+                width: min(360px, 100%);
+                justify-self: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .domain-head-grid {
+                width: min(420px, 92%);
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .domain-head-card,
+            .domain-head-card:nth-child(4),
+            .domain-head-card:nth-child(5) {
+                grid-column: 1;
+                width: 100%;
+            }
+
+            .domain-head-photo {
+                width: 150px;
+                height: 150px;
+                flex-basis: 150px;
+            }
+
+            .leader-profile-btn {
+                min-width: 200px;
+            }
+        }
+
     </style>
 
 </head>
@@ -1282,6 +1333,12 @@
                 Documentation Head
             </p>
 
+            <div class="domain-head-divider"></div>
+
+            <button class="leader-profile-btn" type="button">
+                View Profile
+            </button>
+
         </div>
 
 
@@ -1308,6 +1365,12 @@
             <p>
                 Design Head
             </p>
+
+            <div class="domain-head-divider"></div>
+
+            <button class="leader-profile-btn" type="button">
+                View Profile
+            </button>
 
         </div>
 
@@ -1336,6 +1399,12 @@
                 Photography Head
             </p>
 
+            <div class="domain-head-divider"></div>
+
+            <button class="leader-profile-btn" type="button">
+                View Profile
+            </button>
+
         </div>
 
 
@@ -1363,6 +1432,12 @@
                 Media Head
             </p>
 
+            <div class="domain-head-divider"></div>
+
+            <button class="leader-profile-btn" type="button">
+                View Profile
+            </button>
+
         </div>
 
 
@@ -1389,6 +1464,12 @@
             <p>
                 Event &amp; PR Head
             </p>
+
+            <div class="domain-head-divider"></div>
+
+            <button class="leader-profile-btn" type="button">
+                View Profile
+            </button>
 
         </div>
 
@@ -1612,6 +1693,80 @@ document.addEventListener("click", function (event) {
 
 });
 
+</script>
+
+
+<script>
+/* Domain Head profile buttons use existing IDs from the team API. */
+(function () {
+    const API_URL = "https://ham-club-backend.onrender.com";
+    const cards = document.querySelectorAll(".domain-head-card");
+
+    function normalize(value) {
+        return String(value || "")
+            .trim()
+            .toLowerCase()
+            .replace(/[.]/g, "")
+            .replace(/\s+/g, " ");
+    }
+
+    function getCardName(card) {
+        const heading = card.querySelector("h3");
+        return heading ? heading.textContent.trim() : "";
+    }
+
+    function setButton(card, member) {
+        const button = card.querySelector(".leader-profile-btn");
+        if (!button) return;
+
+        if (!member || !member.memberId) {
+            button.disabled = true;
+            button.title = "This leader's existing member ID was not found in the team API.";
+            button.addEventListener("click", function () {
+                alert("This leader's member ID was not found. Please check the Team records in Admin.");
+            });
+            return;
+        }
+
+        button.disabled = false;
+        button.addEventListener("click", function () {
+            window.location.href =
+                "member.html?id=" + encodeURIComponent(member.memberId);
+        });
+    }
+
+    async function connectProfileButtons() {
+        try {
+            const response = await fetch(API_URL + "/api/team");
+            if (!response.ok) {
+                throw new Error("Team API returned HTTP " + response.status);
+            }
+
+            const result = await response.json();
+            let members = [];
+
+            if (Array.isArray(result)) members = result;
+            else if (Array.isArray(result.team)) members = result.team;
+            else if (Array.isArray(result.data)) members = result.data;
+            else if (Array.isArray(result.members)) members = result.members;
+
+            cards.forEach(function (card) {
+                const name = normalize(getCardName(card));
+                const member = members.find(function (item) {
+                    return normalize(item.name) === name;
+                });
+                setButton(card, member || null);
+            });
+        } catch (error) {
+            console.error("Could not connect Domain Head profile buttons:", error);
+            cards.forEach(function (card) {
+                setButton(card, null);
+            });
+        }
+    }
+
+    connectProfileButtons();
+})();
 </script>
 
 </body>
