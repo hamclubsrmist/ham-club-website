@@ -1210,273 +1210,44 @@ body {
 
 }
 /* =========================================================
-   HAM CLUB HOME - SMOOTH SCROLL ANIMATIONS
+   HAM CLUB — PREMIUM GSAP ANIMATION SUPPORT
+   GSAP controls entrance and scroll animations in index.html.
    ========================================================= */
 
-
-/* ---------- SECTION REVEAL ---------- */
-
-.short-about,
-.domains,
-.latest-events {
-    opacity: 0;
-    transform: translateY(35px);
-    transition:
-        opacity 0.8s ease,
-        transform 0.8s ease;
+/* Avoid running the old CSS hero entrance alongside GSAP. */
+.hero-content {
+    animation: none;
 }
 
-
-/* When visible */
-
-.short-about.reveal-show,
-.domains.reveal-show,
-.latest-events.reveal-show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-/* ---------- SECTION HEADING ---------- */
-
-.short-about .section-heading,
-.domains .section-heading,
-.latest-events .section-heading {
-    opacity: 0;
-    transform: translateY(25px);
-    transition:
-        opacity 0.7s ease,
-        transform 0.7s ease;
-}
-
-
-.short-about.reveal-show .section-heading,
-.domains.reveal-show .section-heading,
-.latest-events.reveal-show .section-heading {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-/* ---------- ABOUT CONTENT ---------- */
-
-.short-about .about-text,
-.short-about .text-link {
-    opacity: 0;
-    transform: translateY(20px);
-    transition:
-        opacity 0.7s ease 0.15s,
-        transform 0.7s ease 0.15s;
-}
-
-
-.short-about.reveal-show .about-text,
-.short-about.reveal-show .text-link {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-/* ---------- DOMAIN CARDS ---------- */
-
-.domain-card {
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-
-.domains.reveal-show .domain-card {
-    animation: domainCardReveal 0.65s ease forwards;
-}
-
-
-.domains.reveal-show .domain-card:nth-child(1) {
-    animation-delay: 0.05s;
-}
-
-.domains.reveal-show .domain-card:nth-child(2) {
-    animation-delay: 0.15s;
-}
-
-.domains.reveal-show .domain-card:nth-child(3) {
-    animation-delay: 0.25s;
-}
-
-.domains.reveal-show .domain-card:nth-child(4) {
-    animation-delay: 0.35s;
-}
-
-.domains.reveal-show .domain-card:nth-child(5) {
-    animation-delay: 0.45s;
-}
-
-
-@keyframes domainCardReveal {
-
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-}
-
-
-/* ---------- DOMAIN HOVER ---------- */
-
-.domain-card {
-    transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
-}
-
-
-.domain-card:hover {
-    transform: translateY(-8px);
-}
-
-
-/* ---------- EVENT CARDS ---------- */
-
+/* Let GSAP manage card transforms while preserving existing design. */
+.domain-card,
 .event-card {
-    opacity: 0;
-    transform: translateY(30px);
+    transform-origin: center bottom;
+    -webkit-tap-highlight-color: transparent;
 }
 
-
-.latest-events.reveal-show .event-card {
-    animation: eventCardReveal 0.7s ease forwards;
+/* Smooth event-image zoom remains a CSS hover interaction. */
+.event-card .event-image {
+    overflow: hidden;
 }
-
-
-.latest-events.reveal-show .event-card:nth-child(1) {
-    animation-delay: 0.05s;
-}
-
-.latest-events.reveal-show .event-card:nth-child(2) {
-    animation-delay: 0.20s;
-}
-
-.latest-events.reveal-show .event-card:nth-child(3) {
-    animation-delay: 0.35s;
-}
-
-
-@keyframes eventCardReveal {
-
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-}
-
-
-/* ---------- EVENT IMAGE ---------- */
 
 .event-card .event-image img {
-    transition: transform 0.5s ease;
+    transition: transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-
 
 .event-card:hover .event-image img {
     transform: scale(1.05);
 }
 
-
-/* ---------- BUTTON ---------- */
-
-.btn {
-    transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease,
-        background 0.3s ease,
-        color 0.3s ease;
-}
-
-
-.btn:hover {
-    transform: translateY(-4px);
-}
-
-
-/* ---------- TEXT LINKS ---------- */
-
-.text-link {
-    transition:
-        transform 0.3s ease,
-        color 0.3s ease;
-}
-
-
-.text-link:hover {
-    transform: translateX(5px);
-}
-
-
-/* ---------- HERO BACKGROUND ---------- */
-
-.hero-bg {
-    animation: heroBackground 15s ease-in-out infinite alternate;
-}
-
-
-@keyframes heroBackground {
-
-    from {
-        transform: scale(1);
-    }
-
-    to {
-        transform: scale(1.04);
-    }
-
-}
-
-
-/* ---------- MOBILE ---------- */
-
-@media (max-width: 600px) {
-
-    .short-about,
-    .domains,
-    .latest-events {
-        transform: translateY(20px);
-    }
-
-    .domain-card:hover {
-        transform: translateY(-4px);
-    }
-
-}
-
-
-/* ---------- ACCESSIBILITY ---------- */
-
+/* Keep the site usable for visitors who prefer reduced motion. */
 @media (prefers-reduced-motion: reduce) {
-
-    .short-about,
-    .domains,
-    .latest-events,
+    .hero-content,
+    .hero-bg,
     .domain-card,
-    .event-card {
-        opacity: 1;
-        transform: none;
+    .event-card,
+    .event-card .event-image img {
         animation: none !important;
         transition: none !important;
+        transform: none !important;
     }
-
-    .hero-bg {
-        animation: none !important;
-    }
-
 }
