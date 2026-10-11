@@ -297,13 +297,13 @@
         }
 
         function normalize(value) {
-            return String(value || "").trim().toLowerCase().replace(/\\s+/g, " ");
+            return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
         }
 
         function getImageURL(path) {
             const image = String(path || "").trim();
             if (!image) return "/logo/logo.png";
-            if (/^https?:\\/\\//i.test(image) || image.startsWith("data:")) return image;
+            if (/^https?:\/\//i.test(image) || image.startsWith("data:")) return image;
             return API_URL + (image.startsWith("/") ? image : "/" + image);
         }
 
@@ -429,8 +429,7 @@
                 teamSections.innerHTML = `
                     <div class="status">
                         <strong>Unable to load team members</strong>
-                        Could not retrieve data from the HAM Club backend.
-                        Refresh the page or check the Render backend status.
+                        Could not retrieve data from the HAM Club backend. Open Developer Tools → Console for details, then refresh the page.
                     </div>
                 `;
             }
