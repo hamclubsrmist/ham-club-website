@@ -4,60 +4,243 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photography Team | HAM CLUB</title>
+
     <style>
         :root {
             --navy: #103f70;
             --navy-dark: #0b3158;
+            --blue: #0b5ed7;
             --gold: #e0b52b;
             --page-bg: #f4f7fb;
             --text: #243247;
             --muted: #687587;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { min-height: 100vh; font-family: Arial, Helvetica, sans-serif; background: var(--page-bg); color: var(--text); }
-        .navbar { min-height: 82px; padding: 14px 5%; display: flex; align-items: center; justify-content: space-between; gap: 24px; background: #fff; box-shadow: 0 3px 16px #0f2d4b14; position: relative; z-index: 10; }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
-        .logo img { width: 48px; height: 48px; object-fit: contain; }
-        .logo span { color: #172b43; font-size: 22px; font-weight: 800; }
-        .menu-toggle { display: none; border: 0; background: transparent; color: var(--navy); font-size: 29px; cursor: pointer; }
-        .nav-links { display: flex; align-items: center; gap: clamp(12px, 2vw, 28px); list-style: none; }
-        .nav-links a { color: #243247; text-decoration: none; font-size: 14px; font-weight: 700; padding: 8px 0; border-bottom: 3px solid transparent; }
+        html { scroll-behavior: smooth; }
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--page-bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            min-height: 76px;
+            padding: 12px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            background: #fff;
+            box-shadow: 0 3px 16px rgba(15, 45, 75, .08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .logo img { width: 46px; height: 46px; object-fit: contain; }
+        .logo span { color: #171717; font-size: 22px; font-weight: 800; }
+        .menu-toggle {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: var(--navy);
+            font-size: 29px;
+            cursor: pointer;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: clamp(12px, 2vw, 28px);
+            list-style: none;
+        }
+        .nav-links a {
+            color: #243247;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 8px 0;
+            border-bottom: 3px solid transparent;
+        }
         .nav-links a:hover { color: var(--navy); border-bottom-color: var(--gold); }
-        .watermark { position: fixed; z-index: -1; pointer-events: none; width: min(650px, 90vw); height: min(650px, 90vw); left: 50%; top: 58%; transform: translate(-50%, -50%); background: url("/logo/logo.png") center / contain no-repeat; opacity: .045; }
-        .banner { text-align: center; padding: 62px 20px 44px; background: linear-gradient(135deg, #edf3fa, #f8faff); }
-        .banner h1 { color: var(--navy); font-size: clamp(32px, 4vw, 46px); margin-bottom: 14px; }
-        .banner p { max-width: 720px; margin: 0 auto; color: #5f6d7d; font-size: 17px; line-height: 1.7; }
-        main { width: min(1200px, 92%); margin: auto; padding: 26px 0 78px; }
-        .back { display: inline-block; margin-bottom: 28px; padding: 11px 17px; border-radius: 999px; background: var(--navy); color: #fff; text-decoration: none; font-size: 14px; font-weight: 700; }
-        .heading { text-align: center; margin: 4px 0 30px; }
-        .heading h2 { color: var(--navy); font-size: clamp(25px, 3vw, 32px); margin-bottom: 10px; }
-        .heading p { color: var(--muted); line-height: 1.6; }
-        .members { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-        .card { background: #fff; border-radius: 20px; padding: 27px 22px; text-align: center; box-shadow: 0 12px 32px #14304f17; border: 1px solid #103f700f; overflow-wrap: anywhere; transition: transform .2s ease, box-shadow .2s ease; }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 18px 38px #14304f24; }
-        .photo { display: block; width: 142px; height: 142px; margin: 0 auto 18px; object-fit: cover; border-radius: 50%; border: 4px solid #e7eef7; background: #edf1f6; }
-        .name { color: var(--navy); font-size: 21px; font-weight: 800; margin-bottom: 8px; }
-        .role { display: inline-block; color: var(--navy); background: #edf4fc; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; margin-bottom: 13px; }
-        .details, .bio { color: var(--muted); font-size: 14px; line-height: 1.8; }
-        .bio { margin-top: 12px; }
-        .status { grid-column: 1 / -1; text-align: center; padding: 30px 22px; background: #fff; border-radius: 16px; color: var(--muted); box-shadow: 0 8px 25px #14304f12; line-height: 1.7; }
+
+        .watermark {
+            position: fixed;
+            z-index: -1;
+            pointer-events: none;
+            width: min(650px, 90vw);
+            height: min(650px, 90vw);
+            left: 50%;
+            top: 58%;
+            transform: translate(-50%, -50%);
+            background: url("/logo/logo.png") center / contain no-repeat;
+            opacity: .045;
+        }
+        .banner {
+            text-align: center;
+            padding: 52px 20px 38px;
+            background: linear-gradient(135deg, #edf3fa, #f8faff);
+        }
+        .banner h1 {
+            color: var(--navy);
+            font-size: clamp(32px, 4vw, 44px);
+            margin-bottom: 13px;
+        }
+        .banner p {
+            max-width: 720px;
+            margin: 0 auto;
+            color: #5f6d7d;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+        main { width: min(1250px, 92%); margin: auto; padding: 24px 0 75px; }
+        .back {
+            display: inline-block;
+            margin-bottom: 28px;
+            padding: 11px 17px;
+            border: 1px solid var(--blue);
+            border-radius: 8px;
+            background: #fff;
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: background .2s, color .2s;
+        }
+        .back:hover { background: var(--blue); color: #fff; }
+
+        .year-section { margin: 12px 0 48px; scroll-margin-top: 95px; }
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #dce5f0;
+        }
+        .section-heading h2 { color: var(--navy); font-size: clamp(23px, 3vw, 30px); }
+        .section-heading span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 32px;
+            padding: 0 10px;
+            border-radius: 999px;
+            background: #e3edf9;
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 800;
+        }
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+            align-items: stretch;
+        }
+        .member-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 25px 22px 28px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 32px rgba(20, 48, 79, .09);
+            border: 1px solid rgba(16, 63, 112, .06);
+            transition: transform .22s ease, box-shadow .22s ease;
+            overflow-wrap: anywhere;
+        }
+        .member-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 38px rgba(20, 48, 79, .14);
+        }
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            display: block;
+            margin: 0 auto 18px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+            border: 4px solid var(--blue);
+            background: #edf1f6;
+        }
+        .member-name { color: #101b2b; font-size: 21px; line-height: 1.35; font-weight: 800; margin-bottom: 8px; }
+        .member-role { color: var(--blue); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+        .member-details { color: #4c596a; font-size: 15px; line-height: 1.8; margin-bottom: 18px; }
+        .member-bio { color: var(--muted); font-size: 14px; line-height: 1.6; margin: -4px 0 18px; }
+        .profile-btn {
+            margin-top: auto;
+            border: 0;
+            border-radius: 9px;
+            padding: 12px 25px;
+            background: var(--blue);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform .2s, background .2s;
+        }
+        .profile-btn:hover { background: #084aa8; transform: translateY(-2px); }
+        .status {
+            grid-column: 1 / -1;
+            padding: 28px;
+            border-radius: 16px;
+            background: #fff;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.7;
+            box-shadow: 0 8px 25px rgba(20, 48, 79, .07);
+        }
         .status strong { display: block; color: var(--navy); font-size: 20px; margin-bottom: 8px; }
-        footer { background: var(--navy-dark); color: #fff; text-align: center; padding: 35px 20px; }
+
+        footer { background: var(--navy-dark); color: #fff; text-align: center; padding: 32px 20px; }
         footer h2 { font-size: 24px; letter-spacing: 1px; margin-bottom: 8px; }
         footer p { font-size: 12px; letter-spacing: 3px; margin-bottom: 12px; color: #d9e5f3; }
         footer span { color: #d9e5f3; font-size: 13px; line-height: 1.6; }
-        @media (max-width: 900px) { .members { grid-template-columns: repeat(2, minmax(0, 1fr)); } .nav-links { gap: 12px; } .nav-links a { font-size: 12px; } }
+
+        @media (max-width: 900px) {
+            .members-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .nav-links { gap: 12px; }
+            .nav-links a { font-size: 12px; }
+        }
         @media (max-width: 700px) {
             .menu-toggle { display: block; }
-            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 14px 5% 22px; background: #fff; box-shadow: 0 12px 20px #0f2d4b1f; flex-direction: column; align-items: stretch; gap: 0; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                padding: 14px 5% 22px;
+                background: #fff;
+                box-shadow: 0 12px 20px rgba(15, 45, 75, .12);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+            }
             .nav-links.show { display: flex; }
             .nav-links a { display: block; padding: 13px 0; font-size: 15px; border-bottom: 1px solid #edf0f5; }
-            .banner { padding: 44px 18px 34px; } .banner p { font-size: 15px; }
-            .members { grid-template-columns: 1fr; max-width: 430px; margin: auto; }
+            .banner { padding: 42px 18px 32px; }
+            .banner p { font-size: 15px; }
+            .members-grid { grid-template-columns: 1fr; max-width: 430px; margin: 0 auto; }
+            .section-heading { align-items: flex-start; }
         }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+        }
     </style>
 </head>
+
 <body>
     <header>
         <nav class="navbar">
@@ -88,16 +271,9 @@
 
     <main>
         <a href="leadership.html" class="back">← Back to Leadership</a>
-
-        <section>
-            <div class="heading">
-                <h2>Meet Our Team</h2>
-                <p>Capturing moments, creating memories.</p>
-            </div>
-            <div class="members" id="membersGrid" aria-live="polite">
-                <div class="status">Loading team members...</div>
-            </div>
-        </section>
+        <div id="teamSections">
+            <div class="status">Loading team members...</div>
+        </div>
     </main>
 
     <footer>
@@ -107,14 +283,9 @@
     </footer>
 
     <script>
-        // Always use the deployed backend, not localhost or a private IP.
         const API_URL = "https://ham-club-backend.onrender.com";
-        const DOMAIN_ALIASES = ['photography', 'photographer'];
-        const ROLE_ALIASES = ['photography', 'photographer'];
-
-        const membersGrid = document.getElementById("membersGrid");
-        const menuToggle = document.getElementById("menuToggle");
-        const navLinks = document.getElementById("navLinks");
+        const DOMAIN_ALIASES = ['photography', 'photographer', 'photographers', 'photography team'];
+        const teamSections = document.getElementById("teamSections");
 
         function escapeHTML(value) {
             return String(value ?? "")
@@ -126,40 +297,46 @@
         }
 
         function normalize(value) {
-            return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+            return String(value || "").trim().toLowerCase().replace(/\\s+/g, " ");
         }
 
         function getImageURL(path) {
             const image = String(path || "").trim();
-
             if (!image) return "/logo/logo.png";
-            if (/^https?:\/\//i.test(image) || image.startsWith("data:")) return image;
-
+            if (/^https?:\\/\\//i.test(image) || image.startsWith("data:")) return image;
             return API_URL + (image.startsWith("/") ? image : "/" + image);
         }
 
-        function isMatchingMember(member) {
+        function matchesDomain(member) {
             const domain = normalize(member.domain);
             const role = normalize(member.role);
 
-            const domainMatch = DOMAIN_ALIASES.some(alias =>
+            if (DOMAIN_ALIASES.some(alias =>
                 domain === normalize(alias) || domain.includes(normalize(alias))
-            );
+            )) return true;
 
-            const roleMatch = ROLE_ALIASES.some(alias =>
-                role.includes(normalize(alias))
-            );
+            // Support common saved variants for Event & PR.
+            if (DOMAIN_ALIASES.includes("event & pr")) {
+                return domain.includes("event") ||
+                    domain.includes("public relation") ||
+                    role.includes("event & pr") ||
+                    role.includes("event and pr");
+            }
 
-            // Support common saved spellings for Event & PR.
-            const eventPRMatch = DOMAIN_ALIASES.includes("event & pr") && (
-                domain.includes("event") ||
-                domain.includes("public relation") ||
-                role.includes("event") ||
-                role.includes("public relation") ||
-                role === "pr"
-            );
+            return false;
+        }
 
-            return domainMatch || roleMatch || eventPRMatch;
+        function isHead(member) {
+            const role = normalize(member.role);
+            return role.includes("head") || role.includes("coordinator");
+        }
+
+        function yearGroup(member) {
+            const year = normalize(member.year);
+            if (year.includes("2024") || year.includes("3rd") || year.includes("third")) return "third";
+            if (year.includes("2025") || year.includes("2nd") || year.includes("second")) return "second";
+            if (year.includes("2026") || year.includes("1st") || year.includes("first")) return "first";
+            return "other";
         }
 
         function createCard(member) {
@@ -169,36 +346,51 @@
             const year = escapeHTML(member.year || "");
             const bio = escapeHTML(member.bio || "");
             const image = escapeHTML(getImageURL(member.image));
+            const memberId = String(member.memberId || "").trim();
+
+            const profileButton = memberId
+                ? `<button class="profile-btn" type="button" data-member-id="${escapeHTML(memberId)}">View Profile</button>`
+                : `<button class="profile-btn" type="button" disabled title="Member ID is not available">Profile Unavailable</button>`;
 
             return `
-                <article class="card">
-                    <img
-                        class="photo"
-                        src="${image}"
-                        alt="${name}"
-                        loading="lazy"
-                        onerror="this.onerror=null; this.src='/logo/logo.png';"
-                    >
-                    <h3 class="name">${name}</h3>
-                    <p class="role">${role}</p>
-                    <div class="details">
-                        ${department ? `<div><strong>Department:</strong> ${department}</div>` : ""}
-                        ${year ? `<div><strong>Year:</strong> ${year}</div>` : ""}
+                <article class="member-card">
+                    <img class="member-photo"
+                         src="${image}"
+                         alt="${name}"
+                         loading="lazy"
+                         onerror="this.onerror=null; this.src='/logo/logo.png';">
+                    <h3 class="member-name">${name}</h3>
+                    <p class="member-role">${role}</p>
+                    <div class="member-details">
+                        ${department ? `<div>Department: ${department}</div>` : ""}
+                        ${year ? `<div>Year: ${year}</div>` : ""}
                     </div>
-                    ${bio ? `<p class="bio">${bio}</p>` : ""}
+                    ${bio ? `<p class="member-bio">${bio}</p>` : ""}
+                    ${profileButton}
                 </article>
             `;
         }
 
-        async function loadTeamMembers() {
-            membersGrid.innerHTML = '<div class="status">Loading team members...</div>';
+        function renderSection(title, members, emptyMessage) {
+            const cards = members.length
+                ? members.map(createCard).join("")
+                : `<div class="status">${escapeHTML(emptyMessage)}</div>`;
 
+            return `
+                <section class="year-section">
+                    <div class="section-heading">
+                        <h2>${escapeHTML(title)}</h2>
+                        <span>${members.length}</span>
+                    </div>
+                    <div class="members-grid">${cards}</div>
+                </section>
+            `;
+        }
+
+        async function loadTeam() {
             try {
                 const response = await fetch(`${API_URL}/api/team`);
-
-                if (!response.ok) {
-                    throw new Error(`Team API returned HTTP ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`Team API returned HTTP ${response.status}`);
 
                 const result = await response.json();
                 let allMembers = [];
@@ -208,37 +400,49 @@
                 else if (Array.isArray(result.data)) allMembers = result.data;
                 else if (Array.isArray(result.members)) allMembers = result.members;
 
-                const filteredMembers = allMembers.filter(isMatchingMember);
+                const members = allMembers.filter(matchesDomain);
+                const heads = members.filter(isHead);
+                const nonHeads = members.filter(member => !isHead(member));
+                const thirdYears = nonHeads.filter(member => yearGroup(member) === "third");
+                const secondYears = nonHeads.filter(member => yearGroup(member) === "second");
+                const firstYears = nonHeads.filter(member => yearGroup(member) === "first");
+                const otherYears = nonHeads.filter(member => yearGroup(member) === "other");
 
-                if (filteredMembers.length === 0) {
-                    membersGrid.innerHTML = `
-                        <div class="status">
-                            <strong>No matching members found</strong>
-                            Check the domain values saved in Admin → Team.
-                        </div>
-                    `;
-                    return;
-                }
+                teamSections.innerHTML =
+                    renderSection("Heads", heads, "No domain heads found for this team.") +
+                    renderSection("3rd Years (2024–2028)", thirdYears, "No 3rd-year members found for this team.") +
+                    renderSection("2nd Years (2025–2029)", secondYears, "No 2nd-year members found for this team.") +
+                    renderSection("1st Years (2026–2030)", firstYears, "No 1st-year members found for this team.") +
+                    (otherYears.length
+                        ? renderSection("Other Members", otherYears, "No other members.")
+                        : "");
 
-                membersGrid.innerHTML = filteredMembers.map(createCard).join("");
+                teamSections.querySelectorAll(".profile-btn[data-member-id]").forEach(button => {
+                    button.addEventListener("click", () => {
+                        const id = button.dataset.memberId;
+                        window.location.href = `member.html?id=${encodeURIComponent(id)}`;
+                    });
+                });
 
             } catch (error) {
-                console.error("Team page error:", error);
-
-                membersGrid.innerHTML = `
+                console.error("Team page loading error:", error);
+                teamSections.innerHTML = `
                     <div class="status">
                         <strong>Unable to load team members</strong>
-                        The website could not retrieve team data. Refresh the page
-                        and check the Render backend if the problem continues.
+                        Could not retrieve data from the HAM Club backend.
+                        Refresh the page or check the Render backend status.
                     </div>
                 `;
             }
         }
 
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
         menuToggle.addEventListener("click", () => {
-            const open = navLinks.classList.toggle("show");
-            menuToggle.setAttribute("aria-expanded", String(open));
-            menuToggle.textContent = open ? "×" : "☰";
+            const isOpen = navLinks.classList.toggle("show");
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            menuToggle.textContent = isOpen ? "×" : "☰";
         });
 
         navLinks.querySelectorAll("a").forEach(link => {
@@ -249,7 +453,7 @@
             });
         });
 
-        loadTeamMembers();
+        loadTeam();
     </script>
 </body>
 </html>
