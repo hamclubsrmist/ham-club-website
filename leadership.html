@@ -1352,6 +1352,7 @@
                 <img
                     src="/leadership/ricardo.jpg"
                     alt="Ricardo Lopez"
+                    onerror="this.onerror=null; this.src='/logo/logo.png';"
                 >
 
             </div>
@@ -1418,6 +1419,7 @@
                 <img
                     src="/leadership/rishi.jpg"
                     alt="Rishi"
+                    onerror="this.onerror=null; this.src='/logo/logo.png';"
                 >
 
             </div>
@@ -1704,9 +1706,11 @@ document.addEventListener("click", function (event) {
 
     function normalize(value) {
         return String(value || "")
-            .trim()
+            .normalize("NFKD")
+            .replace(/[\u0300-\u036f]/g, "")
             .toLowerCase()
-            .replace(/[.]/g, "")
+            .replace(/[^a-z0-9]+/g, " ")
+            .trim()
             .replace(/\s+/g, " ");
     }
 
@@ -1715,23 +1719,50 @@ document.addEventListener("click", function (event) {
         return heading ? heading.textContent.trim() : "";
     }
 
+    function getExistingMemberId(member) {
+        // Accept common field names, but only use a stored member/QR ID.
+        return String(
+            member.memberId ||
+            member.memberID ||
+            member.member_id ||
+            member.qrId ||
+            member.qrID ||
+            ""
+        ).trim();
+    }
+
+    function findMatchingMember(members, cardName) {
+        const wanted = normalize(cardName);
+        return members.find(function (member) {
+            const possibleNames = [
+                member.name,
+                member.fullName,
+                member.fullname,
+                member.studentName,
+                member.memberName
+            ].filter(Boolean).map(normalize);
+
+            return possibleNames.includes(wanted);
+        }) || null;
+    }
+
     function setButton(card, member) {
         const button = card.querySelector(".leader-profile-btn");
         if (!button) return;
 
-        if (!member || !member.memberId) {
+        const existingId = member ? getExistingMemberId(member) : "";
+
+        if (!existingId) {
             button.disabled = true;
-            button.title = "This leader's existing member ID was not found in the team API.";
-            button.addEventListener("click", function () {
-                alert("This leader's member ID was not found. Please check the Team records in Admin.");
-            });
+            button.title = "A saved member/QR ID for this person was not found in the Team API.";
             return;
         }
 
         button.disabled = false;
+        button.title = "View this member's profile";
         button.addEventListener("click", function () {
             window.location.href =
-                "member.html?id=" + encodeURIComponent(member.memberId);
+                "member.html?id=" + encodeURIComponent(existingId);
         });
     }
 
@@ -1751,11 +1782,9 @@ document.addEventListener("click", function (event) {
             else if (Array.isArray(result.members)) members = result.members;
 
             cards.forEach(function (card) {
-                const name = normalize(getCardName(card));
-                const member = members.find(function (item) {
-                    return normalize(item.name) === name;
-                });
-                setButton(card, member || null);
+                const name = getCardName(card);
+                const member = findMatchingMember(members, name);
+                setButton(card, member);
             });
         } catch (error) {
             console.error("Could not connect Domain Head profile buttons:", error);
