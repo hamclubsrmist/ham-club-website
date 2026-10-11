@@ -492,7 +492,7 @@
             margin: 15px auto 16px;
         }
 
-        .leader-profile-btn {
+        .leader-profile-btn { display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -524,7 +524,7 @@
             box-shadow: 0 10px 20px rgba(11, 60, 109, 0.22);
         }
 
-        .leader-profile-btn:disabled {
+        .leader-profile-btn:disabled { opacity: 1 !important; cursor: pointer !important;
             background: #8996a5;
             cursor: not-allowed;
             box-shadow: none;
@@ -1010,7 +1010,7 @@
                 flex-basis: 150px;
             }
 
-            .leader-profile-btn {
+            .leader-profile-btn { display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
                 min-width: 200px;
             }
         }
@@ -1721,14 +1721,14 @@ document.addEventListener("click", function (event) {
 
     function getExistingMemberId(member) {
         // Accept common field names, but only use a stored member/QR ID.
-        return String(
-            member.memberId ||
-            member.memberID ||
-            member.member_id ||
-            member.qrId ||
-            member.qrID ||
-            ""
-        ).trim();
+        const candidates = [
+            member.memberId, member.memberID, member.member_id,
+            member.qrId, member.qrID, member.qr_id,
+            member.id
+        ];
+        return String(candidates.find(value =>
+            typeof value === "string" && /^HAM26-\\d+$/i.test(value.trim())
+        ) || "").trim();
     }
 
     function findMatchingMember(members, cardName) {
@@ -1742,7 +1742,11 @@ document.addEventListener("click", function (event) {
                 member.memberName
             ].filter(Boolean).map(normalize);
 
-            return possibleNames.includes(wanted);
+            return possibleNames.some(candidate =>
+                candidate === wanted ||
+                candidate.startsWith(wanted + " ") ||
+                wanted.startsWith(candidate + " ")
+            );
         }) || null;
     }
 
@@ -1752,15 +1756,16 @@ document.addEventListener("click", function (event) {
 
         const existingId = member ? getExistingMemberId(member) : "";
 
-        if (!existingId) {
-            button.disabled = true;
-            button.title = "A saved member/QR ID for this person was not found in the Team API.";
-            return;
-        }
-
         button.disabled = false;
-        button.title = "View this member's profile";
+        button.title = existingId
+            ? "View this member's profile"
+            : "Profile link needs the existing saved QR/member ID";
         button.addEventListener("click", function () {
+            if (!existingId) {
+                alert("The saved QR/member ID for " + getCardName(card) +
+                    " was not found in the Team API. Please check that member's existing ID; do not create a new QR ID.");
+                return;
+            }
             window.location.href =
                 "member.html?id=" + encodeURIComponent(existingId);
         });
