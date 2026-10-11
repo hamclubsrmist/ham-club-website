@@ -1727,7 +1727,7 @@ document.addEventListener("click", function (event) {
             member.id
         ];
         return String(candidates.find(value =>
-            typeof value === "string" && /^HAM26-\\d+$/i.test(value.trim())
+            typeof value === "string" && /^HAM26-\d+$/i.test(value.trim())
         ) || "").trim();
     }
 
