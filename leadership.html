@@ -1820,9 +1820,16 @@ function memberNameValues(member) {
         try {
             const response = await fetch(API_URL, { headers: { "Accept": "application/json" } });
             if (!response.ok) throw new Error("Team API returned HTTP " + response.status);
-            const payload = await response.json();
-            const members = Array.isArray(payload) ? payload :
-                (payload.team || payload.data || payload.members || []);
+            
+const payload = await response.json();
+
+const members = Array.isArray(payload) ? payload :
+    (Array.isArray(payload.team) ? payload.team :
+    Array.isArray(payload.data) ? payload.data :
+    Array.isArray(payload.members) ? payload.members :
+    Array.isArray(payload.results) ? payload.results :
+    Array.isArray(payload.teamMembers) ? payload.teamMembers : []);
+
             if (!Array.isArray(members)) throw new Error("Team API response did not contain a member list.");
             cards.forEach(card => setButton(card, findMember(members, cardName(card))));
         } catch (error) {
