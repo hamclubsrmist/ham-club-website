@@ -1768,20 +1768,36 @@ function memberNameValues(member) {
             member.qrId || member.qrID || member.qr_id || "").trim();
     }
 
-    function findMember(members, displayName) {
-        const wanted = normalize(displayName);
-        const aliases = NAME_ALIASES[wanted] || [wanted];
-        // Exact name match first.
-        let found = members.find(member => memberNameValues(member).some(name =>
-            aliases.includes(name) || name === wanted));
-        if (found) return found;
-        // Match a known short display name to the longer stored name, e.g. “Kishore S.”.
-        // Require the shorter name to be a complete prefix, not an arbitrary substring.
-        found = members.find(member => memberNameValues(member).some(name =>
-            aliases.some(alias => alias.length >= 5 &&
-                (name.startsWith(alias + " ") || alias.startsWith(name + " ")))));
-        return found || null;
-    }
+    
+function findMember(members, displayName) {
+    const wanted = normalize(displayName);
+
+    const aliases = NAME_ALIASES[wanted] || [wanted];
+
+    // First, try an exact name match.
+    let found = members.find(member =>
+        memberNameValues(member).some(name =>
+            name === wanted || aliases.includes(name)
+        )
+    );
+
+    if (found) return found;
+
+    // Next, allow a known display name to match a full stored name.
+    found = members.find(member =>
+        memberNameValues(member).some(name =>
+            aliases.some(alias =>
+                alias.length >= 5 &&
+                (
+                    name.startsWith(alias + " ") ||
+                    alias.startsWith(name + " ")
+                )
+            )
+        )
+    );
+
+    return found || null;
+}
 
     function ensureButton(card) {
         let button = card.querySelector(".leader-profile-btn");
