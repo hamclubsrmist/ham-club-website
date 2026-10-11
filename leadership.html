@@ -492,7 +492,12 @@
             margin: 15px auto 16px;
         }
 
-        .leader-profile-btn { display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
+        .profile-card .leader-profile-btn {
+            margin-top: 20px;
+            align-self: center;
+        }
+
+        .leader-profile-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -524,7 +529,7 @@
             box-shadow: 0 10px 20px rgba(11, 60, 109, 0.22);
         }
 
-        .leader-profile-btn:disabled { opacity: 1 !important; cursor: pointer !important;
+        .leader-profile-btn:disabled {
             background: #8996a5;
             cursor: not-allowed;
             box-shadow: none;
@@ -1010,7 +1015,7 @@
                 flex-basis: 150px;
             }
 
-            .leader-profile-btn { display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
+            .leader-profile-btn {
                 min-width: 200px;
             }
         }
@@ -1699,10 +1704,27 @@ document.addEventListener("click", function (event) {
 
 
 <script>
-/* Domain Head profile buttons use existing IDs from the team API. */
+/* Every leadership card links to that person's EXISTING QR/member ID from the Team API.
+   This script never creates IDs and never changes printed QR URLs. */
 (function () {
-    const API_URL = "https://ham-club-backend.onrender.com";
-    const cards = document.querySelectorAll(".domain-head-card");
+    "use strict";
+    const API_URL = "https://ham-club-backend.onrender.com/api/team";
+    const PROFILE_PAGE = "member.html?id=";
+    const cards = Array.from(document.querySelectorAll(".profile-card, .domain-head-card"));
+
+    // Known display-name variations in the leadership page vs Team records.
+    const NAME_ALIASES = {
+        "dr arthi": ["dr arthi", "arthi", "dr aarthi", "aarthi"],
+        "lakshmi gayatri": ["lakshmi gayatri", "lakshmi gayathri", "lakshmi gayatri n", "lakshmi gayathri n"],
+        "kishore s": ["kishore s", "kishore", "kishore s kumar"],
+        "pavan avulapati": ["pavan avulapati", "pavan"],
+        "loganathan m": ["loganathan m", "loganathan", "loganathan m"],
+        "velnambi m": ["velnambi m", "velnambi"],
+        "ricardo lopez": ["ricardo lopez", "ricardo"],
+        "sivaakilan m": ["sivaakilan m", "sivaakilan", "sivaakilan m"],
+        "rishi": ["rishi"],
+        "mohana krishnan": ["mohana krishnan", "mohana"]
+    };
 
     function normalize(value) {
         return String(value || "")
@@ -1714,92 +1736,90 @@ document.addEventListener("click", function (event) {
             .replace(/\s+/g, " ");
     }
 
-    function getCardName(card) {
+    function cardName(card) {
         const heading = card.querySelector("h3");
         return heading ? heading.textContent.trim() : "";
     }
 
-    function getExistingMemberId(member) {
-        // Accept common field names, but only use a stored member/QR ID.
-        const candidates = [
-            member.memberId, member.memberID, member.member_id,
-            member.qrId, member.qrID, member.qr_id,
-            member.id
-        ];
-        return String(candidates.find(value =>
-            typeof value === "string" && /^HAM26-\d+$/i.test(value.trim())
-        ) || "").trim();
+    function memberNameValues(member) {
+        return [member.name, member.fullName, member.fullname, member.studentName,
+                member.memberName, member.username].filter(Boolean).map(normalize);
     }
 
-    function findMatchingMember(members, cardName) {
-        const wanted = normalize(cardName);
-        return members.find(function (member) {
-            const possibleNames = [
-                member.name,
-                member.fullName,
-                member.fullname,
-                member.studentName,
-                member.memberName
-            ].filter(Boolean).map(normalize);
+    function memberId(member) {
+        // Only use an ID already stored on the member record.
+        return String(member.memberId || member.memberID || member.member_id ||
+            member.qrId || member.qrID || member.qr_id || "").trim();
+    }
 
-            return possibleNames.some(candidate =>
-                candidate === wanted ||
-                candidate.startsWith(wanted + " ") ||
-                wanted.startsWith(candidate + " ")
-            );
-        }) || null;
+    function findMember(members, displayName) {
+        const wanted = normalize(displayName);
+        const aliases = NAME_ALIASES[wanted] || [wanted];
+        // Exact name match first.
+        let found = members.find(member => memberNameValues(member).some(name =>
+            aliases.includes(name) || name === wanted));
+        if (found) return found;
+        // Match a known short display name to the longer stored name, e.g. “Kishore S.”.
+        // Require the shorter name to be a complete prefix, not an arbitrary substring.
+        found = members.find(member => memberNameValues(member).some(name =>
+            aliases.some(alias => alias.length >= 5 &&
+                (name.startsWith(alias + " ") || alias.startsWith(name + " ")))));
+        return found || null;
+    }
+
+    function ensureButton(card) {
+        let button = card.querySelector(".leader-profile-btn");
+        if (!button) {
+            button = document.createElement("button");
+            button.type = "button";
+            button.className = "leader-profile-btn";
+            button.textContent = "View Profile";
+            card.appendChild(button);
+        }
+        button.disabled = true;
+        button.title = "Looking up this member's existing QR ID…";
+        button.setAttribute("aria-label", "View profile for " + cardName(card));
+        return button;
     }
 
     function setButton(card, member) {
-        const button = card.querySelector(".leader-profile-btn");
-        if (!button) return;
-
-        const existingId = member ? getExistingMemberId(member) : "";
-
+        const button = ensureButton(card);
+        const id = member ? memberId(member) : "";
+        if (!id) {
+            button.disabled = true;
+            button.title = "No existing member/QR ID was found for this person in the Team API.";
+            button.textContent = "Profile unavailable";
+            return;
+        }
         button.disabled = false;
-        button.title = existingId
-            ? "View this member's profile"
-            : "Profile link needs the existing saved QR/member ID";
-        button.addEventListener("click", function () {
-            if (!existingId) {
-                alert("The saved QR/member ID for " + getCardName(card) +
-                    " was not found in the Team API. Please check that member's existing ID; do not create a new QR ID.");
-                return;
-            }
-            window.location.href =
-                "member.html?id=" + encodeURIComponent(existingId);
-        });
+        button.title = "Open the existing member profile";
+        button.textContent = "View Profile";
+        button.onclick = function () {
+            window.location.href = PROFILE_PAGE + encodeURIComponent(id);
+        };
     }
 
-    async function connectProfileButtons() {
+    async function init() {
+        cards.forEach(ensureButton);
         try {
-            const response = await fetch(API_URL + "/api/team");
-            if (!response.ok) {
-                throw new Error("Team API returned HTTP " + response.status);
-            }
-
-            const result = await response.json();
-            let members = [];
-
-            if (Array.isArray(result)) members = result;
-            else if (Array.isArray(result.team)) members = result.team;
-            else if (Array.isArray(result.data)) members = result.data;
-            else if (Array.isArray(result.members)) members = result.members;
-
-            cards.forEach(function (card) {
-                const name = getCardName(card);
-                const member = findMatchingMember(members, name);
-                setButton(card, member);
-            });
+            const response = await fetch(API_URL, { headers: { "Accept": "application/json" } });
+            if (!response.ok) throw new Error("Team API returned HTTP " + response.status);
+            const payload = await response.json();
+            const members = Array.isArray(payload) ? payload :
+                (payload.team || payload.data || payload.members || []);
+            if (!Array.isArray(members)) throw new Error("Team API response did not contain a member list.");
+            cards.forEach(card => setButton(card, findMember(members, cardName(card))));
         } catch (error) {
-            console.error("Could not connect Domain Head profile buttons:", error);
-            cards.forEach(function (card) {
-                setButton(card, null);
+            console.error("Could not load existing member QR IDs for leadership profiles:", error);
+            cards.forEach(card => {
+                const button = ensureButton(card);
+                button.disabled = true;
+                button.textContent = "Profile unavailable";
+                button.title = "Could not load the Team API. Refresh the page and try again.";
             });
         }
     }
-
-    connectProfileButtons();
+    init();
 })();
 </script>
 
