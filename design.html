@@ -3,702 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Design Team | HAM Club</title>
+    <title>Design Team | HAM CLUB</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --navy: #103f70;
+            --navy-dark: #0b3158;
+            --blue: #0b5ed7;
+            --gold: #e0b52b;
+            --page-bg: #f4f7fb;
+            --text: #243247;
+            --muted: #687587;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
+            min-height: 100vh;
             font-family: Arial, Helvetica, sans-serif;
-            background: #f5f7fb;
-            color: #222;
+            background: var(--page-bg);
+            color: var(--text);
+            overflow-x: hidden;
         }
-
-        /* ================= NAVBAR ================= */
 
         .navbar {
-            height: 70px;
-            background: #ffffff;
+            min-height: 76px;
+            padding: 12px 5%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 7%;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            gap: 24px;
+            background: #fff;
+            box-shadow: 0 3px 16px rgba(15, 45, 75, .08);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
         }
-
-        .brand {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             text-decoration: none;
-            color: #111;
-            font-size: 20px;
-            font-weight: 700;
+            flex-shrink: 0;
         }
-
-        .brand img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
+        .logo img { width: 46px; height: 46px; object-fit: contain; }
+        .logo span { color: #171717; font-size: 22px; font-weight: 800; }
+        .menu-toggle {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: var(--navy);
+            font-size: 29px;
+            cursor: pointer;
         }
-
-        .back-btn {
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: clamp(12px, 2vw, 28px);
+            list-style: none;
+        }
+        .nav-links a {
+            color: #243247;
             text-decoration: none;
-            color: #0b5ed7;
-            border: 1px solid #0b5ed7;
-            padding: 9px 18px;
-            border-radius: 7px;
             font-size: 14px;
-            font-weight: 600;
-            transition: 0.3s;
+            font-weight: 700;
+            padding: 8px 0;
+            border-bottom: 3px solid transparent;
         }
+        .nav-links a:hover { color: var(--navy); border-bottom-color: var(--gold); }
 
-        .back-btn:hover {
-            background: #0b5ed7;
-            color: #ffffff;
+        .watermark {
+            position: fixed;
+            z-index: -1;
+            pointer-events: none;
+            width: min(650px, 90vw);
+            height: min(650px, 90vw);
+            left: 50%;
+            top: 58%;
+            transform: translate(-50%, -50%);
+            background: url("/logo/logo.png") center / contain no-repeat;
+            opacity: .045;
         }
-
-        /* ================= HEADER ================= */
-
-        .hero {
-            background: linear-gradient(135deg, #0b5ed7, #063b91);
-            color: #ffffff;
+        .banner {
             text-align: center;
-            padding: 75px 20px;
+            padding: 52px 20px 38px;
+            background: linear-gradient(135deg, #edf3fa, #f8faff);
         }
-
-        .hero h1 {
-            font-size: 44px;
-            margin-bottom: 12px;
+        .banner h1 {
+            color: var(--navy);
+            font-size: clamp(32px, 4vw, 44px);
+            margin-bottom: 13px;
         }
-
-        .hero p {
+        .banner p {
+            max-width: 720px;
+            margin: 0 auto;
+            color: #5f6d7d;
             font-size: 17px;
-            opacity: 0.92;
-        }
-
-        /* ================= TEAM SECTION ================= */
-
-        .team-section {
-            width: 90%;
-            max-width: 1200px;
-            margin: 55px auto;
-        }
-
-        .team-title {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .team-title h2 {
-            font-size: 30px;
-            color: #111827;
-            margin-bottom: 8px;
-        }
-
-        .team-title p {
-            color: #6b7280;
-            font-size: 15px;
-        }
-
-        /* ================= MEMBER GRID ================= */
-
-        .members-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-        }
-
-        /* ================= MEMBER CARD ================= */
-
-        .member-card {
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 30px 25px;
-            text-align: center;
-            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
-            transition: 0.3s ease;
-        }
-
-        .member-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.13);
-        }
-
-        .member-photo {
-            width: 135px;
-            height: 135px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto 20px;
-            border: 4px solid #0b5ed7;
-            background: #eeeeee;
-        }
-
-        .member-name {
-            font-size: 21px;
-            font-weight: 700;
-            color: #111827;
-            margin-bottom: 8px;
-        }
-
-        .member-role {
-            color: #0b5ed7;
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .member-details {
-            color: #555;
-            font-size: 14px;
             line-height: 1.7;
         }
-
-        .member-bio {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.5;
-            margin-top: 12px;
-        }
-
-        /* ================= PROFILE BUTTON ================= */
-
-        .profile-btn {
-            margin-top: 20px;
-            border: none;
-            background: #0b5ed7;
-            color: #ffffff;
-            padding: 11px 22px;
+        main { width: min(1250px, 92%); margin: auto; padding: 24px 0 75px; }
+        .back {
+            display: inline-block;
+            margin-bottom: 28px;
+            padding: 11px 17px;
+            border: 1px solid var(--blue);
             border-radius: 8px;
-            cursor: pointer;
+            background: #fff;
+            color: var(--blue);
+            text-decoration: none;
             font-size: 14px;
-            font-weight: 600;
-            transition: 0.3s;
+            font-weight: 700;
+            transition: background .2s, color .2s;
         }
+        .back:hover { background: var(--blue); color: #fff; }
 
-        .profile-btn:hover {
-            background: #063b91;
+        .year-section { margin: 12px 0 48px; scroll-margin-top: 95px; }
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #dce5f0;
         }
-
-        /* ================= LOADING ================= */
-
-        .loading {
-            grid-column: 1 / -1;
+        .section-heading h2 { color: var(--navy); font-size: clamp(23px, 3vw, 30px); }
+        .section-heading span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 32px;
+            padding: 0 10px;
+            border-radius: 999px;
+            background: #e3edf9;
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 800;
+        }
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+            align-items: stretch;
+        }
+        .member-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            padding: 70px 20px;
-            color: #666;
-            font-size: 17px;
+            padding: 25px 22px 28px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 32px rgba(20, 48, 79, .09);
+            border: 1px solid rgba(16, 63, 112, .06);
+            transition: transform .22s ease, box-shadow .22s ease;
+            overflow-wrap: anywhere;
         }
-
-        /* ================= EMPTY ================= */
-
-        .empty-message {
-            grid-column: 1 / -1;
-            background: #ffffff;
-            border-radius: 15px;
-            padding: 60px 20px;
-            text-align: center;
-            color: #666;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        .member-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 38px rgba(20, 48, 79, .14);
         }
-
-        .empty-message strong {
+        .member-photo {
+            width: 150px;
+            height: 150px;
             display: block;
-            color: #222;
-            font-size: 20px;
-            margin-bottom: 8px;
+            margin: 0 auto 18px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+            border: 4px solid var(--blue);
+            background: #edf1f6;
         }
-
-        /* ================= ERROR ================= */
-
-        .error-message {
+        .member-name { color: #101b2b; font-size: 21px; line-height: 1.35; font-weight: 800; margin-bottom: 8px; }
+        .member-role { color: var(--blue); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+        .member-details { color: #4c596a; font-size: 15px; line-height: 1.8; margin-bottom: 18px; }
+        .member-bio { color: var(--muted); font-size: 14px; line-height: 1.6; margin: -4px 0 18px; }
+        .profile-btn {
+            margin-top: auto;
+            border: 0;
+            border-radius: 9px;
+            padding: 12px 25px;
+            background: var(--blue);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform .2s, background .2s;
+        }
+        .profile-btn:hover { background: #084aa8; transform: translateY(-2px); }
+        .status {
             grid-column: 1 / -1;
-            background: #ffffff;
-            border-radius: 15px;
-            padding: 60px 20px;
+            padding: 28px;
+            border-radius: 16px;
+            background: #fff;
+            color: var(--muted);
             text-align: center;
-            color: #b91c1c;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            line-height: 1.7;
+            box-shadow: 0 8px 25px rgba(20, 48, 79, .07);
         }
+        .status strong { display: block; color: var(--navy); font-size: 20px; margin-bottom: 8px; }
 
-        /* ================= FOOTER ================= */
-
-        footer {
-            background: #111827;
-            color: #ffffff;
-            text-align: center;
-            padding: 35px 20px;
-            margin-top: 80px;
-        }
-
-        footer h3 {
-            margin-bottom: 8px;
-        }
-
-        footer p {
-            color: #d1d5db;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        /* ================= TABLET ================= */
+        footer { background: var(--navy-dark); color: #fff; text-align: center; padding: 32px 20px; }
+        footer h2 { font-size: 24px; letter-spacing: 1px; margin-bottom: 8px; }
+        footer p { font-size: 12px; letter-spacing: 3px; margin-bottom: 12px; color: #d9e5f3; }
+        footer span { color: #d9e5f3; font-size: 13px; line-height: 1.6; }
 
         @media (max-width: 900px) {
-
-            .members-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .hero h1 {
-                font-size: 36px;
-            }
+            .members-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .nav-links { gap: 12px; }
+            .nav-links a { font-size: 12px; }
         }
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 600px) {
-
-            .navbar {
-                padding: 0 18px;
+        @media (max-width: 700px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                padding: 14px 5% 22px;
+                background: #fff;
+                box-shadow: 0 12px 20px rgba(15, 45, 75, .12);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
             }
-
-            .brand {
-                font-size: 17px;
-            }
-
-            .brand img {
-                width: 34px;
-                height: 34px;
-            }
-
-            .back-btn {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-
-            .hero {
-                padding: 55px 20px;
-            }
-
-            .hero h1 {
-                font-size: 30px;
-            }
-
-            .hero p {
-                font-size: 15px;
-            }
-
-            .team-section {
-                width: 92%;
-                margin: 40px auto;
-            }
-
-            .members-container {
-                grid-template-columns: 1fr;
-            }
-
-            .member-card {
-                padding: 28px 20px;
-            }
+            .nav-links.show { display: flex; }
+            .nav-links a { display: block; padding: 13px 0; font-size: 15px; border-bottom: 1px solid #edf0f5; }
+            .banner { padding: 42px 18px 32px; }
+            .banner p { font-size: 15px; }
+            .members-grid { grid-template-columns: 1fr; max-width: 430px; margin: 0 auto; }
+            .section-heading { align-items: flex-start; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
         }
     </style>
 </head>
 
 <body>
+    <header>
+        <nav class="navbar">
+            <a class="logo" href="index.html">
+                <img src="/logo/logo.png" alt="HAM Club Logo">
+                <span>HAM CLUB</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="magazine.html">Magazine</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- ================= NAVBAR ================= -->
+    <div class="watermark" aria-hidden="true"></div>
 
-    <nav class="navbar">
-
-        <a href="leadership.html" class="brand">
-            <img src="/logo/logo.png" alt="HAM Club Logo">
-            <span>HAM CLUB</span>
-        </a>
-
-        <a href="leadership.html" class="back-btn">
-            ← Back to Leadership
-        </a>
-
-    </nav>
-
-
-    <!-- ================= HERO ================= -->
-
-    <section class="hero">
-
+    <section class="banner">
         <h1>Design Team</h1>
-
-        <p>
-            Meet the creative team behind HAM Club
-        </p>
-
+        <p>Meet the creative team behind HAM Club.</p>
     </section>
 
-
-    <!-- ================= TEAM ================= -->
-
-    <section class="team-section">
-
-        <div class="team-title">
-
-            <h2>Our Design Team</h2>
-
-            <p>
-                Creative minds contributing to the visual identity of HAM Club
-            </p>
-
+    <main>
+        <a href="leadership.html" class="back">← Back to Leadership</a>
+        <div id="teamSections">
+            <div class="status">Loading team members...</div>
         </div>
-
-
-        <div
-            class="members-container"
-            id="membersContainer"
-        >
-
-            <div class="loading">
-                Loading Design Team members...
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= FOOTER ================= -->
+    </main>
 
     <footer>
-
-        <h3>HAM CLUB</h3>
-
-        <p>
-            SRM Institute of Science and Technology, Ramapuram
-        </p>
-
-        <p>
-            © 2026 HAM Club. All Rights Reserved.
-        </p>
-
+        <h2>HAM CLUB</h2>
+        <p>CONNECTING PASSION WIRELESSLY</p>
+        <span>SRM Institute of Science and Technology · Ramapuram Campus</span>
     </footer>
 
-
-    <!-- ================= JAVASCRIPT ================= -->
-
     <script>
-
-        /*
-         * BACKEND URL
-         * Your current computer IP
-         */
-
         const API_URL = "https://ham-club-backend.onrender.com";
+        const DOMAIN_ALIASES = ['design'];
+        const teamSections = document.getElementById("teamSections");
 
+        function escapeHTML(value) {
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
 
-        /*
-         * LOAD DESIGN MEMBERS
-         */
+        function normalize(value) {
+            return String(value || "").trim().toLowerCase().replace(/\\s+/g, " ");
+        }
 
-        async function loadDesignMembers() {
+        function getImageURL(path) {
+            const image = String(path || "").trim();
+            if (!image) return "/logo/logo.png";
+            if (/^https?:\\/\\//i.test(image) || image.startsWith("data:")) return image;
+            return API_URL + (image.startsWith("/") ? image : "/" + image);
+        }
 
-            const container =
-                document.getElementById("membersContainer");
+        function matchesDomain(member) {
+            const domain = normalize(member.domain);
+            const role = normalize(member.role);
 
+            if (DOMAIN_ALIASES.some(alias =>
+                domain === normalize(alias) || domain.includes(normalize(alias))
+            )) return true;
 
+            // Support common saved variants for Event & PR.
+            if (DOMAIN_ALIASES.includes("event & pr")) {
+                return domain.includes("event") ||
+                    domain.includes("public relation") ||
+                    role.includes("event & pr") ||
+                    role.includes("event and pr");
+            }
+
+            return false;
+        }
+
+        function isHead(member) {
+            const role = normalize(member.role);
+            return role.includes("head") || role.includes("coordinator");
+        }
+
+        function yearGroup(member) {
+            const year = normalize(member.year);
+            if (year.includes("2024") || year.includes("3rd") || year.includes("third")) return "third";
+            if (year.includes("2025") || year.includes("2nd") || year.includes("second")) return "second";
+            if (year.includes("2026") || year.includes("1st") || year.includes("first")) return "first";
+            return "other";
+        }
+
+        function createCard(member) {
+            const name = escapeHTML(member.name || "HAM Club Member");
+            const role = escapeHTML(member.role || "Team Member");
+            const department = escapeHTML(member.department || "");
+            const year = escapeHTML(member.year || "");
+            const bio = escapeHTML(member.bio || "");
+            const image = escapeHTML(getImageURL(member.image));
+            const memberId = String(member.memberId || "").trim();
+
+            const profileButton = memberId
+                ? `<button class="profile-btn" type="button" data-member-id="${escapeHTML(memberId)}">View Profile</button>`
+                : `<button class="profile-btn" type="button" disabled title="Member ID is not available">Profile Unavailable</button>`;
+
+            return `
+                <article class="member-card">
+                    <img class="member-photo"
+                         src="${image}"
+                         alt="${name}"
+                         loading="lazy"
+                         onerror="this.onerror=null; this.src='/logo/logo.png';">
+                    <h3 class="member-name">${name}</h3>
+                    <p class="member-role">${role}</p>
+                    <div class="member-details">
+                        ${department ? `<div>Department: ${department}</div>` : ""}
+                        ${year ? `<div>Year: ${year}</div>` : ""}
+                    </div>
+                    ${bio ? `<p class="member-bio">${bio}</p>` : ""}
+                    ${profileButton}
+                </article>
+            `;
+        }
+
+        function renderSection(title, members, emptyMessage) {
+            const cards = members.length
+                ? members.map(createCard).join("")
+                : `<div class="status">${escapeHTML(emptyMessage)}</div>`;
+
+            return `
+                <section class="year-section">
+                    <div class="section-heading">
+                        <h2>${escapeHTML(title)}</h2>
+                        <span>${members.length}</span>
+                    </div>
+                    <div class="members-grid">${cards}</div>
+                </section>
+            `;
+        }
+
+        async function loadTeam() {
             try {
+                const response = await fetch(`${API_URL}/api/team`);
+                if (!response.ok) throw new Error(`Team API returned HTTP ${response.status}`);
 
-                const response =
-                    await fetch(`${API_URL}/api/team`);
+                const result = await response.json();
+                let allMembers = [];
 
+                if (Array.isArray(result)) allMembers = result;
+                else if (Array.isArray(result.team)) allMembers = result.team;
+                else if (Array.isArray(result.data)) allMembers = result.data;
+                else if (Array.isArray(result.members)) allMembers = result.members;
 
-                if (!response.ok) {
+                const members = allMembers.filter(matchesDomain);
+                const heads = members.filter(isHead);
+                const nonHeads = members.filter(member => !isHead(member));
+                const thirdYears = nonHeads.filter(member => yearGroup(member) === "third");
+                const secondYears = nonHeads.filter(member => yearGroup(member) === "second");
+                const firstYears = nonHeads.filter(member => yearGroup(member) === "first");
+                const otherYears = nonHeads.filter(member => yearGroup(member) === "other");
 
-                    throw new Error(
-                        "Unable to connect to Team API"
-                    );
+                teamSections.innerHTML =
+                    renderSection("Heads", heads, "No domain heads found for this team.") +
+                    renderSection("3rd Years (2024–2028)", thirdYears, "No 3rd-year members found for this team.") +
+                    renderSection("2nd Years (2025–2029)", secondYears, "No 2nd-year members found for this team.") +
+                    renderSection("1st Years (2026–2030)", firstYears, "No 1st-year members found for this team.") +
+                    (otherYears.length
+                        ? renderSection("Other Members", otherYears, "No other members.")
+                        : "");
 
-                }
-
-
-                const data =
-                    await response.json();
-
-
-                console.log(
-                    "Team API Response:",
-                    data
-                );
-
-
-                /*
-                 * CHECK API RESPONSE
-                 */
-
-                if (
-                    !data.success ||
-                    !Array.isArray(data.team)
-                ) {
-
-                    container.innerHTML = `
-
-                        <div class="error-message">
-
-                            Unable to load team members.
-
-                        </div>
-
-                    `;
-
-                    return;
-
-                }
-
-
-                /*
-                 * FILTER DESIGN DOMAIN
-                 */
-
-                const designMembers =
-                    data.team.filter(member => {
-
-                        const domain =
-                            String(
-                                member.domain || ""
-                            )
-                            .trim()
-                            .toLowerCase();
-
-
-                        return domain === "design";
-
+                teamSections.querySelectorAll(".profile-btn[data-member-id]").forEach(button => {
+                    button.addEventListener("click", () => {
+                        const id = button.dataset.memberId;
+                        window.location.href = `member.html?id=${encodeURIComponent(id)}`;
                     });
-
-
-                console.log(
-                    "Design Members:",
-                    designMembers
-                );
-
-
-                /*
-                 * NO DESIGN MEMBERS
-                 */
-
-                if (
-                    designMembers.length === 0
-                ) {
-
-                    container.innerHTML = `
-
-                        <div class="empty-message">
-
-                            <strong>
-                                No Design members found
-                            </strong>
-
-                            Add Design members from
-                            <b>Admin → Team</b>.
-
-                        </div>
-
-                    `;
-
-                    return;
-
-                }
-
-
-                /*
-                 * CLEAR LOADING
-                 */
-
-                container.innerHTML = "";
-
-
-                /*
-                 * CREATE MEMBER CARDS
-                 */
-
-                designMembers.forEach(member => {
-
-
-                    /*
-                     * MEMBER IMAGE
-                     */
-
-                    let imageURL =
-                        "/logo/logo.png";
-
-
-                    if (
-                        member.image &&
-                        member.image.trim() !== ""
-                    ) {
-
-                        if (
-                            member.image
-                            .startsWith("http")
-                        ) {
-
-                            imageURL =
-                                member.image;
-
-                        } else {
-
-                            imageURL =
-                                API_URL +
-                                member.image;
-
-                        }
-
-                    }
-
-
-                    /*
-                     * CREATE CARD
-                     */
-
-                    const card =
-                        document.createElement("div");
-
-
-                    card.className =
-                        "member-card";
-
-
-                    card.innerHTML = `
-
-                        <img
-                            src="${imageURL}"
-                            alt="${member.name || "Member"}"
-                            class="member-photo"
-                            onerror="this.src='/logo/logo.png'"
-                        >
-
-
-                        <div class="member-name">
-                            ${member.name || "Unnamed Member"}
-                        </div>
-
-
-                        <div class="member-role">
-                            ${member.role || "Design Team Member"}
-                        </div>
-
-
-                        <div class="member-details">
-
-                            ${
-                                member.department
-                                ? `Department: ${member.department}<br>`
-                                : ""
-                            }
-
-                            ${
-                                member.year
-                                ? `Year: ${member.year}`
-                                : ""
-                            }
-
-                        </div>
-
-
-                        ${
-                            member.bio
-                            ? `
-                                <div class="member-bio">
-                                    ${member.bio}
-                                </div>
-                            `
-                            : ""
-                        }
-
-
-                        <button
-                            class="profile-btn"
-                            onclick="openProfile('${member.memberId}')"
-                        >
-                            View Profile
-                        </button>
-
-                    `;
-
-
-                    container.appendChild(card);
-
                 });
 
-            }
-
-
-            catch (error) {
-
-                console.error(
-                    "Design Team Error:",
-                    error
-                );
-
-
-                container.innerHTML = `
-
-                    <div class="error-message">
-
-                        <strong>
-                            Unable to connect to server
-                        </strong>
-
-                        <br><br>
-
-                        Make sure the HAM Club backend
-                        is running.
-
+            } catch (error) {
+                console.error("Team page loading error:", error);
+                teamSections.innerHTML = `
+                    <div class="status">
+                        <strong>Unable to load team members</strong>
+                        Could not retrieve data from the HAM Club backend.
+                        Refresh the page or check the Render backend status.
                     </div>
-
                 `;
-
             }
-
         }
 
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
 
-        /*
-         * OPEN MEMBER PROFILE
-         */
+        menuToggle.addEventListener("click", () => {
+            const isOpen = navLinks.classList.toggle("show");
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            menuToggle.textContent = isOpen ? "×" : "☰";
+        });
 
-        function openProfile(memberId) {
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("show");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.textContent = "☰";
+            });
+        });
 
-            if (!memberId) {
-
-                alert(
-                    "Member profile ID is not available."
-                );
-
-                return;
-
-            }
-
-
-            window.location.href =
-                `member.html?id=${encodeURIComponent(memberId)}`;
-
-        }
-
-
-        /*
-         * START
-         */
-
-        loadDesignMembers();
-
+        loadTeam();
     </script>
-
 </body>
 </html>
