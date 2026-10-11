@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event & PR Team | HAM CLUB</title>
+    <style>
+        :root {
+            --navy: #103f70;
+            --navy-dark: #0b3158;
+            --gold: #e0b52b;
+            --page-bg: #f4f7fb;
+            --text: #243247;
+            --muted: #687587;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { min-height: 100vh; font-family: Arial, Helvetica, sans-serif; background: var(--page-bg); color: var(--text); }
+        .navbar { min-height: 82px; padding: 14px 5%; display: flex; align-items: center; justify-content: space-between; gap: 24px; background: #fff; box-shadow: 0 3px 16px #0f2d4b14; position: relative; z-index: 10; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+        .logo img { width: 48px; height: 48px; object-fit: contain; }
+        .logo span { color: #172b43; font-size: 22px; font-weight: 800; }
+        .menu-toggle { display: none; border: 0; background: transparent; color: var(--navy); font-size: 29px; cursor: pointer; }
+        .nav-links { display: flex; align-items: center; gap: clamp(12px, 2vw, 28px); list-style: none; }
+        .nav-links a { color: #243247; text-decoration: none; font-size: 14px; font-weight: 700; padding: 8px 0; border-bottom: 3px solid transparent; }
+        .nav-links a:hover { color: var(--navy); border-bottom-color: var(--gold); }
+        .watermark { position: fixed; z-index: -1; pointer-events: none; width: min(650px, 90vw); height: min(650px, 90vw); left: 50%; top: 58%; transform: translate(-50%, -50%); background: url("/logo/logo.png") center / contain no-repeat; opacity: .045; }
+        .banner { text-align: center; padding: 62px 20px 44px; background: linear-gradient(135deg, #edf3fa, #f8faff); }
+        .banner h1 { color: var(--navy); font-size: clamp(32px, 4vw, 46px); margin-bottom: 14px; }
+        .banner p { max-width: 720px; margin: 0 auto; color: #5f6d7d; font-size: 17px; line-height: 1.7; }
+        main { width: min(1200px, 92%); margin: auto; padding: 26px 0 78px; }
+        .back { display: inline-block; margin-bottom: 28px; padding: 11px 17px; border-radius: 999px; background: var(--navy); color: #fff; text-decoration: none; font-size: 14px; font-weight: 700; }
+        .heading { text-align: center; margin: 4px 0 30px; }
+        .heading h2 { color: var(--navy); font-size: clamp(25px, 3vw, 32px); margin-bottom: 10px; }
+        .heading p { color: var(--muted); line-height: 1.6; }
+        .members { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+        .card { background: #fff; border-radius: 20px; padding: 27px 22px; text-align: center; box-shadow: 0 12px 32px #14304f17; border: 1px solid #103f700f; overflow-wrap: anywhere; transition: transform .2s ease, box-shadow .2s ease; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 18px 38px #14304f24; }
+        .photo { display: block; width: 142px; height: 142px; margin: 0 auto 18px; object-fit: cover; border-radius: 50%; border: 4px solid #e7eef7; background: #edf1f6; }
+        .name { color: var(--navy); font-size: 21px; font-weight: 800; margin-bottom: 8px; }
+        .role { display: inline-block; color: var(--navy); background: #edf4fc; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; margin-bottom: 13px; }
+        .details, .bio { color: var(--muted); font-size: 14px; line-height: 1.8; }
+        .bio { margin-top: 12px; }
+        .status { grid-column: 1 / -1; text-align: center; padding: 30px 22px; background: #fff; border-radius: 16px; color: var(--muted); box-shadow: 0 8px 25px #14304f12; line-height: 1.7; }
+        .status strong { display: block; color: var(--navy); font-size: 20px; margin-bottom: 8px; }
+        footer { background: var(--navy-dark); color: #fff; text-align: center; padding: 35px 20px; }
+        footer h2 { font-size: 24px; letter-spacing: 1px; margin-bottom: 8px; }
+        footer p { font-size: 12px; letter-spacing: 3px; margin-bottom: 12px; color: #d9e5f3; }
+        footer span { color: #d9e5f3; font-size: 13px; line-height: 1.6; }
+        @media (max-width: 900px) { .members { grid-template-columns: repeat(2, minmax(0, 1fr)); } .nav-links { gap: 12px; } .nav-links a { font-size: 12px; } }
+        @media (max-width: 700px) {
+            .menu-toggle { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 14px 5% 22px; background: #fff; box-shadow: 0 12px 20px #0f2d4b1f; flex-direction: column; align-items: stretch; gap: 0; }
+            .nav-links.show { display: flex; }
+            .nav-links a { display: block; padding: 13px 0; font-size: 15px; border-bottom: 1px solid #edf0f5; }
+            .banner { padding: 44px 18px 34px; } .banner p { font-size: 15px; }
+            .members { grid-template-columns: 1fr; max-width: 430px; margin: auto; }
+        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a class="logo" href="index.html">
+                <img src="/logo/logo.png" alt="HAM Club Logo">
+                <span>HAM CLUB</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="magazine.html">Magazine</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="watermark" aria-hidden="true"></div>
+
+    <section class="banner">
+        <h1>Event & PR Team</h1>
+        <p>Meet the members who help plan and promote HAM Club events.</p>
+    </section>
+
+    <main>
+        <a href="leadership.html" class="back">← Back to Leadership</a>
+
+        <section>
+            <div class="heading">
+                <h2>Meet Our Team</h2>
+                <p>Organising today for a brighter tomorrow.</p>
+            </div>
+            <div class="members" id="membersGrid" aria-live="polite">
+                <div class="status">Loading team members...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h2>HAM CLUB</h2>
+        <p>CONNECTING PASSION WIRELESSLY</p>
+        <span>SRM Institute of Science and Technology · Ramapuram Campus</span>
+    </footer>
+
+    <script>
+        // Always use the deployed backend, not localhost or a private IP.
+        const API_URL = "https://ham-club-backend.onrender.com";
+        const DOMAIN_ALIASES = ['event & pr', 'event and pr', 'event pr', 'event-pr', 'events', 'public relations'];
+        const ROLE_ALIASES = ['event', 'public relations', 'pr'];
+
+        const membersGrid = document.getElementById("membersGrid");
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        function escapeHTML(value) {
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function normalize(value) {
+            return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+        }
+
+        function getImageURL(path) {
+            const image = String(path || "").trim();
+
+            if (!image) return "/logo/logo.png";
+            if (/^https?:\/\//i.test(image) || image.startsWith("data:")) return image;
+
+            return API_URL + (image.startsWith("/") ? image : "/" + image);
+        }
+
+        function isMatchingMember(member) {
+            const domain = normalize(member.domain);
+            const role = normalize(member.role);
+
+            const domainMatch = DOMAIN_ALIASES.some(alias =>
+                domain === normalize(alias) || domain.includes(normalize(alias))
+            );
+
+            const roleMatch = ROLE_ALIASES.some(alias =>
+                role.includes(normalize(alias))
+            );
+
+            // Support common saved spellings for Event & PR.
+            const eventPRMatch = DOMAIN_ALIASES.includes("event & pr") && (
+                domain.includes("event") ||
+                domain.includes("public relation") ||
+                role.includes("event") ||
+                role.includes("public relation") ||
+                role === "pr"
+            );
+
+            return domainMatch || roleMatch || eventPRMatch;
+        }
+
+        function createCard(member) {
+            const name = escapeHTML(member.name || "HAM Club Member");
+            const role = escapeHTML(member.role || "Team Member");
+            const department = escapeHTML(member.department || "");
+            const year = escapeHTML(member.year || "");
+            const bio = escapeHTML(member.bio || "");
+            const image = escapeHTML(getImageURL(member.image));
+
+            return `
+                <article class="card">
+                    <img
+                        class="photo"
+                        src="${image}"
+                        alt="${name}"
+                        loading="lazy"
+                        onerror="this.onerror=null; this.src='/logo/logo.png';"
+                    >
+                    <h3 class="name">${name}</h3>
+                    <p class="role">${role}</p>
+                    <div class="details">
+                        ${department ? `<div><strong>Department:</strong> ${department}</div>` : ""}
+                        ${year ? `<div><strong>Year:</strong> ${year}</div>` : ""}
+                    </div>
+                    ${bio ? `<p class="bio">${bio}</p>` : ""}
+                </article>
+            `;
+        }
+
+        async function loadTeamMembers() {
+            membersGrid.innerHTML = '<div class="status">Loading team members...</div>';
+
+            try {
+                const response = await fetch(`${API_URL}/api/team`);
+
+                if (!response.ok) {
+                    throw new Error(`Team API returned HTTP ${response.status}`);
+                }
+
+                const result = await response.json();
+                let allMembers = [];
+
+                if (Array.isArray(result)) allMembers = result;
+                else if (Array.isArray(result.team)) allMembers = result.team;
+                else if (Array.isArray(result.data)) allMembers = result.data;
+                else if (Array.isArray(result.members)) allMembers = result.members;
+
+                const filteredMembers = allMembers.filter(isMatchingMember);
+
+                if (filteredMembers.length === 0) {
+                    membersGrid.innerHTML = `
+                        <div class="status">
+                            <strong>No matching members found</strong>
+                            Check the domain values saved in Admin → Team.
+                        </div>
+                    `;
+                    return;
+                }
+
+                membersGrid.innerHTML = filteredMembers.map(createCard).join("");
+
+            } catch (error) {
+                console.error("Team page error:", error);
+
+                membersGrid.innerHTML = `
+                    <div class="status">
+                        <strong>Unable to load team members</strong>
+                        The website could not retrieve team data. Refresh the page
+                        and check the Render backend if the problem continues.
+                    </div>
+                `;
+            }
+        }
+
+        menuToggle.addEventListener("click", () => {
+            const open = navLinks.classList.toggle("show");
+            menuToggle.setAttribute("aria-expanded", String(open));
+            menuToggle.textContent = open ? "×" : "☰";
+        });
+
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("show");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.textContent = "☰";
+            });
+        });
+
+        loadTeamMembers();
+    </script>
+</body>
+</html>
