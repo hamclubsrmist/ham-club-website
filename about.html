@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/about.css">
 </head>
 <body>
-    <!-- NAVBAR -->
+    <!-- NAVBAR: existing structure preserved -->
     <header>
         <nav class="navbar">
             <a class="logo" href="/index.html" aria-label="HAM Club home">
@@ -77,7 +77,7 @@
 
     <!-- VISION -->
     <section class="vision-section">
-        <div class="vision-card">
+        <div class="vision-card interactive-card">
             <h2>Our Vision</h2>
             <p>
                 To inspire students through technical learning, innovation
@@ -88,7 +88,7 @@
 
     <!-- MISSION -->
     <section class="mission-section">
-        <div class="mission-card">
+        <div class="mission-card interactive-card">
             <h2>Our Mission</h2>
             <p>
                 To provide students with opportunities to learn, build and innovate
@@ -106,5 +106,143 @@
     </section>
 
     <script src="/js/navbar.js" defer></script>
+
+    <!-- GSAP animations: loaded after the existing page content -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+    <script>
+    (() => {
+        if (!window.gsap || !window.ScrollTrigger) {
+            console.warn("GSAP did not load; About page content remains visible.");
+            return;
+        }
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduceMotion) return;
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Banner title and subtitle enter in sequence.
+        gsap.timeline({ defaults: { ease: "power3.out" } })
+            .from(".banner-content h1", {
+                y: 36, autoAlpha: 0, duration: 0.85
+            })
+            .from(".banner-content p", {
+                y: 20, autoAlpha: 0, duration: 0.65
+            }, "-=0.4");
+
+        // Decorative banner rings drift very gently.
+        gsap.to(".about-banner", {
+            backgroundPosition: "100% 50%",
+            duration: 9,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1
+        });
+
+        // Reveal each section when it enters the viewport.
+        gsap.utils.toArray(".about-section").forEach((section) => {
+            const image = section.querySelector(".about-image");
+            const text = section.querySelector(".about-text");
+
+            if (image) {
+                gsap.from(image, {
+                    x: section.classList.contains("reverse") ? 35 : -35,
+                    y: 18,
+                    autoAlpha: 0,
+                    duration: 0.85,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 82%",
+                        once: true
+                    }
+                });
+            }
+
+            if (text) {
+                gsap.from(text.children, {
+                    y: 24,
+                    autoAlpha: 0,
+                    duration: 0.7,
+                    stagger: 0.13,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 80%",
+                        once: true
+                    }
+                });
+            }
+        });
+
+        // Vision, mission, and motto reveal on scroll.
+        gsap.utils.toArray(".vision-card, .mission-card, .motto-section").forEach((element) => {
+            gsap.from(element, {
+                y: 32,
+                autoAlpha: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 86%",
+                    once: true
+                }
+            });
+        });
+
+        // Mouse-follow tilt and cursor glow on cards and images (desktop only).
+        const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        if (canHover) {
+            document.querySelectorAll(".interactive-card, .about-image img").forEach((element) => {
+                element.addEventListener("mousemove", (event) => {
+                    const rect = element.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    const rx = ((rect.height / 2 - y) / (rect.height / 2)) * 3;
+                    const ry = ((x - rect.width / 2) / (rect.width / 2)) * 3;
+
+                    if (element.classList.contains("interactive-card")) {
+                        element.style.setProperty("--mouse-x", `${x}px`);
+                        element.style.setProperty("--mouse-y", `${y}px`);
+                        gsap.to(element, {
+                            rotateX: rx,
+                            rotateY: ry,
+                            y: -4,
+                            transformPerspective: 900,
+                            duration: 0.3,
+                            ease: "power2.out",
+                            overwrite: "auto"
+                        });
+                    } else {
+                        gsap.to(element, {
+                            scale: 1.025,
+                            rotateX: rx,
+                            rotateY: ry,
+                            transformPerspective: 900,
+                            duration: 0.35,
+                            ease: "power2.out",
+                            overwrite: "auto"
+                        });
+                    }
+                });
+
+                element.addEventListener("mouseleave", () => {
+                    gsap.to(element, {
+                        rotateX: 0,
+                        rotateY: 0,
+                        scale: 1,
+                        y: 0,
+                        duration: 0.55,
+                        ease: "elastic.out(1, 0.6)",
+                        overwrite: "auto"
+                    });
+                });
+            });
+        }
+
+        window.addEventListener("load", () => ScrollTrigger.refresh());
+    })();
+    </script>
 </body>
 </html>
