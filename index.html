@@ -297,7 +297,6 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
 
-    <!-- ================= JAVASCRIPT ================= -->
     <!-- GSAP animation libraries -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
@@ -319,39 +318,13 @@
                 mobileMenuBtn.setAttribute("aria-label", isOpen ? "Close Menu" : "Open Menu");
             });
 
-        const mobileMenuBtn =
-            document.getElementById("mobileMenuBtn");
-
-        const mobileNav =
-            document.getElementById("mobileNav");
-
-
-        mobileMenuBtn.addEventListener("click", function () {
-
-            mobileMenuBtn.classList.toggle("active");
-
-            mobileNav.classList.toggle("show");
-
-        });
-
-
-        /* Close mobile menu */
-
-        document.querySelectorAll(".mobile-nav a")
-            .forEach(function (link) {
-
-                link.addEventListener("click", function () {
-
             document.querySelectorAll(".mobile-nav a").forEach((link) => {
                 link.addEventListener("click", () => {
                     mobileMenuBtn.classList.remove("active");
-
                     mobileNav.classList.remove("show");
-
                     mobileMenuBtn.setAttribute("aria-expanded", "false");
                     mobileMenuBtn.setAttribute("aria-label", "Open Menu");
                 });
-
             });
 
             document.addEventListener("click", (event) => {
@@ -364,12 +337,6 @@
             });
         }
 
-        /* ================= LOAD EVENTS ================= */
-
-        const API_URL = "http://192.168.0.5:5000";
-
-        const eventsContainer =
-            document.getElementById("homeEvents");
         /* ================= EVENTS API ================= */
         // Use the deployed backend for visitors of the public website.
         const API_URL = "https://ham-club-backend.onrender.com";
@@ -382,21 +349,8 @@
         }
 
         async function loadHomeEvents() {
-
             if (!eventsContainer) return;
             try {
-
-                const response =
-                    await fetch(`${API_URL}/api/events`);
-
-                const data =
-                    await response.json();
-
-
-                if (!data.success || !data.events) {
-
-                    throw new Error("Events not found");
-
                 const response = await fetch(`${API_URL}/api/events`);
                 if (!response.ok) throw new Error(`Events API returned ${response.status}`);
                 const data = await response.json();
@@ -404,24 +358,10 @@
                     throw new Error("Events not found in the expected response format");
                 }
 
-
-                const events =
-                    data.events.slice(0, 3);
-
-
-                if (events.length === 0) {
-
-                    eventsContainer.innerHTML = `
-                        <div class="no-events">
-                            No events available yet.
-                        </div>
-                    `;
-
                 const events = data.events.slice(0, 3);
                 if (!events.length) {
                     eventsContainer.innerHTML = '<div class="no-events">No events available yet.</div>';
                     return;
-
                 }
 
                 eventsContainer.innerHTML = events.map((event) => {
@@ -449,87 +389,17 @@
                     </article>`;
                 }).join("");
 
-                eventsContainer.innerHTML =
-                    events.map(event => {
-
-                        return `
-
-                            <article class="event-card">
-
-                                <div class="event-image">
-
-                                    ${
-                                        event.image
-                                        ?
-                                        `<img src="${API_URL}${event.image}"
-                                               alt="${event.title}">`
-                                        :
-                                        `<div class="event-placeholder">
-                                            HAM CLUB
-                                         </div>`
-                                    }
-
-                                </div>
-
-
-                                <div class="event-info">
-
-                                    <h3>
-                                        ${event.title}
-                                    </h3>
-
-                                    <p>
-                                        ${event.location || "HAM Club"}
-                                    </p>
-
-                                    <span>
-                                        ${event.date || ""}
-                                    </span>
-
-                                </div>
-
-                            </article>
-
-                        `;
-
-                    }).join("");
-
-
                 // New event cards are now in the DOM; animate them if GSAP is ready.
                 document.dispatchEvent(new CustomEvent("ham:events-rendered"));
             } catch (error) {
-
-                console.error(
-                    "Failed to load events:",
-                    error
-                );
-
-
-                eventsContainer.innerHTML = `
-                    <div class="no-events">
-                        Events will be updated soon.
-                    </div>
-                `;
-
                 console.error("Failed to load homepage events:", error);
                 eventsContainer.innerHTML = '<div class="no-events">Events will be updated soon.</div>';
             }
-
         }
 
-
-        loadHomeEvents();
-
-        /* ================= GSAP PREMIUM ANIMATIONS ================= */
-        (function () {
         /* ================= PREMIUM GSAP + MOUSE EFFECTS ================= */
         function initAnimations() {
             if (!window.gsap || !window.ScrollTrigger) {
-                console.warn("GSAP could not load; the page will remain usable.");
-                return;
-            }
-
-            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
                 console.warn("GSAP did not load; standard page styles remain available.");
                 return;
             }
@@ -538,52 +408,8 @@
             const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
             const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-            // Hero: reveal each text element and button in a smooth sequence.
-            gsap.timeline({ defaults: { ease: "power3.out" } })
-                .from(".hero .welcome", {
-                    y: 24, autoAlpha: 0, duration: 0.65
-                })
-                .from(".hero h1", {
-                    y: 42, autoAlpha: 0, scale: 0.97, duration: 0.85
-                }, "-=0.25")
-                .from(".hero h2, .hero h3", {
-                    y: 22, autoAlpha: 0, duration: 0.6, stagger: 0.12
-                }, "-=0.35")
-                .from(".hero .tagline", {
-                    y: 18, autoAlpha: 0, duration: 0.6
-                }, "-=0.2")
-                .from(".hero-buttons .btn", {
-                    y: 16, autoAlpha: 0, scale: 0.98,
-                    duration: 0.5, stagger: 0.13
-                }, "-=0.2");
-
-            // Gentle background movement.
-            gsap.to(".hero-bg", {
-                scale: 1.055,
-                duration: 12,
-                ease: "sine.inOut",
-                yoyo: true,
-                repeat: -1
-            });
             if (reduceMotion) return;
 
-            // Reveal section headings as each section enters the viewport.
-            gsap.utils.toArray(
-                ".short-about, .domains, .latest-events"
-            ).forEach(function (section) {
-                var heading = section.querySelector(".section-heading");
-                if (!heading) return;
-
-                gsap.from(heading, {
-                    y: 30,
-                    autoAlpha: 0,
-                    duration: 0.75,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 82%",
-                        once: true
-                    }
             // Hero entrance: heading, supporting text, then buttons.
             const hero = document.querySelector(".hero-content");
             if (hero) {
@@ -616,55 +442,18 @@
                 }
             });
 
-            // Reveal the short-about text and link.
-            var aboutContent = document.querySelectorAll(
-                ".short-about .about-text, .short-about .text-link"
-            );
             const aboutContent = document.querySelectorAll(".short-about .about-text, .short-about .text-link");
             if (aboutContent.length) {
-                gsap.from(aboutContent, {
-                    y: 20,
-                    autoAlpha: 0,
-                    duration: 0.65,
-                    stagger: 0.13,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: ".short-about",
-                        start: "top 75%",
-                        once: true
-                    }
                 gsap.fromTo(aboutContent, { y: 20, autoAlpha: 0 }, {
                     y: 0, autoAlpha: 1, duration: 0.68, stagger: 0.13, ease: "power2.out",
                     scrollTrigger: { trigger: ".short-about", start: "top 75%", once: true }
                 });
             }
 
-            // Animate cards only once. Events are inserted asynchronously,
-            // so the same function is called after the backend updates the DOM.
             // Animate domain/event cards once. Event cards are inserted asynchronously.
             function animateCards(selector, triggerSelector) {
-                var cards = gsap.utils.toArray(selector).filter(function (card) {
-                    return card.dataset.gsapAnimated !== "true";
-                });
                 const cards = gsap.utils.toArray(selector).filter((card) => card.dataset.gsapAnimated !== "true");
                 if (!cards.length) return;
-
-                cards.forEach(function (card) {
-                    card.dataset.gsapAnimated = "true";
-                });
-
-                gsap.from(cards, {
-                    y: 34,
-                    autoAlpha: 0,
-                    scale: 0.975,
-                    duration: 0.68,
-                    stagger: 0.11,
-                    ease: "power3.out",
-                    clearProps: "opacity,visibility,transform",
-                    scrollTrigger: {
-                        trigger: triggerSelector,
-                        start: "top 82%",
-                        once: true
                 cards.forEach((card) => { card.dataset.gsapAnimated = "true"; });
                 gsap.fromTo(cards,
                     { y: 34, autoAlpha: 0, scale: 0.975 },
@@ -673,7 +462,6 @@
                         ease: "power3.out", clearProps: "opacity,visibility",
                         scrollTrigger: { trigger: triggerSelector, start: "top 82%", once: true }
                     }
-                });
                 );
             }
 
@@ -685,22 +473,6 @@
                 attachCardInteractions();
             });
 
-            var eventsContainer = document.getElementById("homeEvents");
-            if (eventsContainer) {
-                var eventObserver = new MutationObserver(function () {
-                    animateCards(".event-card", ".latest-events");
-                    ScrollTrigger.refresh();
-                });
-                eventObserver.observe(eventsContainer, {
-                    childList: true,
-                    subtree: true
-                });
-            }
-
-            // Refined hover motion on devices that support a real hover.
-            if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-                document.querySelectorAll(".domain-card, .event-card").forEach(function (card) {
-                    card.addEventListener("mouseenter", function () {
             // Mouse-follow glow + gentle 3D tilt on cards.
             function attachCardInteractions() {
                 if (!canHover) return;
@@ -716,22 +488,13 @@
                         card.style.setProperty("--mouse-x", `${x}px`);
                         card.style.setProperty("--mouse-y", `${y}px`);
                         gsap.to(card, {
-                            y: -7,
-                            duration: 0.25,
-                            ease: "power2.out",
-                            overwrite: "auto"
                             rotationX: rotateX, rotationY: rotateY, y: -6,
                             duration: 0.22, ease: "power2.out", overwrite: "auto",
                             transformPerspective: 900
                         });
                     });
-                    card.addEventListener("mouseleave", function () {
                     card.addEventListener("mouseleave", () => {
                         gsap.to(card, {
-                            y: 0,
-                            duration: 0.3,
-                            ease: "power2.out",
-                            overwrite: "auto"
                             rotationX: 0, rotationY: 0, y: 0,
                             duration: 0.48, ease: "elastic.out(1, 0.55)", overwrite: "auto"
                         });
@@ -759,59 +522,12 @@
                 });
             }
 
-            window.addEventListener("load", function () {
-                ScrollTrigger.refresh();
             // Soft button press feedback.
             document.querySelectorAll(".hero-buttons .btn").forEach((button) => {
                 button.addEventListener("pointerdown", () => gsap.to(button, { scale: 0.97, duration: 0.12, overwrite: "auto" }));
                 button.addEventListener("pointerup", () => gsap.to(button, { scale: 1, duration: 0.22, ease: "back.out(2)", overwrite: "auto" }));
                 button.addEventListener("pointercancel", () => gsap.to(button, { scale: 1, duration: 0.22, overwrite: "auto" }));
             });
-        })();
-    </script>
-    
-<script>
-(() => {
-    const cards = document.querySelectorAll(
-        ".domain-card, .event-card"
-    );
-
-    const supportsHover = window.matchMedia(
-        "(hover: hover) and (pointer: fine)"
-    ).matches;
-
-    const reducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (!supportsHover || reducedMotion) return;
-
-    cards.forEach((card) => {
-        card.addEventListener("mousemove", (event) => {
-            const rect = card.getBoundingClientRect();
-
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateY = ((x - centerX) / centerX) * 5;
-            const rotateX = ((centerY - y) / centerY) * 5;
-
-            card.style.setProperty("--mouse-x", `${x}px`);
-            card.style.setProperty("--mouse-y", `${y}px`);
-
-            card.style.transform =
-                `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-        });
-
-        card.addEventListener("mouseleave", () => {
-            card.style.transform = "";
-        });
-    });
-})();
-</script>
 
             window.addEventListener("load", () => ScrollTrigger.refresh());
             window.addEventListener("resize", () => ScrollTrigger.refresh());
