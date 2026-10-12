@@ -13,6 +13,9 @@
 
 <body>
 
+    <!-- Continuous radio-wave animation layer -->
+    <canvas id="radioWaveCanvas" aria-hidden="true"></canvas>
+
     <!-- ================= NAVBAR ================= -->
 
     <header class="navbar">
@@ -22,7 +25,7 @@
             <!-- LOGO + NAME -->
             <a href="index.html" class="brand">
 
-                <img src="/logo/logo.png"
+                <img src="images/logo/logo.png"
                      alt="HAM Club Logo">
 
                 <span>HAM CLUB</span>
@@ -52,6 +55,12 @@
 
             </nav>
 
+
+            <!-- THEME SWITCH -->
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
+                <span class="theme-icon" aria-hidden="true">☾</span>
+                <span class="theme-label">Dark</span>
+            </button>
 
             <!-- MOBILE MENU BUTTON -->
 
@@ -293,255 +302,304 @@
     </footer>
 
 
-    <!-- GSAP animation libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
-
-    <!-- GSAP animation libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
-
     <!-- ================= JAVASCRIPT ================= -->
+
     <script>
-    (() => {
-        "use strict";
 
         /* ================= MOBILE MENU ================= */
-        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
-        const mobileNav = document.getElementById("mobileNav");
 
-        if (mobileMenuBtn && mobileNav) {
-            mobileMenuBtn.addEventListener("click", () => {
-                const isOpen = mobileNav.classList.toggle("show");
-                mobileMenuBtn.classList.toggle("active", isOpen);
-                mobileMenuBtn.setAttribute("aria-expanded", String(isOpen));
-                mobileMenuBtn.setAttribute("aria-label", isOpen ? "Close Menu" : "Open Menu");
-            });
+        const mobileMenuBtn =
+            document.getElementById("mobileMenuBtn");
 
-            document.querySelectorAll(".mobile-nav a").forEach((link) => {
-                link.addEventListener("click", () => {
+        const mobileNav =
+            document.getElementById("mobileNav");
+
+
+        mobileMenuBtn.addEventListener("click", function () {
+
+            mobileMenuBtn.classList.toggle("active");
+
+            mobileNav.classList.toggle("show");
+
+        });
+
+
+        /* Close mobile menu */
+
+        document.querySelectorAll(".mobile-nav a")
+            .forEach(function (link) {
+
+                link.addEventListener("click", function () {
+
                     mobileMenuBtn.classList.remove("active");
+
                     mobileNav.classList.remove("show");
-                    mobileMenuBtn.setAttribute("aria-expanded", "false");
-                    mobileMenuBtn.setAttribute("aria-label", "Open Menu");
+
                 });
+
             });
 
-            document.addEventListener("click", (event) => {
-                if (!mobileNav.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
-                    mobileMenuBtn.classList.remove("active");
-                    mobileNav.classList.remove("show");
-                    mobileMenuBtn.setAttribute("aria-expanded", "false");
-                    mobileMenuBtn.setAttribute("aria-label", "Open Menu");
-                }
-            });
-        }
 
-        /* ================= EVENTS API ================= */
-        // Use the deployed backend for visitors of the public website.
-        const API_URL = "https://ham-club-backend.onrender.com";
-        const eventsContainer = document.getElementById("homeEvents");
+        /* ================= LOAD EVENTS ================= */
 
-        function resolveImageUrl(image) {
-            if (!image) return "";
-            if (/^https?:\/\//i.test(image)) return image;
-            return `${API_URL}${image.startsWith("/") ? "" : "/"}${image}`;
-        }
+        const API_URL = "http://192.168.0.5:5000";
+
+        const eventsContainer =
+            document.getElementById("homeEvents");
+
 
         async function loadHomeEvents() {
-            if (!eventsContainer) return;
+
             try {
-                const response = await fetch(`${API_URL}/api/events`);
-                if (!response.ok) throw new Error(`Events API returned ${response.status}`);
-                const data = await response.json();
-                if (!data.success || !Array.isArray(data.events)) {
-                    throw new Error("Events not found in the expected response format");
+
+                const response =
+                    await fetch(`${API_URL}/api/events`);
+
+                const data =
+                    await response.json();
+
+
+                if (!data.success || !data.events) {
+
+                    throw new Error("Events not found");
+
                 }
 
-                const events = data.events.slice(0, 3);
-                if (!events.length) {
-                    eventsContainer.innerHTML = '<div class="no-events">No events available yet.</div>';
-                    return;
-                }
 
-                eventsContainer.innerHTML = events.map((event) => {
-                    const title = String(event.title || "HAM Club Event");
-                    const safeTitle = title.replace(/[&<>"']/g, (char) => ({
-                        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-                    }[char]));
-                    const imageUrl = resolveImageUrl(event.image);
-                    const imageMarkup = imageUrl
-                        ? `<img src="${imageUrl.replace(/"/g, "&quot;")}" alt="${safeTitle}" loading="lazy">`
-                        : '<div class="event-placeholder">HAM CLUB</div>';
-                    const location = String(event.location || "HAM Club").replace(/[&<>"']/g, (char) => ({
-                        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-                    }[char]));
-                    const date = String(event.date || "").replace(/[&<>"']/g, (char) => ({
-                        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-                    }[char]));
-                    return `<article class="event-card">
-                        <div class="event-image">${imageMarkup}</div>
-                        <div class="event-info">
-                            <h3>${safeTitle}</h3>
-                            <p>${location}</p>
-                            <span>${date}</span>
+                const events =
+                    data.events.slice(0, 3);
+
+
+                if (events.length === 0) {
+
+                    eventsContainer.innerHTML = `
+                        <div class="no-events">
+                            No events available yet.
                         </div>
-                    </article>`;
-                }).join("");
+                    `;
 
-                // New event cards are now in the DOM; animate them if GSAP is ready.
-                document.dispatchEvent(new CustomEvent("ham:events-rendered"));
-            } catch (error) {
-                console.error("Failed to load homepage events:", error);
-                eventsContainer.innerHTML = '<div class="no-events">Events will be updated soon.</div>';
-            }
-        }
+                    return;
 
-        /* ================= PREMIUM GSAP + MOUSE EFFECTS ================= */
-        function initAnimations() {
-            if (!window.gsap || !window.ScrollTrigger) {
-                console.warn("GSAP did not load; standard page styles remain available.");
-                return;
-            }
-
-            gsap.registerPlugin(ScrollTrigger);
-            const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-            const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-            if (reduceMotion) return;
-
-            // Hero entrance: heading, supporting text, then buttons.
-            const hero = document.querySelector(".hero-content");
-            if (hero) {
-                gsap.set(hero.querySelectorAll(".welcome, h1, h2, h3, .tagline, .hero-buttons .btn"), {
-                    autoAlpha: 0
-                });
-                const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-                timeline
-                    .fromTo(".hero .welcome", { y: 22, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.65 })
-                    .fromTo(".hero h1", { y: 42, scale: 0.96, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.85 }, "-=0.25")
-                    .fromTo(".hero h2, .hero h3", { y: 22, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.12 }, "-=0.38")
-                    .fromTo(".hero .tagline", { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.6 }, "-=0.22")
-                    .fromTo(".hero-buttons .btn", { y: 16, scale: 0.97, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.52, stagger: 0.13 }, "-=0.18");
-            }
-
-            // Soft background breathing motion.
-            const heroBg = document.querySelector(".hero-bg");
-            if (heroBg) {
-                gsap.to(heroBg, { scale: 1.055, duration: 12, ease: "sine.inOut", yoyo: true, repeat: -1 });
-            }
-
-            // Reveal section headings and supporting copy as they enter the viewport.
-            gsap.utils.toArray(".short-about, .domains, .latest-events").forEach((section) => {
-                const heading = section.querySelector(".section-heading");
-                if (heading) {
-                    gsap.fromTo(heading, { y: 30, autoAlpha: 0 }, {
-                        y: 0, autoAlpha: 1, duration: 0.78, ease: "power3.out",
-                        scrollTrigger: { trigger: section, start: "top 82%", once: true }
-                    });
                 }
-            });
 
-            const aboutContent = document.querySelectorAll(".short-about .about-text, .short-about .text-link");
-            if (aboutContent.length) {
-                gsap.fromTo(aboutContent, { y: 20, autoAlpha: 0 }, {
-                    y: 0, autoAlpha: 1, duration: 0.68, stagger: 0.13, ease: "power2.out",
-                    scrollTrigger: { trigger: ".short-about", start: "top 75%", once: true }
-                });
-            }
 
-            // Animate domain/event cards once. Event cards are inserted asynchronously.
-            function animateCards(selector, triggerSelector) {
-                const cards = gsap.utils.toArray(selector).filter((card) => card.dataset.gsapAnimated !== "true");
-                if (!cards.length) return;
-                cards.forEach((card) => { card.dataset.gsapAnimated = "true"; });
-                gsap.fromTo(cards,
-                    { y: 34, autoAlpha: 0, scale: 0.975 },
-                    {
-                        y: 0, autoAlpha: 1, scale: 1, duration: 0.72, stagger: 0.12,
-                        ease: "power3.out", clearProps: "opacity,visibility",
-                        scrollTrigger: { trigger: triggerSelector, start: "top 82%", once: true }
-                    }
+                eventsContainer.innerHTML =
+                    events.map(event => {
+
+                        return `
+
+                            <article class="event-card">
+
+                                <div class="event-image">
+
+                                    ${
+                                        event.image
+                                        ?
+                                        `<img src="${API_URL}${event.image}"
+                                               alt="${event.title}">`
+                                        :
+                                        `<div class="event-placeholder">
+                                            HAM CLUB
+                                         </div>`
+                                    }
+
+                                </div>
+
+
+                                <div class="event-info">
+
+                                    <h3>
+                                        ${event.title}
+                                    </h3>
+
+                                    <p>
+                                        ${event.location || "HAM Club"}
+                                    </p>
+
+                                    <span>
+                                        ${event.date || ""}
+                                    </span>
+
+                                </div>
+
+                            </article>
+
+                        `;
+
+                    }).join("");
+
+
+            } catch (error) {
+
+                console.error(
+                    "Failed to load events:",
+                    error
                 );
+
+
+                eventsContainer.innerHTML = `
+                    <div class="no-events">
+                        Events will be updated soon.
+                    </div>
+                `;
+
             }
 
-            animateCards(".domain-card", ".domains");
-            animateCards(".event-card", ".latest-events");
-            document.addEventListener("ham:events-rendered", () => {
-                animateCards(".event-card", ".latest-events");
-                ScrollTrigger.refresh();
-                attachCardInteractions();
-            });
-
-            // Mouse-follow glow + gentle 3D tilt on cards.
-            function attachCardInteractions() {
-                if (!canHover) return;
-                document.querySelectorAll(".domain-card, .event-card").forEach((card) => {
-                    if (card.dataset.mouseFxAttached === "true") return;
-                    card.dataset.mouseFxAttached = "true";
-                    card.addEventListener("mousemove", (event) => {
-                        const rect = card.getBoundingClientRect();
-                        const x = event.clientX - rect.left;
-                        const y = event.clientY - rect.top;
-                        const rotateY = ((x / rect.width) - 0.5) * 8;
-                        const rotateX = (0.5 - (y / rect.height)) * 8;
-                        card.style.setProperty("--mouse-x", `${x}px`);
-                        card.style.setProperty("--mouse-y", `${y}px`);
-                        gsap.to(card, {
-                            rotationX: rotateX, rotationY: rotateY, y: -6,
-                            duration: 0.22, ease: "power2.out", overwrite: "auto",
-                            transformPerspective: 900
-                        });
-                    });
-                    card.addEventListener("mouseleave", () => {
-                        gsap.to(card, {
-                            rotationX: 0, rotationY: 0, y: 0,
-                            duration: 0.48, ease: "elastic.out(1, 0.55)", overwrite: "auto"
-                        });
-                    });
-                });
-            }
-            attachCardInteractions();
-
-            // Magnetic hero buttons: subtle, bounded cursor attraction.
-            if (canHover) {
-                document.querySelectorAll(".hero-buttons .btn").forEach((button) => {
-                    button.addEventListener("mousemove", (event) => {
-                        const rect = button.getBoundingClientRect();
-                        const dx = event.clientX - (rect.left + rect.width / 2);
-                        const dy = event.clientY - (rect.top + rect.height / 2);
-                        gsap.to(button, {
-                            x: Math.max(-10, Math.min(10, dx * 0.16)),
-                            y: Math.max(-7, Math.min(7, dy * 0.16)),
-                            duration: 0.28, ease: "power2.out", overwrite: "auto"
-                        });
-                    });
-                    button.addEventListener("mouseleave", () => {
-                        gsap.to(button, { x: 0, y: 0, duration: 0.55, ease: "elastic.out(1, 0.45)", overwrite: "auto" });
-                    });
-                });
-            }
-
-            // Soft button press feedback.
-            document.querySelectorAll(".hero-buttons .btn").forEach((button) => {
-                button.addEventListener("pointerdown", () => gsap.to(button, { scale: 0.97, duration: 0.12, overwrite: "auto" }));
-                button.addEventListener("pointerup", () => gsap.to(button, { scale: 1, duration: 0.22, ease: "back.out(2)", overwrite: "auto" }));
-                button.addEventListener("pointercancel", () => gsap.to(button, { scale: 1, duration: 0.22, overwrite: "auto" }));
-            });
-
-            window.addEventListener("load", () => ScrollTrigger.refresh());
-            window.addEventListener("resize", () => ScrollTrigger.refresh());
         }
 
-        // Load data independently from animations so events still render if GSAP is unavailable.
+
         loadHomeEvents();
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", initAnimations, { once: true });
-        } else {
-            initAnimations();
-        }
+
+        /* ================= SCROLL REVEAL ================= */
+
+const revealElements = document.querySelectorAll(
+    ".section-heading, .short-about, .domain-card, .event-card"
+);
+
+const revealObserver = new IntersectionObserver(
+    function (entries) {
+
+        entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add("show");
+
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+
+revealElements.forEach(function (element) {
+
+    revealObserver.observe(element);
+
+});
+
+/* =========================================================
+   SCROLL REVEAL ANIMATION
+   ========================================================= */
+
+const animatedSections = document.querySelectorAll(
+    ".short-about, .domains, .latest-events"
+);
+
+
+const animationObserver = new IntersectionObserver(
+    function (entries) {
+
+        entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add("reveal-show");
+
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+
+animatedSections.forEach(function (section) {
+
+    animationObserver.observe(section);
+
+});
+
+    </script>
+
+
+    <!-- Live radio waves + persistent Black/Light theme -->
+    <script>
+    (() => {
+        const root = document.documentElement;
+        const toggle = document.getElementById('themeToggle');
+        const canvas = document.getElementById('radioWaveCanvas');
+        const ctx = canvas && canvas.getContext('2d');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let theme = 'light';
+        try { theme = localStorage.getItem('ham-club-theme') || 'light'; } catch (_) {}
+        const setTheme = (next) => {
+            theme = next === 'dark' ? 'dark' : 'light';
+            root.dataset.theme = theme;
+            if (toggle) {
+                toggle.innerHTML = theme === 'dark'
+                    ? '<span class="theme-icon" aria-hidden="true">☀</span><span class="theme-label">Light</span>'
+                    : '<span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span>';
+                toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+            }
+            try { localStorage.setItem('ham-club-theme', theme); } catch (_) {}
+        };
+        setTheme(theme);
+        toggle?.addEventListener('click', () => setTheme(theme === 'dark' ? 'light' : 'dark'));
+        if (!canvas || !ctx) return;
+
+        let width = 0, height = 0, dpr = 1, frame = 0;
+        const pointer = { x: -9999, y: -9999 };
+        const resize = () => {
+            dpr = Math.min(window.devicePixelRatio || 1, 1.8);
+            width = window.innerWidth; height = window.innerHeight;
+            canvas.width = Math.floor(width * dpr); canvas.height = Math.floor(height * dpr);
+            canvas.style.width = width + 'px'; canvas.style.height = height + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        };
+        const wave = (t, baseY, amp, freq, phase, color, lineWidth) => {
+            ctx.beginPath();
+            for (let x = 0; x <= width + 8; x += 5) {
+                const influence = Math.max(0, 1 - Math.abs(x - pointer.x) / Math.max(260, width * .32));
+                const y = baseY + Math.sin(x * freq + t * .001 + phase) * amp
+                    + Math.sin(x * freq * .43 - t * .0007 + phase) * amp * .45
+                    + (pointer.y > 0 ? (pointer.y - baseY) * influence * .12 : 0);
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = color; ctx.lineWidth = lineWidth; ctx.stroke();
+        };
+        const particles = Array.from({ length: Math.min(75, Math.max(28, Math.floor(window.innerWidth / 18))) }, () => ({
+            x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+            r: Math.random() * 1.8 + .4, speed: Math.random() * .28 + .08, phase: Math.random() * 6.28
+        }));
+        const draw = (time) => {
+            ctx.clearRect(0, 0, width, height);
+            const dark = theme === 'dark';
+            const cyan = dark ? 'rgba(42,218,255,.42)' : 'rgba(0,126,220,.25)';
+            const blue = dark ? 'rgba(65,125,255,.34)' : 'rgba(33,113,211,.19)';
+            const magenta = dark ? 'rgba(226,74,255,.28)' : 'rgba(157,73,219,.16)';
+            ctx.save(); ctx.globalCompositeOperation = 'screen';
+            const center = height * .47;
+            wave(time, center, height * .12, .008, 0, cyan, 1.8);
+            wave(time + 1200, center + height * .045, height * .085, .011, 2.1, blue, 1.4);
+            wave(time + 2400, center - height * .035, height * .07, .006, 4.2, magenta, 1.4);
+            wave(time + 600, center + height * .10, height * .045, .016, 1.4, cyan, .8);
+            // Signal glow points that drift continuously.
+            particles.forEach((p, i) => {
+                p.x += p.speed; p.phase += .012;
+                if (p.x > width + 5) p.x = -5;
+                const py = p.y + Math.sin(p.phase) * 9;
+                ctx.beginPath(); ctx.arc(p.x, py, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = i % 4 === 0 ? (dark ? 'rgba(238,105,255,.65)' : 'rgba(144,63,210,.5)') : (dark ? 'rgba(95,222,255,.62)' : 'rgba(20,130,215,.45)');
+                ctx.fill();
+            });
+            ctx.restore();
+            if (!prefersReducedMotion) frame = requestAnimationFrame(draw);
+        };
+        resize();
+        window.addEventListener('resize', resize, { passive: true });
+        window.addEventListener('pointermove', (e) => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
+        if (prefersReducedMotion) draw(0); else frame = requestAnimationFrame(draw);
     })();
     </script>
+
 </body>
 
 </html>
