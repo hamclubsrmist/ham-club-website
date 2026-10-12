@@ -9,12 +9,10 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css">
+    <meta name="theme-color" content="#07111f">
 </head>
 
 <body>
-
-    <!-- Continuous radio-wave animation layer -->
-    <canvas id="radioWaveCanvas" aria-hidden="true"></canvas>
 
     <!-- ================= NAVBAR ================= -->
 
@@ -25,7 +23,7 @@
             <!-- LOGO + NAME -->
             <a href="index.html" class="brand">
 
-                <img src="/logo/logo.png"
+                <img src="images/logo/logo.png"
                      alt="HAM Club Logo">
 
                 <span>HAM CLUB</span>
@@ -56,10 +54,10 @@
             </nav>
 
 
-            <!-- THEME SWITCH -->
-            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
-                <span class="theme-icon" aria-hidden="true">☾</span>
-                <span class="theme-label">Dark</span>
+            <!-- DARK / LIGHT THEME SWITCH -->
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+                <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+                <span class="theme-toggle-label">Dark</span>
             </button>
 
             <!-- MOBILE MENU BUTTON -->
@@ -96,6 +94,8 @@
 
 
     <!-- ================= HERO ================= -->
+
+    <canvas id="radioWaveCanvas" aria-hidden="true"></canvas>
 
     <main>
 
@@ -342,7 +342,7 @@
 
         /* ================= LOAD EVENTS ================= */
 
-        const API_URL = "http://192.168.0.5:5000";
+        const API_URL = "https://ham-club-backend.onrender.com";
 
         const eventsContainer =
             document.getElementById("homeEvents");
@@ -518,87 +518,7 @@ animatedSections.forEach(function (section) {
 });
 
     </script>
-
-
-    <!-- Live radio waves + persistent Black/Light theme -->
-    <script>
-    (() => {
-        const root = document.documentElement;
-        const toggle = document.getElementById('themeToggle');
-        const canvas = document.getElementById('radioWaveCanvas');
-        const ctx = canvas && canvas.getContext('2d');
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        let theme = 'light';
-        try { theme = localStorage.getItem('ham-club-theme') || 'light'; } catch (_) {}
-        const setTheme = (next) => {
-            theme = next === 'dark' ? 'dark' : 'light';
-            root.dataset.theme = theme;
-            if (toggle) {
-                toggle.innerHTML = theme === 'dark'
-                    ? '<span class="theme-icon" aria-hidden="true">☀</span><span class="theme-label">Light</span>'
-                    : '<span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span>';
-                toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-            }
-            try { localStorage.setItem('ham-club-theme', theme); } catch (_) {}
-        };
-        setTheme(theme);
-        toggle?.addEventListener('click', () => setTheme(theme === 'dark' ? 'light' : 'dark'));
-        if (!canvas || !ctx) return;
-
-        let width = 0, height = 0, dpr = 1, frame = 0;
-        const pointer = { x: -9999, y: -9999 };
-        const resize = () => {
-            dpr = Math.min(window.devicePixelRatio || 1, 1.8);
-            width = window.innerWidth; height = window.innerHeight;
-            canvas.width = Math.floor(width * dpr); canvas.height = Math.floor(height * dpr);
-            canvas.style.width = width + 'px'; canvas.style.height = height + 'px';
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        };
-        const wave = (t, baseY, amp, freq, phase, color, lineWidth) => {
-            ctx.beginPath();
-            for (let x = 0; x <= width + 8; x += 5) {
-                const influence = Math.max(0, 1 - Math.abs(x - pointer.x) / Math.max(260, width * .32));
-                const y = baseY + Math.sin(x * freq + t * .001 + phase) * amp
-                    + Math.sin(x * freq * .43 - t * .0007 + phase) * amp * .45
-                    + (pointer.y > 0 ? (pointer.y - baseY) * influence * .12 : 0);
-                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-            }
-            ctx.strokeStyle = color; ctx.lineWidth = lineWidth; ctx.stroke();
-        };
-        const particles = Array.from({ length: Math.min(75, Math.max(28, Math.floor(window.innerWidth / 18))) }, () => ({
-            x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
-            r: Math.random() * 1.8 + .4, speed: Math.random() * .28 + .08, phase: Math.random() * 6.28
-        }));
-        const draw = (time) => {
-            ctx.clearRect(0, 0, width, height);
-            const dark = theme === 'dark';
-            const cyan = dark ? 'rgba(42,218,255,.42)' : 'rgba(0,126,220,.25)';
-            const blue = dark ? 'rgba(65,125,255,.34)' : 'rgba(33,113,211,.19)';
-            const magenta = dark ? 'rgba(226,74,255,.28)' : 'rgba(157,73,219,.16)';
-            ctx.save(); ctx.globalCompositeOperation = 'screen';
-            const center = height * .47;
-            wave(time, center, height * .12, .008, 0, cyan, 1.8);
-            wave(time + 1200, center + height * .045, height * .085, .011, 2.1, blue, 1.4);
-            wave(time + 2400, center - height * .035, height * .07, .006, 4.2, magenta, 1.4);
-            wave(time + 600, center + height * .10, height * .045, .016, 1.4, cyan, .8);
-            // Signal glow points that drift continuously.
-            particles.forEach((p, i) => {
-                p.x += p.speed; p.phase += .012;
-                if (p.x > width + 5) p.x = -5;
-                const py = p.y + Math.sin(p.phase) * 9;
-                ctx.beginPath(); ctx.arc(p.x, py, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = i % 4 === 0 ? (dark ? 'rgba(238,105,255,.65)' : 'rgba(144,63,210,.5)') : (dark ? 'rgba(95,222,255,.62)' : 'rgba(20,130,215,.45)');
-                ctx.fill();
-            });
-            ctx.restore();
-            if (!prefersReducedMotion) frame = requestAnimationFrame(draw);
-        };
-        resize();
-        window.addEventListener('resize', resize, { passive: true });
-        window.addEventListener('pointermove', (e) => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
-        if (prefersReducedMotion) draw(0); else frame = requestAnimationFrame(draw);
-    })();
-    </script>
+    <script src="js/radio-background.js" defer></script>
 
 </body>
 
