@@ -1,251 +1,642 @@
-/* Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+<!DOCTYPE html>
+<html lang="en">
 
-/* =========================
-   RESET
-========================= */
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+    <title>HAM CLUB | SRMIST Ramapuram</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="navbar-container">
+
+            <!-- LOGO + NAME -->
+            <a href="index.html" class="brand">
+
+                <img src="/logo/logo.png"
+                     alt="HAM Club Logo">
+
+                <span>HAM CLUB</span>
+
+            </a>
+
+
+            <!-- DESKTOP NAVIGATION -->
+
+            <nav class="desktop-nav">
+
+                <a href="index.html" class="active">Home</a>
+
+                <a href="about.html">About</a>
+
+                <a href="leadership.html">Leadership</a>
+
+                <a href="events.html">Events</a>
+
+                <a href="gallery.html">Gallery</a>
+
+                <a href="projects.html">Projects</a>
+
+                <a href="magazine.html">Magazine</a>
+
+                <a href="contact.html">Contact</a>
+
+            </nav>
+
+
+            <!-- MOBILE MENU BUTTON -->
+
+            <button class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    aria-label="Open Menu">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+        </div>
+
+
+        <!-- MOBILE NAVIGATION -->
+
+        <nav class="mobile-nav" id="mobileNav">
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="leadership.html">Leadership</a>
+            <a href="events.html">Events</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="projects.html">Projects</a>
+            <a href="magazine.html">Magazine</a>
+            <a href="contact.html">Contact</a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <main>
+
+        <section class="hero">
+
+            <!-- Background -->
+
+            <div class="hero-bg"></div>
+
+
+            <!-- Content -->
+
+            <div class="hero-content">
+
+                <p class="welcome">
+                    WELCOME TO
+                </p>
+
+                <h1>
+                    HAM CLUB
+                </h1>
+
+                <h2>
+                    SRM Institute of Science and Technology
+                </h2>
+
+                <h3>
+                    Ramapuram Campus
+                </h3>
+
+                <p class="tagline">
+                    Connecting Passion Wirelessly through Amateur Radio,
+                    Electronics and Wireless Innovation.
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a href="about.html"
+                       class="btn btn-primary">
+                        Explore Club
+                    </a>
+
+                    <a href="contact.html"
+                       class="btn btn-secondary">
+                        Contact Us
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SHORT ABOUT ================= -->
+
+        <section class="short-about">
+
+            <div class="section-heading">
+
+                <p>ABOUT US</p>
+
+                <h2>
+                    Connecting Passion, Creating Innovation
+                </h2>
+
+            </div>
+
+            <p class="about-text">
+                A student-driven technical club focused on
+                Amateur Radio, Electronics and Wireless Technology.
+            </p>
+
+            <a href="about.html" class="text-link">
+                Learn More →
+            </a>
+
+        </section>
+
+
+        <!-- ================= DOMAINS ================= -->
+
+        <section class="domains">
+
+            <div class="section-heading">
+
+                <p>EXPLORE</p>
+
+                <h2>
+                    Our Domains
+                </h2>
+
+            </div>
+
+
+            <div class="domain-grid">
+
+                <div class="domain-card">
+                    <span>01</span>
+                    <h3>VLSI</h3>
+                </div>
+
+                <div class="domain-card">
+                    <span>02</span>
+                    <h3>Embedded</h3>
+                </div>
+
+                <div class="domain-card">
+                    <span>03</span>
+                    <h3>Robotics</h3>
+                </div>
+
+                <div class="domain-card">
+                    <span>04</span>
+                    <h3>IoT</h3>
+                </div>
+
+                <div class="domain-card">
+                    <span>05</span>
+                    <h3>Ethical Hacking</h3>
+                </div>
+
+            </div>
+
+
+            <a href="projects.html"
+               class="text-link domain-link">
+                Explore Projects →
+            </a>
+
+        </section>
+
+
+        <!-- ================= LATEST EVENTS ================= -->
+
+        <section class="latest-events">
+
+            <div class="section-heading">
+
+                <p>EVENTS</p>
+
+                <h2>
+                    Latest Events
+                </h2>
+
+            </div>
+
+
+            <div class="event-preview"
+                 id="homeEvents">
+
+                <!-- Events will load from backend -->
+
+                <div class="event-loading">
+                    Loading events...
+                </div>
+
+            </div>
+
+
+            <a href="events.html"
+               class="text-link">
+                View All Events →
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="home-footer">
+
+        <div class="footer-content">
+
+            <img src="images/logo/logo.png"
+                 alt="HAM Club Logo">
+
+            <div>
+
+                <h3>
+                    HAM CLUB
+                </h3>
+
+                <p>
+                    SRM Institute of Science and Technology
+                    <br>
+                    Ramapuram Campus
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © 2026 HAM Club. All Rights Reserved.
+
+        </div>
+
+    </footer>
+
+
+    <!-- GSAP animation libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+
+    <!-- GSAP animation libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+    (() => {
+        "use strict";
+
+        /* ================= MOBILE MENU ================= */
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const mobileNav = document.getElementById("mobileNav");
+
+        if (mobileMenuBtn && mobileNav) {
+            mobileMenuBtn.addEventListener("click", () => {
+                const isOpen = mobileNav.classList.toggle("show");
+                mobileMenuBtn.classList.toggle("active", isOpen);
+                mobileMenuBtn.setAttribute("aria-expanded", String(isOpen));
+                mobileMenuBtn.setAttribute("aria-label", isOpen ? "Close Menu" : "Open Menu");
+            });
+
+            document.querySelectorAll(".mobile-nav a").forEach((link) => {
+                link.addEventListener("click", () => {
+                    mobileMenuBtn.classList.remove("active");
+                    mobileNav.classList.remove("show");
+                    mobileMenuBtn.setAttribute("aria-expanded", "false");
+                    mobileMenuBtn.setAttribute("aria-label", "Open Menu");
+                });
+            });
+
+            document.addEventListener("click", (event) => {
+                if (!mobileNav.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                    mobileMenuBtn.classList.remove("active");
+                    mobileNav.classList.remove("show");
+                    mobileMenuBtn.setAttribute("aria-expanded", "false");
+                    mobileMenuBtn.setAttribute("aria-label", "Open Menu");
+                }
+            });
+        }
+
+        /* ================= EVENTS API ================= */
+        // Use the deployed backend for visitors of the public website.
+        const API_URL = "https://ham-club-backend.onrender.com";
+        const eventsContainer = document.getElementById("homeEvents");
+
+        function resolveImageUrl(image) {
+            if (!image) return "";
+            if (/^https?:\/\//i.test(image)) return image;
+            return `${API_URL}${image.startsWith("/") ? "" : "/"}${image}`;
+        }
+
+        async function loadHomeEvents() {
+            if (!eventsContainer) return;
+            try {
+                const response = await fetch(`${API_URL}/api/events`);
+                if (!response.ok) throw new Error(`Events API returned ${response.status}`);
+                const data = await response.json();
+                if (!data.success || !Array.isArray(data.events)) {
+                    throw new Error("Events not found in the expected response format");
+                }
+
+                const events = data.events.slice(0, 3);
+                if (!events.length) {
+                    eventsContainer.innerHTML = '<div class="no-events">No events available yet.</div>';
+                    return;
+                }
+
+                eventsContainer.innerHTML = events.map((event) => {
+                    const title = String(event.title || "HAM Club Event");
+                    const safeTitle = title.replace(/[&<>"']/g, (char) => ({
+                        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+                    }[char]));
+                    const imageUrl = resolveImageUrl(event.image);
+                    const imageMarkup = imageUrl
+                        ? `<img src="${imageUrl.replace(/"/g, "&quot;")}" alt="${safeTitle}" loading="lazy">`
+                        : '<div class="event-placeholder">HAM CLUB</div>';
+                    const location = String(event.location || "HAM Club").replace(/[&<>"']/g, (char) => ({
+                        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+                    }[char]));
+                    const date = String(event.date || "").replace(/[&<>"']/g, (char) => ({
+                        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+                    }[char]));
+                    return `<article class="event-card">
+                        <div class="event-image">${imageMarkup}</div>
+                        <div class="event-info">
+                            <h3>${safeTitle}</h3>
+                            <p>${location}</p>
+                            <span>${date}</span>
+                        </div>
+                    </article>`;
+                }).join("");
+
+                // New event cards are now in the DOM; animate them if GSAP is ready.
+                document.dispatchEvent(new CustomEvent("ham:events-rendered"));
+            } catch (error) {
+                console.error("Failed to load homepage events:", error);
+                eventsContainer.innerHTML = '<div class="no-events">Events will be updated soon.</div>';
+            }
+        }
+
+        /* ================= PREMIUM GSAP + MOUSE EFFECTS ================= */
+        function initAnimations() {
+            if (!window.gsap || !window.ScrollTrigger) {
+                console.warn("GSAP did not load; standard page styles remain available.");
+                return;
+            }
+
+            gsap.registerPlugin(ScrollTrigger);
+            const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+            if (reduceMotion) return;
+
+            // Hero entrance: heading, supporting text, then buttons.
+            const hero = document.querySelector(".hero-content");
+            if (hero) {
+                gsap.set(hero.querySelectorAll(".welcome, h1, h2, h3, .tagline, .hero-buttons .btn"), {
+                    autoAlpha: 0
+                });
+                const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+                timeline
+                    .fromTo(".hero .welcome", { y: 22, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.65 })
+                    .fromTo(".hero h1", { y: 42, scale: 0.96, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.85 }, "-=0.25")
+                    .fromTo(".hero h2, .hero h3", { y: 22, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.12 }, "-=0.38")
+                    .fromTo(".hero .tagline", { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.6 }, "-=0.22")
+                    .fromTo(".hero-buttons .btn", { y: 16, scale: 0.97, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.52, stagger: 0.13 }, "-=0.18");
+            }
+
+            // Soft background breathing motion.
+            const heroBg = document.querySelector(".hero-bg");
+            if (heroBg) {
+                gsap.to(heroBg, { scale: 1.055, duration: 12, ease: "sine.inOut", yoyo: true, repeat: -1 });
+            }
+
+            // Reveal section headings and supporting copy as they enter the viewport.
+            gsap.utils.toArray(".short-about, .domains, .latest-events").forEach((section) => {
+                const heading = section.querySelector(".section-heading");
+                if (heading) {
+                    gsap.fromTo(heading, { y: 30, autoAlpha: 0 }, {
+                        y: 0, autoAlpha: 1, duration: 0.78, ease: "power3.out",
+                        scrollTrigger: { trigger: section, start: "top 82%", once: true }
+                    });
+                }
+            });
+
+            const aboutContent = document.querySelectorAll(".short-about .about-text, .short-about .text-link");
+            if (aboutContent.length) {
+                gsap.fromTo(aboutContent, { y: 20, autoAlpha: 0 }, {
+                    y: 0, autoAlpha: 1, duration: 0.68, stagger: 0.13, ease: "power2.out",
+                    scrollTrigger: { trigger: ".short-about", start: "top 75%", once: true }
+                });
+            }
+
+            // Animate domain/event cards once. Event cards are inserted asynchronously.
+            function animateCards(selector, triggerSelector) {
+                const cards = gsap.utils.toArray(selector).filter((card) => card.dataset.gsapAnimated !== "true");
+                if (!cards.length) return;
+                cards.forEach((card) => { card.dataset.gsapAnimated = "true"; });
+                gsap.fromTo(cards,
+                    { y: 34, autoAlpha: 0, scale: 0.975 },
+                    {
+                        y: 0, autoAlpha: 1, scale: 1, duration: 0.72, stagger: 0.12,
+                        ease: "power3.out", clearProps: "opacity,visibility",
+                        scrollTrigger: { trigger: triggerSelector, start: "top 82%", once: true }
+                    }
+                );
+            }
+
+            animateCards(".domain-card", ".domains");
+            animateCards(".event-card", ".latest-events");
+            document.addEventListener("ham:events-rendered", () => {
+                animateCards(".event-card", ".latest-events");
+                ScrollTrigger.refresh();
+                attachCardInteractions();
+            });
+
+            // Mouse-follow glow + gentle 3D tilt on cards.
+            function attachCardInteractions() {
+                if (!canHover) return;
+                document.querySelectorAll(".domain-card, .event-card").forEach((card) => {
+                    if (card.dataset.mouseFxAttached === "true") return;
+                    card.dataset.mouseFxAttached = "true";
+                    card.addEventListener("mousemove", (event) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = event.clientX - rect.left;
+                        const y = event.clientY - rect.top;
+                        const rotateY = ((x / rect.width) - 0.5) * 8;
+                        const rotateX = (0.5 - (y / rect.height)) * 8;
+                        card.style.setProperty("--mouse-x", `${x}px`);
+                        card.style.setProperty("--mouse-y", `${y}px`);
+                        gsap.to(card, {
+                            rotationX: rotateX, rotationY: rotateY, y: -6,
+                            duration: 0.22, ease: "power2.out", overwrite: "auto",
+                            transformPerspective: 900
+                        });
+                    });
+                    card.addEventListener("mouseleave", () => {
+                        gsap.to(card, {
+                            rotationX: 0, rotationY: 0, y: 0,
+                            duration: 0.48, ease: "elastic.out(1, 0.55)", overwrite: "auto"
+                        });
+                    });
+                });
+            }
+            attachCardInteractions();
+
+            // Magnetic hero buttons: subtle, bounded cursor attraction.
+            if (canHover) {
+                document.querySelectorAll(".hero-buttons .btn").forEach((button) => {
+                    button.addEventListener("mousemove", (event) => {
+                        const rect = button.getBoundingClientRect();
+                        const dx = event.clientX - (rect.left + rect.width / 2);
+                        const dy = event.clientY - (rect.top + rect.height / 2);
+                        gsap.to(button, {
+                            x: Math.max(-10, Math.min(10, dx * 0.16)),
+                            y: Math.max(-7, Math.min(7, dy * 0.16)),
+                            duration: 0.28, ease: "power2.out", overwrite: "auto"
+                        });
+                    });
+                    button.addEventListener("mouseleave", () => {
+                        gsap.to(button, { x: 0, y: 0, duration: 0.55, ease: "elastic.out(1, 0.45)", overwrite: "auto" });
+                    });
+                });
+            }
+
+            // Soft button press feedback.
+            document.querySelectorAll(".hero-buttons .btn").forEach((button) => {
+                button.addEventListener("pointerdown", () => gsap.to(button, { scale: 0.97, duration: 0.12, overwrite: "auto" }));
+                button.addEventListener("pointerup", () => gsap.to(button, { scale: 1, duration: 0.22, ease: "back.out(2)", overwrite: "auto" }));
+                button.addEventListener("pointercancel", () => gsap.to(button, { scale: 1, duration: 0.22, overwrite: "auto" }));
+            });
+
+            window.addEventListener("load", () => ScrollTrigger.refresh());
+            window.addEventListener("resize", () => ScrollTrigger.refresh());
+        }
+
+        // Load data independently from animations so events still render if GSAP is unavailable.
+        loadHomeEvents();
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initAnimations, { once: true });
+        } else {
+            initAnimations();
+        }
+    })();
+    </script>
+</body>
+
+</html>
+
+/* =========================================================
+   HAM CLUB RADIO EXPERIENCE — live wave layer + themes
+   Shared layer designed to coexist with css/home.css.
+========================================================= */
+:root {
+  color-scheme: light;
+  --ham-page: #f5f8fc;
+  --ham-surface: rgba(255,255,255,.88);
+  --ham-text: #18283b;
+  --ham-muted: #526276;
+  --ham-border: rgba(22,79,130,.16);
+  --ham-accent: #087fc5;
+  --ham-header: rgba(255,255,255,.88);
 }
-
-html{
-    scroll-behavior:smooth;
-    width:100%;
-    overflow-x:hidden;
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ham-page: #070d18;
+  --ham-surface: rgba(12,22,39,.88);
+  --ham-text: #edf7ff;
+  --ham-muted: #b3c5d9;
+  --ham-border: rgba(83,198,255,.22);
+  --ham-accent: #4bdcff;
+  --ham-header: rgba(5,12,23,.88);
 }
-
-body{
-    margin:0;
-    padding:0;
-    font-family:'Poppins', sans-serif;
-
-    background:
-        linear-gradient(rgba(255,255,255,0.90),
-        rgba(255,255,255,0.90)),
-        url("../images/background.png");
-
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
+html, body { min-height: 100%; }
+body {
+  position: relative;
+  isolation: isolate;
+  background: var(--ham-page);
+  color: var(--ham-text);
+  transition: background-color .35s ease, color .35s ease;
 }
-
-/* =========================
-   NAVBAR
-========================= */
-
-/* ===========================
-   PREMIUM NAVBAR
-=========================== */
-
-header{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    background:#fff;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-    z-index:1000;
+#radioWaveCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .92;
 }
-
-.navbar{
-    max-width:1400px;
-    margin:auto;
-    padding:16px 40px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+body > header, body > main, body > footer { position: relative; z-index: 1; }
+body > header { background: var(--ham-header); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.theme-toggle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-left: 14px;
+  padding: 9px 13px;
+  border: 1px solid var(--ham-border);
+  border-radius: 999px;
+  color: var(--ham-text);
+  background: var(--ham-surface);
+  font: 600 13px/1 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, background .25s ease;
 }
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    flex:1;
+.theme-toggle:hover { transform: translateY(-2px); border-color: var(--ham-accent); }
+.theme-icon { font-size: 17px; line-height: 1; }
+:root[data-theme="dark"] body { background-image: none; }
+:root[data-theme="dark"] .navbar,
+:root[data-theme="dark"] header.navbar,
+:root[data-theme="dark"] .mobile-nav { background-color: var(--ham-header); }
+:root[data-theme="dark"] .desktop-nav a,
+:root[data-theme="dark"] .mobile-nav a,
+:root[data-theme="dark"] .brand,
+:root[data-theme="dark"] .brand span { color: var(--ham-text); }
+:root[data-theme="dark"] .short-about,
+:root[data-theme="dark"] .domains,
+:root[data-theme="dark"] .latest-events,
+:root[data-theme="dark"] .domain-card,
+:root[data-theme="dark"] .event-card,
+:root[data-theme="dark"] .home-footer { background-color: var(--ham-surface); color: var(--ham-text); }
+:root[data-theme="dark"] .section-heading h2,
+:root[data-theme="dark"] .domain-card h3,
+:root[data-theme="dark"] .event-info h3,
+:root[data-theme="dark"] .about-text,
+:root[data-theme="dark"] .event-info p,
+:root[data-theme="dark"] .event-info span,
+:root[data-theme="dark"] .home-footer p,
+:root[data-theme="dark"] .home-footer h3 { color: var(--ham-text); }
+:root[data-theme="dark"] .hero-bg { background-color: transparent; }
+:root[data-theme="dark"] .domain-card,
+:root[data-theme="dark"] .event-card { border-color: var(--ham-border); box-shadow: 0 12px 36px rgba(0,0,0,.18); }
+:root[data-theme="dark"] .text-link { color: var(--ham-accent); }
+@media (max-width: 900px) {
+  .theme-toggle { margin-left: auto; margin-right: 10px; padding: 8px 10px; }
+  .theme-label { display: none; }
 }
-
-.logo img{
-    width:55px;
-    height:55px;
-}
-
-.logo-text h2{
-    font-size:28px;
-}
-
-.logo-text span{
-    font-size:14px;
-}
-
-.nav-links{
-    display:flex;
-    list-style:none;
-    gap:35px;
-}
-
-.nav-links a{
-    text-decoration:none;
-    color:#222;
-    font-weight:600;
-    position:relative;
-}
-
-.nav-links a::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:-8px;
-    width:0%;
-    height:3px;
-    background:#FFC107;
-    transition:.3s;
-}
-
-.nav-links a:hover::after,
-.nav-links a.active::after{
-    width:100%;
-}
-
-.join-btn{
-    background:#0B3C6D;
-    color:white;
-    text-decoration:none;
-    padding:14px 28px;
-    border-radius:35px;
-    transition:.3s;
-}
-
-.join-btn:hover{
-    background:#FFC107;
-    color:#000;
-}
-/* ===========================
-   Mobile Responsive
-=========================== */
-
-@media (max-width:768px){
-
-.navbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-direction:row;
-    padding:15px 20px;
-}
-
-.nav-links{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:18px;
-}
-
-.hero{
-    flex-direction:column;
-    text-align:center;
-    padding:50px 20px;
-}
-
-.hero-content h1{
-    font-size:48px;
-}
-
-.hero-content h2{
-    font-size:28px;
-}
-
-.hero-image img{
-    width:90%;
-}
-
-.cards{
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
-}
-
-.leadership-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-    gap:25px;
-}
-
-.gallery-grid{
-    grid-template-columns:repeat(2,1fr);
-}
-
-.event-grid{
-    grid-template-columns:1fr;
-}
-
-.album-grid{
-    grid-template-columns:1fr;
-}
-
-}
-.menu-toggle{
-    display: none;
-    font-size: 35px;
-    cursor: pointer;
-}
-
-@media (max-width:900px){
-
-    .menu-toggle{
-        display:block;
-        margin-left:auto;
-    }
-
-    .nav-links{
-        position:absolute;
-        top:90px;
-        left:-100%;
-        width:100%;
-        background:#fff;
-        flex-direction:column;
-        text-align:center;
-        padding:25px 0;
-        transition:0.3s;
-    }
-
-    .nav-links.active{
-        left:0;
-    }
-}
-html,
-body{
-    overflow-x:hidden;
-    width:100%;
-}
-
-*{
-    box-sizing:border-box;
-}
-
-img{
-    max-width:100%;
-    height:auto;
-}
-@media (max-width:768px){
-
-.logo-text h2{
-    font-size:20px;
-}
-
-.logo-text span{
-    font-size:12px;
-}
-
-.logo img{
-    width:48px;
-    height:48px;
-}
-
-.navbar{
-    padding:12px 15px;
-}
-
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
