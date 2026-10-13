@@ -27,13 +27,13 @@ body{font-family:'Poppins',Arial,sans-serif;background:var(--bg);color:var(--tex
 .section-title h2{font-size:clamp(28px,3.5vw,36px);font-weight:700;color:var(--blue);margin-bottom:8px}
 .section-title p{font-size:16px;color:var(--muted)}
 .domain-card{background:#fff;border:1px solid #e1e7ef;border-radius:18px;margin-bottom:26px;overflow:hidden;box-shadow:0 8px 28px #132d4b08}
-.domain-top{display:grid;grid-template-columns:190px minmax(0,1fr);align-items:center;gap:26px;padding:26px}
-.domain-image{display:block;width:190px;height:155px;max-width:100%;object-fit:cover;border-radius:13px;background:#e9eef5}
+.domain-top{display:grid;grid-template-columns:160px minmax(0,1fr);align-items:center;gap:24px;padding:24px}
+.domain-image{display:block;width:160px;height:135px;max-width:100%;object-fit:cover;border-radius:13px;background:#e9eef5}
 .domain-number{font-size:12px;font-weight:700;letter-spacing:1.2px;color:var(--blue);margin-bottom:5px}
 .domain-name{font-size:28px;font-weight:700;line-height:1.3;color:var(--blue);margin-bottom:8px}
 .domain-head{font-size:15px;font-weight:600;margin-bottom:8px;color:#202b3c}
 .domain-description{font-size:15px;color:var(--muted)}
-.project-content{padding:0 26px 26px}
+.project-content{padding:0 24px 24px}.explore-btn{display:inline-block;margin-top:14px;border:0;border-radius:7px;background:var(--blue);color:#fff;padding:10px 17px;font:600 14px Poppins,Arial,sans-serif;cursor:pointer}.explore-btn:hover{background:var(--blue-dark)}.project-content[hidden]{display:none}
 .project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .project-card{min-width:0;border:1px solid #e4e9f0;border-radius:13px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
 .project-card .project-image{display:block;width:100%;height:170px;max-height:170px;object-fit:cover;background:#edf1f6}
@@ -50,7 +50,7 @@ body{font-family:'Poppins',Arial,sans-serif;background:var(--bg);color:var(--tex
 .error-note{font-size:13px;color:#805d14;margin-top:12px}
 footer{background:#103b61;color:#fff;text-align:center;padding:25px 15px;margin-top:65px;font-size:13px}
 @media(max-width:1050px){.navbar{padding:0 4%}.nav-links{gap:18px}.nav-links a{font-size:14px}.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:800px){.navbar{height:78px;padding:0 5%}.logo img{width:52px;height:52px}.menu-btn{display:block}.nav-links{display:none;position:absolute;top:78px;left:0;width:100%;background:#fff;flex-direction:column;gap:0;box-shadow:0 8px 15px #0001}.nav-links.show{display:flex}.nav-links li{width:100%;text-align:center}.nav-links a{display:block;padding:13px;font-size:15px}.domain-top{grid-template-columns:140px minmax(0,1fr);gap:20px;padding:21px}.domain-image{width:140px;height:130px}.domain-name{font-size:24px}.project-content{padding:0 21px 21px}}
+@media(max-width:800px){.navbar{height:78px;padding:0 5%}.logo img{width:52px;height:52px}.menu-btn{display:block}.nav-links{display:none;position:absolute;top:78px;left:0;width:100%;background:#fff;flex-direction:column;gap:0;box-shadow:0 8px 15px #0001}.nav-links.show{display:flex}.nav-links li{width:100%;text-align:center}.nav-links a{display:block;padding:13px;font-size:15px}.domain-top{grid-template-columns:120px minmax(0,1fr);gap:18px;padding:21px}.domain-image{width:120px;height:110px}.domain-name{font-size:24px}.project-content{padding:0 21px 21px}}
 @media(max-width:560px){body{font-size:15px}.hero{padding:48px 18px}.hero p{font-size:14px}.projects-section{padding:0 14px;margin:35px auto}.section-title p{font-size:14px}.domain-top{grid-template-columns:1fr;padding:17px;gap:15px}.domain-image{width:100%;height:175px}.domain-name{font-size:24px}.domain-description{font-size:14px}.project-content{padding:0 17px 17px}.project-grid{grid-template-columns:1fr}.project-card .project-image{height:190px;max-height:190px}.project-card h3{font-size:16px}}
 </style>
 </head>
@@ -113,10 +113,28 @@ function render(projects){
   const section=document.createElement("section");section.className="domain-card";
   const top=document.createElement("div");top.className="domain-top";
   const visual=document.createElement("img");visual.className="domain-image";visual.src=d.image;visual.alt=d.key+" sample image";visual.loading="lazy";visual.onerror=function(){this.onerror=null;this.src=fallbackImage};top.appendChild(visual);
-  const info=document.createElement("div");add(info,"div","domain-number","DOMAIN "+String(i+1).padStart(2,"0"));add(info,"h2","domain-name",d.key);add(info,"p","domain-head","Domain Head: "+d.head);add(info,"p","domain-description",d.description);top.appendChild(info);section.appendChild(top);
-  const content=document.createElement("div");content.className="project-content";
-  if(matches.length){const grid=document.createElement("div");grid.className="project-grid";matches.forEach(p=>grid.appendChild(makeCard(p)));content.appendChild(grid)}
-  else add(content,"div","empty-state","Projects coming soon. Please check back for updates.");
+  const info=document.createElement("div");
+  add(info,"div","domain-number","DOMAIN "+String(i+1).padStart(2,"0"));
+  add(info,"h2","domain-name",d.key);
+  add(info,"p","domain-head","Domain Head: "+d.head);
+  add(info,"p","domain-description",d.description);
+  const button=document.createElement("button");button.type="button";button.className="explore-btn";button.textContent="Explore Projects ("+matches.length+")";button.setAttribute("aria-expanded","false");info.appendChild(button);
+  top.appendChild(info);section.appendChild(top);
+
+  const content=document.createElement("div");content.className="project-content";content.hidden=true;
+  if(matches.length){
+   const grid=document.createElement("div");grid.className="project-grid";
+   matches.forEach(p=>grid.appendChild(makeCard(p)));
+   content.appendChild(grid);
+  }else{
+   add(content,"div","empty-state","No projects have been added to this domain yet. Projects added through the admin dashboard will appear here.");
+  }
+  button.addEventListener("click",()=>{
+   const isOpen=!content.hidden;
+   content.hidden=isOpen;
+   button.setAttribute("aria-expanded",String(!isOpen));
+   button.textContent=(isOpen?"Explore Projects (":"Hide Projects (")+matches.length+")";
+  });
   section.appendChild(content);container.appendChild(section);
  });
 }
