@@ -2114,7 +2114,55 @@ const members = Array.isArray(payload) ? payload :
         }
     );
 })();
+
+    
+/* Leadership page only: mobile navigation fix */
+@media screen and (max-width: 768px) {
+    .navbar {
+        position: relative;
+        z-index: 10000;
+    }
+
+    .navbar .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        margin: 0;
+        padding: 8px 0;
+        background: #fff;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        z-index: 10001;
+    }
+
+    .navbar .nav-links.show {
+        display: flex;
+    }
+
+    .navbar .nav-links li {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    .navbar .nav-links a {
+        display: block;
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 17px;
+        line-height: 1.4;
+    }
+}
+
 </script>
+
+    
 
 </body>
 
