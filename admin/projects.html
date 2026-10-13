@@ -437,15 +437,17 @@
         // GET TOKEN
         // ==========================================
 
-        function getToken() {
+        
+function getToken() {
+    return (
+        localStorage.getItem("hamClubToken") ||
+        localStorage.getItem("token") ||
+        localStorage.getItem("adminToken") ||
+        localStorage.getItem("jwt") ||
+        ""
+    );
+}
 
-            return (
-                localStorage.getItem("token") ||
-                localStorage.getItem("adminToken") ||
-                localStorage.getItem("jwt") ||
-                ""
-            );
-        }
 
 
         // ==========================================
