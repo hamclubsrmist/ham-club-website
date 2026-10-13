@@ -1,756 +1,323 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Projects | HAM CLUB</title>
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
-            color: #111;
-        }
-
-        /* ================= NAVBAR ================= */
-
-        .navbar {
-            height: 82px;
-            background: #ffffff;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 6%;
-
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .logo img {
-            width: 58px;
-            height: 58px;
-            object-fit: contain;
-        }
-
-        .logo span {
-            margin-left: 10px;
-
-            font-size: 25px;
-            font-weight: 700;
-
-            color: #111;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-
-            color: #111;
-
-            font-size: 17px;
-            font-weight: 600;
-
-            padding: 10px 0;
-
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-            bottom: 0;
-
-            width: 0;
-            height: 3px;
-
-            background: #f4c400;
-
-            transition: 0.3s;
-        }
-
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-        }
-
-        .menu-btn {
-            display: none;
-
-            font-size: 30px;
-            cursor: pointer;
-        }
-
-
-        /* ================= HERO ================= */
-
-        .hero {
-            background: linear-gradient(
-                135deg,
-                #174f82,
-                #24689d
-            );
-
-            color: white;
-
-            text-align: center;
-
-            padding: 85px 20px;
-        }
-
-        .hero h1 {
-            font-size: 52px;
-            font-weight: 700;
-
-            margin-bottom: 18px;
-        }
-
-        .hero p {
-            font-size: 20px;
-
-            color: #ffffff;
-
-            letter-spacing: 0.5px;
-        }
-
-
-        /* ================= PROJECT SECTION ================= */
-
-        .projects-section {
-            max-width: 950px;
-
-            margin: 70px auto;
-
-            padding: 0 25px;
-        }
-
-        .section-title {
-            text-align: center;
-
-            margin-bottom: 45px;
-        }
-
-        .section-title h2 {
-            font-size: 38px;
-
-            color: #174f82;
-
-            margin-bottom: 12px;
-        }
-
-        .section-title p {
-            font-size: 18px;
-
-            color: #555;
-        }
-
-
-        /* ================= DOMAIN CARD ================= */
-
-        .domain-card {
-            background: white;
-
-            border-radius: 18px;
-
-            margin-bottom: 25px;
-
-            overflow: hidden;
-
-            border: 1px solid #e2e6eb;
-
-            box-shadow: 0 7px 25px rgba(0,0,0,0.08);
-
-            transition: 0.3s ease;
-        }
-
-        .domain-card:hover {
-            transform: translateY(-4px);
-
-            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-        }
-
-
-        .domain-header {
-            display: flex;
-
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 28px 32px;
-
-            cursor: pointer;
-
-            background: white;
-
-            transition: 0.3s;
-        }
-
-        .domain-header:hover {
-            background: #f7fbff;
-        }
-
-
-        .domain-info {
-            display: flex;
-
-            align-items: center;
-
-            gap: 20px;
-        }
-
-
-        .domain-number {
-            width: 52px;
-            height: 52px;
-
-            border-radius: 50%;
-
-            background: #174f82;
-
-            color: white;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            font-size: 17px;
-            font-weight: 700;
-
-            flex-shrink: 0;
-        }
-
-
-        .domain-name {
-            font-size: 25px;
-
-            font-weight: 700;
-
-            color: #174f82;
-        }
-
-
-        .arrow {
-            font-size: 28px;
-
-            color: #174f82;
-
-            transition: 0.3s;
-        }
-
-
-        /* ================= PROJECT PREVIEW ================= */
-
-        .project-content {
-            padding: 0 32px 28px;
-        }
-
-
-        .project-preview {
-            background: #f5f8fc;
-
-            border-left: 5px solid #f4c400;
-
-            border-radius: 10px;
-
-            padding: 20px 22px;
-        }
-
-
-        .project-preview h3 {
-            font-size: 19px;
-
-            color: #111;
-
-            line-height: 1.5;
-
-            margin-bottom: 12px;
-        }
-
-
-        .view-project {
-            display: inline-block;
-
-            text-decoration: none;
-
-            background: #174f82;
-
-            color: white;
-
-            padding: 11px 20px;
-
-            border-radius: 7px;
-
-            font-size: 15px;
-
-            font-weight: 600;
-
-            transition: 0.3s;
-        }
-
-        .view-project:hover {
-            background: #123e66;
-
-            transform: translateY(-2px);
-        }
-
-
-        /* ================= FOOTER ================= */
-
-        footer {
-            background: #111;
-
-            color: white;
-
-            text-align: center;
-
-            padding: 28px 15px;
-
-            margin-top: 80px;
-        }
-
-        footer p {
-            font-size: 14px;
-
-            color: #ccc;
-        }
-
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 900px) {
-
-            .navbar {
-                padding: 0 5%;
-            }
-
-            .nav-links {
-                position: absolute;
-
-                top: 82px;
-                left: 0;
-
-                width: 100%;
-
-                background: white;
-
-                flex-direction: column;
-
-                gap: 0;
-
-                display: none;
-            }
-
-            .nav-links.show {
-                display: flex;
-            }
-
-            .nav-links li {
-                width: 100%;
-
-                text-align: center;
-            }
-
-            .nav-links a {
-                display: block;
-
-                padding: 16px;
-
-                font-size: 16px;
-            }
-
-            .menu-btn {
-                display: block;
-            }
-
-            .hero h1 {
-                font-size: 42px;
-            }
-
-            .hero p {
-                font-size: 17px;
-            }
-        }
-
-
-        @media (max-width: 600px) {
-
-            .logo img {
-                width: 50px;
-                height: 50px;
-            }
-
-            .logo span {
-                font-size: 21px;
-            }
-
-            .hero {
-                padding: 65px 20px;
-            }
-
-            .hero h1 {
-                font-size: 35px;
-            }
-
-            .hero p {
-                font-size: 15px;
-            }
-
-            .section-title h2 {
-                font-size: 30px;
-            }
-
-            .section-title p {
-                font-size: 16px;
-            }
-
-            .domain-header {
-                padding: 22px 20px;
-            }
-
-            .domain-name {
-                font-size: 20px;
-            }
-
-            .domain-number {
-                width: 45px;
-                height: 45px;
-            }
-
-            .project-content {
-                padding: 0 20px 22px;
-            }
-
-        }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects | HAM CLUB</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#174f82;--yellow:#f4c400;--bg:#f5f7fb}
+body{font-family:Arial,sans-serif;background:var(--bg);color:#172033;line-height:1.6}
+.navbar{min-height:82px;background:white;display:flex;align-items:center;justify-content:space-between;padding:12px 6%;box-shadow:0 2px 10px #0001;position:sticky;top:0;z-index:10}
+.logo{display:flex;align-items:center;text-decoration:none;color:#111}
+.logo img{width:55px;height:55px;object-fit:contain}
+.logo span{font-size:24px;font-weight:bold;margin-left:10px}
+.nav-links{display:flex;gap:22px;list-style:none}
+.nav-links a{color:#111;text-decoration:none;font-weight:600}
+.nav-links a.active,.nav-links a:hover{color:var(--blue)}
+.menu-btn{display:none;font-size:28px;cursor:pointer}
+.hero{background:linear-gradient(135deg,#174f82,#24689d);color:white;text-align:center;padding:70px 20px}
+.hero h1{font-size:clamp(34px,5vw,50px);margin-bottom:10px}
+.hero p{font-size:18px}
+.projects-section{max-width:1180px;margin:50px auto;padding:0 20px}
+.section-title{text-align:center;margin-bottom:32px}
+.section-title h2{font-size:35px;color:var(--blue)}
+.section-title p{color:#596579}
+.domain-card{background:white;border:1px solid #e1e6ed;border-radius:16px;margin-bottom:25px;overflow:hidden;box-shadow:0 6px 20px #0000000b}
+.domain-top{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center;padding:25px}
+.domain-image{width:100%;height:145px;object-fit:cover;border-radius:12px;background:#e9eef5}
+.domain-number{font-size:13px;color:var(--blue);font-weight:bold;letter-spacing:1px}
+.domain-name{font-size:27px;color:var(--blue);margin:4px 0}
+.domain-head{font-weight:bold;margin-bottom:7px}
+.domain-description{color:#596579}
+.project-content{padding:0 25px 25px}
+.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.project-card{border:1px solid #e1e6ed;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.project-card img{width:100%;height:170px;object-fit:cover;background:#edf1f6}
+.project-card-body{padding:16px;display:flex;flex-direction:column;gap:9px;flex:1}
+.project-card h3{font-size:18px;line-height:1.4}
+.project-card p,.project-meta{font-size:14px;color:#596579;white-space:pre-line}
+.tags{font-size:12px;color:var(--blue);font-weight:bold}
+.project-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:5px}
+.btn{display:inline-block;padding:9px 12px;border-radius:7px;text-decoration:none;font-size:13px;font-weight:bold}
+.btn-primary{background:var(--blue);color:white}
+.btn-secondary{border:1px solid var(--blue);color:var(--blue)}
+.empty-state,.loading-state{padding:18px;background:#f5f8fc;border-left:4px solid var(--yellow);border-radius:8px;color:#596579}
+.error-note{font-size:13px;color:#805d14;margin-top:12px}
+footer{background:#111;color:#ccc;text-align:center;padding:26px 15px;margin-top:60px;font-size:14px}
+
+@media(max-width:950px){
+ .nav-links{gap:12px}
+ .nav-links a{font-size:14px}
+ .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:800px){
+ .navbar{padding:10px 5%}
+ .menu-btn{display:block}
+ .nav-links{display:none;position:absolute;top:100%;left:0;width:100%;background:white;flex-direction:column;gap:0;box-shadow:0 8px 12px #0001}
+ .nav-links.show{display:flex}
+ .nav-links li{text-align:center}
+ .nav-links a{display:block;padding:13px;font-size:16px}
+ .domain-top{grid-template-columns:125px 1fr;gap:17px;padding:20px}
+ .domain-image{height:125px}
+}
+@media(max-width:560px){
+ .logo img{width:45px;height:45px}
+ .logo span{font-size:20px}
+ .hero{padding:52px 18px}
+ .hero p{font-size:16px}
+ .projects-section{padding:0 13px;margin:35px auto}
+ .domain-top{grid-template-columns:1fr;padding:17px}
+ .domain-image{height:180px}
+ .domain-name{font-size:24px}
+ .project-content{padding:0 17px 17px}
+ .project-grid{grid-template-columns:1fr}
+ .project-card img{height:200px}
+}
+</style>
 </head>
 
-
 <body>
-
-
-<!-- ================= NAVBAR ================= -->
-
 <nav class="navbar">
+  <a href="index.html" class="logo">
+    <img src="images/logo.png" alt="HAM Club Logo">
+    <span>HAM CLUB</span>
+  </a>
 
-    <a href="index.html" class="logo">
+  <div class="menu-btn" id="menuBtn" role="button" tabindex="0" aria-label="Toggle navigation">☰</div>
 
-        <!-- CHANGE THIS PATH IF YOUR LOGO FILE HAS A DIFFERENT NAME -->
-        <img src="images/logo.png" alt="HAM Club Logo">
-
-        <span>HAM CLUB</span>
-
-    </a>
-
-
-    <div class="menu-btn" id="menuBtn">
-        ☰
-    </div>
-
-
-    <ul class="nav-links" id="navLinks">
-
-        <li>
-            <a href="index.html">Home</a>
-        </li>
-
-        <li>
-            <a href="about.html">About</a>
-        </li>
-
-        <li>
-            <a href="leadership.html">Leadership</a>
-        </li>
-
-        <li>
-            <a href="events.html">Events</a>
-        </li>
-
-        <li>
-            <a href="gallery.html">Gallery</a>
-        </li>
-
-        <li>
-            <a href="projects.html" class="active">Projects</a>
-        </li>
-
-        <li>
-            <a href="magazine.html">Magazine</a>
-        </li>
-
-        <li>
-            <a href="contact.html">Contact</a>
-        </li>
-
-    </ul>
-
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="leadership.html">Leadership</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="projects.html" class="active">Projects</a></li>
+    <li><a href="magazine.html">Magazine</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
 </nav>
 
-
-
-<!-- ================= HERO ================= -->
-
 <section class="hero">
-
-    <h1>Our Projects</h1>
-
-    <p>
-        Explore innovative projects developed by HAM Club members
-    </p>
-
+  <h1>Our Projects</h1>
+  <p>Discover the technical projects and innovations of HAM Club members.</p>
 </section>
 
+<main class="projects-section">
+  <div class="section-title">
+    <h2>Project Domains</h2>
+    <p>Explore our five domains and the projects added by the club team.</p>
+  </div>
 
-
-<!-- ================= PROJECTS ================= -->
-
-<section class="projects-section">
-
-
-    <div class="section-title">
-
-        <h2>Project Domains</h2>
-
-        <p>
-            Select a domain to explore its project
-        </p>
-
-    </div>
-
-
-    <div id="domainContainer"></div>
-
-
-</section>
-
-
-
-<!-- ================= FOOTER ================= -->
+  <div id="domainContainer">
+    <div class="loading-state">Loading projects…</div>
+  </div>
+  <p id="loadNote" class="error-note" hidden></p>
+</main>
 
 <footer>
-
-    <p>
-        © 2026 HAM CLUB – SRMIST Ramapuram. All Rights Reserved.
-    </p>
-
+  <p>© 2026 HAM CLUB – SRMIST Ramapuram. All Rights Reserved.</p>
 </footer>
 
-
-
 <script>
+const API_BASE_URL = "https://ham-club-backend.onrender.com";
 
-
-/* =====================================================
-   PROJECT DATA
-   ===================================================== */
-
-const projects = [
-
-    {
-        domain: "VLSI",
-
-        number: "01",
-
-        title: "Basics of Altera Quartus II software",
-
-        head: "HAM Club Project Team",
-
-        explanation:
-        "This project introduces the fundamentals of Altera Quartus II software and provides an understanding of the basic workflow used for VLSI design, including project creation, design entry, compilation and simulation."
-    },
-
-
-    {
-        domain: "IOT",
-
-        number: "02",
-
-        title: "Smart power monitoring system",
-
-        head: "HAM Club Project Team",
-
-        explanation:
-        "The Smart Power Monitoring System is designed to monitor electrical power usage and provide useful information about energy consumption. The system demonstrates how IoT technology can be used for real-time monitoring and smarter energy management."
-    },
-
-
-    {
-        domain: "Embedded System",
-
-        number: "03",
-
-        title: "Smart Home automation System",
-
-        head: "HAM Club Project Team",
-
-        explanation:
-        "The Smart Home Automation System demonstrates the use of embedded technology to control household appliances such as lights, fans and doors. The system provides a convenient way to manage home devices through an electronic control interface."
-    },
-
-
-    {
-        domain: "Ethical Hacking",
-
-        number: "04",
-
-        title: "ESP-32 Deauther (2.4 GHz Bluetooth and Wifi Tool)",
-
-        head: "HAM Club Project Team",
-
-        explanation:
-        "This project demonstrates wireless security concepts using an ESP32 platform in a controlled laboratory environment. It is intended for educational study of wireless networks, security testing and understanding how wireless communication can be evaluated."
-    },
-
-
-    {
-        domain: "Robotics",
-
-        number: "05",
-
-        title: "PestRover Semi Auto 2026 – Smart Semi-Automatic Pest Control Rover",
-
-        head: "HAM Club Project Team",
-
-        explanation:
-        "PestRover is a smart semi-automatic rover concept designed for agricultural applications. The project combines robotics, embedded systems and sensing technologies to support pest-control activities while reducing the need for continuous manual operation."
-    }
-
+const domains = [
+  {
+    key:"VLSI",
+    head:"C D Mohana Krishna",
+    description:"VLSI (Very Large Scale Integration) focuses on designing digital and electronic circuits by integrating many components onto a single chip.",
+    image:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    key:"IoT",
+    head:"Sivaakilan M",
+    description:"The Internet of Things connects sensors and devices to collect and exchange data for smart monitoring, automation, and control.",
+    image:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    key:"Embedded Systems",
+    head:"Velnambi M",
+    description:"Embedded systems combine hardware and software to perform dedicated tasks in controllers, wearables, appliances, and electronic devices.",
+    image:"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    key:"Ethical Hacking",
+    head:"Ricardo Lopez",
+    description:"Ethical hacking uses authorized security testing to identify vulnerabilities and improve the security of computers, applications, and networks.",
+    image:"https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    key:"Robotics",
+    head:"Rishi K",
+    description:"Robotics combines electronics, programming, sensors, and mechanical systems to build machines that perform tasks automatically or with human control.",
+    image:"https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80"
+  }
 ];
 
+const container = document.getElementById("domainContainer");
+const loadNote = document.getElementById("loadNote");
 
+function normalizeCategory(value){
+  const s = String(value || "").trim().toLowerCase()
+    .replace(/[_-]+/g," ").replace(/\s+/g," ");
 
-/* =====================================================
-   CREATE DOMAIN CARDS
-   ===================================================== */
+  if(s === "iot" || s === "internet of things") return "iot";
+  if(s === "vlsi") return "vlsi";
+  if(["embedded","embedded system","embedded systems"].includes(s)) return "embedded systems";
+  if(["ethical hacking","cybersecurity","cyber security"].includes(s)) return "ethical hacking";
+  if(["robot","robotics"].includes(s)) return "robotics";
+  return s;
+}
 
-const container =
-    document.getElementById("domainContainer");
+function getProjectArray(data){
+  if(Array.isArray(data)) return data;
+  if(Array.isArray(data.projects)) return data.projects;
+  if(Array.isArray(data.data)) return data.data;
+  if(data.data && Array.isArray(data.data.projects)) return data.data.projects;
+  if(Array.isArray(data.results)) return data.results;
+  return [];
+}
 
+function addText(parent,tag,className,value){
+  const element = document.createElement(tag);
+  if(className) element.className = className;
+  element.textContent = value;
+  parent.appendChild(element);
+  return element;
+}
 
-projects.forEach((project) => {
+function makeProjectCard(project){
+  const card = document.createElement("article");
+  card.className = "project-card";
 
+  const title = String(project.title || project.projectTitle || project.name || "Untitled Project");
+  const description = String(project.description || project.details || "Project description will be added soon.");
+  const imageUrl = String(project.image || project.imageUrl || project.imageURL || "");
+  const members = project.members || project.team || "";
+  const technologies = project.technologies || project.techStack || "";
+  const githubUrl = String(project.githubUrl || project.githubURL || project.github || "");
 
-    const card =
-        document.createElement("div");
+  const img = document.createElement("img");
+  img.src = imageUrl || domains[0].image;
+  img.alt = title;
+  img.loading = "lazy";
+  img.onerror = function(){
+    this.onerror = null;
+    this.src = domains[0].image;
+  };
+  card.appendChild(img);
 
-    card.className =
-        "domain-card";
+  const body = document.createElement("div");
+  body.className = "project-card-body";
+  addText(body,"h3","",title);
+  addText(body,"p","",description);
 
+  if(members) addText(body,"div","project-meta","Members: " + (Array.isArray(members) ? members.join(", ") : members));
+  if(technologies) addText(body,"div","tags","Technologies: " + (Array.isArray(technologies) ? technologies.join(", ") : technologies));
 
-    card.innerHTML = `
+  if(githubUrl && /^https?:\/\//i.test(githubUrl)){
+    const actions = document.createElement("div");
+    actions.className = "project-actions";
+    const link = document.createElement("a");
+    link.className = "btn btn-primary";
+    link.href = githubUrl;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "View on GitHub";
+    actions.appendChild(link);
+    body.appendChild(actions);
+  }
 
-        <div class="domain-header">
+  card.appendChild(body);
+  return card;
+}
 
-            <div class="domain-info">
+function renderDomains(projects){
+  container.replaceChildren();
 
-                <div class="domain-number">
-                    ${project.number}
-                </div>
+  domains.forEach((domain,index)=>{
+    const matching = projects.filter(project =>
+      normalizeCategory(project.category || project.domain || project.type) === normalizeCategory(domain.key)
+    );
 
-                <div class="domain-name">
-                    ${project.domain}
-                </div>
+    const section = document.createElement("section");
+    section.className = "domain-card";
 
-            </div>
+    const top = document.createElement("div");
+    top.className = "domain-top";
 
-            <div class="arrow">
-                →
-            </div>
+    const visual = document.createElement("img");
+    visual.className = "domain-image";
+    visual.src = domain.image;
+    visual.alt = domain.key + " sample image";
+    visual.loading = "lazy";
+    visual.onerror = function(){this.style.display="none";};
+    top.appendChild(visual);
 
-        </div>
+    const info = document.createElement("div");
+    addText(info,"div","domain-number","DOMAIN 0" + (index+1));
+    addText(info,"h2","domain-name",domain.key);
+    addText(info,"p","domain-head","Domain Head: " + domain.head);
+    addText(info,"p","domain-description",domain.description);
+    top.appendChild(info);
+    section.appendChild(top);
 
+    const content = document.createElement("div");
+    content.className = "project-content";
 
-        <div class="project-content">
+    if(matching.length){
+      const grid = document.createElement("div");
+      grid.className = "project-grid";
+      matching.forEach(project=>grid.appendChild(makeProjectCard(project)));
+      content.appendChild(grid);
+    }else{
+      addText(content,"div","empty-state","Projects coming soon. Please check back for updates.");
+    }
 
-            <div class="project-preview">
+    section.appendChild(content);
+    container.appendChild(section);
+  });
+}
 
-                <h3>
-                    ${project.title}
-                </h3>
-
-                <a
-                    href="project-details.html?domain=${encodeURIComponent(project.domain)}"
-                    class="view-project"
-                >
-                    View Project →
-                </a>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    /* CLICK CARD */
-
-    const header =
-        card.querySelector(".domain-header");
-
-
-    header.addEventListener("click", () => {
-
-        window.location.href =
-            `project-details.html?domain=${encodeURIComponent(project.domain)}`;
-
+async function loadProjects(){
+  try{
+    const response = await fetch(API_BASE_URL + "/api/projects", {
+      headers:{"Accept":"application/json"}
     });
+    if(!response.ok) throw new Error("Projects API returned HTTP " + response.status);
 
+    const data = await response.json();
+    const projects = getProjectArray(data);
+    renderDomains(projects);
 
-    container.appendChild(card);
+    if(projects.length === 0){
+      loadNote.hidden = false;
+      loadNote.textContent = "No projects were returned by the API. Confirm the projects endpoint and category names.";
+    }
+  }catch(error){
+    console.error("Could not load HAM Club projects:",error);
+    renderDomains([]);
+    loadNote.hidden = false;
+    loadNote.textContent = "Project records could not be loaded. The domain sections are displayed, but the backend projects endpoint may need to be confirmed.";
+  }
+}
 
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+function toggleMenu(){navLinks.classList.toggle("show");}
+menuBtn.addEventListener("click",toggleMenu);
+menuBtn.addEventListener("keydown",event=>{
+  if(event.key==="Enter" || event.key===" "){
+    event.preventDefault();
+    toggleMenu();
+  }
 });
 
-
-
-/* =====================================================
-   MOBILE MENU
-   ===================================================== */
-
-const menuBtn =
-    document.getElementById("menuBtn");
-
-const navLinks =
-    document.getElementById("navLinks");
-
-
-menuBtn.addEventListener("click", () => {
-
-    navLinks.classList.toggle("show");
-
-});
-
-
+loadProjects();
 </script>
-
-
 </body>
 </html>
