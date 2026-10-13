@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,67 +7,151 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/contact.css">
+
+    <style>
+        /* Contact-page-only effects */
+        .contact-hero .container {
+            animation: contactFadeUp 0.7s ease both;
+        }
+
+        .contact-section .contact-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            animation: contactFadeUp 0.7s ease both;
+        }
+
+        .contact-section .contact-card:nth-child(2) {
+            animation-delay: 0.12s;
+        }
+
+        .contact-section .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(16, 63, 107, 0.13);
+        }
+
+        .contact-section .contact-person {
+            transition: background-color 0.2s ease, padding-left 0.2s ease;
+            border-radius: 8px;
+        }
+
+        .contact-section .contact-person:hover {
+            background-color: rgba(23, 79, 130, 0.05);
+            padding-left: 8px;
+        }
+
+        .contact-section a {
+            display: inline-block;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .contact-section a:hover {
+            color: #174f82;
+            transform: translateX(3px);
+        }
+
+        .contact-form-section {
+            animation: contactFadeUp 0.7s ease both;
+        }
+
+        .contact-form-section input,
+        .contact-form-section textarea {
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .contact-form-section input:focus,
+        .contact-form-section textarea:focus {
+            outline: none;
+            border-color: #174f82;
+            box-shadow: 0 0 0 3px rgba(23, 79, 130, 0.12);
+        }
+
+        .contact-form-section button {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .contact-form-section button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 18px rgba(16, 63, 107, 0.18);
+        }
+
+        .contact-form-section button:focus-visible,
+        .contact-section a:focus-visible {
+            outline: 3px solid #f4c400;
+            outline-offset: 3px;
+        }
+
+        @keyframes contactFadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .contact-hero .container,
+            .contact-section .contact-card,
+            .contact-form-section {
+                animation: none;
+            }
+
+            .contact-section .contact-card,
+            .contact-section .contact-person,
+            .contact-section a,
+            .contact-form-section input,
+            .contact-form-section textarea,
+            .contact-form-section button {
+                transition: none;
+            }
+
+            .contact-section .contact-card:hover,
+            .contact-section a:hover,
+            .contact-form-section button:hover {
+                transform: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <!-- ===== NAVBAR ===== -->
-
 <header>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/logo/logo.png" alt="HAM Club Logo">
+            <h2>HAM CLUB</h2>
+        </div>
 
-<nav class="navbar">
+        <!-- Mobile Menu -->
+        <div class="menu-toggle" id="menu-toggle">
+            ☰
+        </div>
 
-    <div class="logo">
-        <img src="/logo/logo.png" alt="HAM Club Logo">
-        <h2>HAM CLUB</h2>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div class="menu-toggle" id="menu-toggle">
-        ☰
-    </div>
-
-    <ul class="nav-links" id="nav-links">
-
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="leadership.html">Leadership</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="magazine.html">Magazine</a></li>
-        <li><a href="contact.html" class="active">Contact</a></li>
-
-    </ul>
-
-</nav>
-
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="leadership.html">Leadership</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="magazine.html">Magazine</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+    </nav>
 </header>
 
 <!-- ===== CONTACT HERO ===== -->
-
 <section class="contact-hero">
-
     <div class="container">
-
         <h1>Contact HAM Club</h1>
-
         <p>
             We're here to connect, collaborate, and innovate.
             Reach out to us for memberships, workshops, events,
             partnerships, or any questions.
         </p>
-
     </div>
-
 </section>
 
 <!-- ===== CONTACT DETAILS ===== -->
-
 <section class="contact-section">
-
     <div class="contact-card">
-
         <h2>📞 Club Contacts</h2>
 
         <div class="contact-person">
@@ -88,74 +171,39 @@
             <p>Pavan Avulapati</p>
             <p>+91 7010774613</p>
         </div>
-
     </div>
 
     <div class="contact-card">
-
         <h2>🌐 Follow Us</h2>
 
-        <a href="https://www.linkedin.com/in/ham-club-srmist/" target="_blank">
+        <a href="https://www.linkedin.com/in/ham-club-srmist/" target="_blank" rel="noopener noreferrer">
             🔗 LinkedIn
         </a>
 
-        <a href="https://www.instagram.com/hamclubsrmist_rmp?igsh=MXcyampyZzdqdGVsbw==" target="_blank">
+        <a href="https://www.instagram.com/hamclubsrmist_rmp?igsh=MXcyampyZzdqdGVsbw==" target="_blank" rel="noopener noreferrer">
             📸 Instagram
         </a>
 
         <a href="mailto:hamclub001@gmail.com">
             📧 hamclub001@gmail.com
         </a>
-
     </div>
-
 </section>
 
 <!-- ===== CONTACT FORM ===== -->
-
 <section class="contact-form-section">
-
     <h2>Send us a Message</h2>
 
     <form id="contactForm">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="text" name="phone" placeholder="Phone Number (Optional)">
+        <input type="text" name="subject" placeholder="Subject">
 
-    <input
-        type="text"
-        name="name"
-        placeholder="Full Name"
-        required
-    >
+        <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
 
-    <input
-        type="email"
-        name="email"
-        placeholder="Email Address"
-        required
-    >
-
-    <input
-        type="text"
-        name="phone"
-        placeholder="Phone Number (Optional)"
-    >
-
-    <input
-        type="text"
-        name="subject"
-        placeholder="Subject"
-    >
-
-    <textarea
-        name="message"
-        rows="6"
-        placeholder="Your Message"
-        required
-    ></textarea>
-
-    <button type="submit">Send Message</button>
-
-</form>
-
+        <button type="submit">Send Message</button>
+    </form>
 </section>
 
 <script src="js/navbar.js"></script>
