@@ -1,119 +1,236 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Events | HAM Club</title>
 
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="stylesheet" href="css/events.css">
 
-</head>
+    <style>
+        /* Events page only */
+        .events-banner {
+            animation: eventsFadeIn 0.8s ease both;
+        }
 
+        .events-banner h1 {
+            animation: eventsSlideUp 0.7s ease both;
+        }
+
+        .events-banner p {
+            animation: eventsSlideUp 0.9s ease both;
+        }
+
+        .events-home .event-option {
+            overflow: hidden;
+            border-radius: 14px;
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+            animation: eventsFadeIn 0.8s ease both;
+        }
+
+        .events-home .event-option:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .events-home .event-option:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+        }
+
+        .events-home .event-option img {
+            display: block;
+            width: 100%;
+            transition: transform 0.4s ease;
+        }
+
+        .events-home .event-option:hover img {
+            transform: scale(1.04);
+        }
+
+        .events-home .event-option h2 {
+            transition: color 0.25s ease;
+        }
+
+        .events-home .event-option:hover h2 {
+            color: #0b3c6d;
+        }
+
+        .events-home .event-btn {
+            display: inline-block;
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                background-color 0.25s ease;
+        }
+
+        .events-home .event-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(11, 60, 109, 0.2);
+        }
+
+        .events-home .event-btn:focus-visible {
+            outline: 3px solid #f0b429;
+            outline-offset: 4px;
+        }
+
+        @keyframes eventsFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes eventsSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Respect reduced-motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            .events-banner,
+            .events-banner h1,
+            .events-banner p,
+            .events-home .event-option {
+                animation: none;
+            }
+
+            .events-home .event-option,
+            .events-home .event-option img,
+            .events-home .event-option h2,
+            .events-home .event-btn {
+                transition: none;
+            }
+
+            .events-home .event-option:hover,
+            .events-home .event-option:hover img,
+            .events-home .event-btn:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar">
 
-<header>
+            <div class="logo">
+                <img src="images/logo/logo.png" alt="HAM Club Logo">
+                <h2>HAM CLUB</h2>
+            </div>
 
-<nav class="navbar">
+            <!-- Mobile Menu -->
+            <button
+                class="menu-toggle"
+                id="menu-toggle"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-controls="nav-links"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
 
-    <div class="logo">
-        <img src="/logo/logo.png" alt="HAM Club Logo">
-        <h2>HAM CLUB</h2>
-    </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="magazine.html">Magazine</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
 
-    <!-- Mobile Menu -->
-    <div class="menu-toggle" id="menu-toggle">
-        ☰
-    </div>
+        </nav>
+    </header>
 
-    <ul class="nav-links" id="nav-links">
+    <!-- BANNER -->
+    <section class="events-banner">
+        <h1>HAM Club Events</h1>
+        <p>
+            Explore our workshops, competitions, technical sessions
+            and memorable club activities.
+        </p>
+    </section>
 
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="leadership.html">Leadership</a></li>
-        <li><a href="events.html" class="active">Events</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="magazine.html">Magazine</a></li>
-        <li><a href="contact.html">Contact</a></li>
+    <!-- EVENT OPTIONS -->
+    <section class="events-home">
 
-    </ul>
+        <div class="event-option">
+            <img
+                src="images/events/upcoming-events.jpg"
+                alt="Upcoming HAM Club Events"
+                loading="lazy"
+            >
 
-</nav>
+            <h2>📅 Upcoming Events</h2>
 
-</header>
+            <p>
+                Explore all upcoming workshops, technical sessions
+                and public events organised by HAM Club.
+            </p>
 
-<!-- ================= BANNER ================= -->
+            <a href="upcoming-events.html" class="event-btn">
+                View Upcoming Events
+            </a>
+        </div>
 
-<section class="events-banner">
+        <div class="event-option">
+            <img
+                src="images/events/past-events.jpg"
+                alt="Past HAM Club Events"
+                loading="lazy"
+            >
 
-<h1>HAM Club Events</h1>
+            <h2>🏆 Past Events</h2>
 
-<p>
+            <p>
+                View our completed events, workshops, competitions
+                and memorable moments with photo galleries.
+            </p>
 
-Explore our workshops, competitions, technical sessions and memorable club activities.
+            <a href="past-events.html" class="event-btn">
+                View Past Events
+            </a>
+        </div>
 
-</p>
+    </section>
 
-</section>
+    <script src="js/navbar.js"></script>
 
-<!-- ================= EVENT OPTIONS ================= -->
+    <script>
+        // Keep the mobile menu accessible.
+        const menuToggle = document.getElementById("menu-toggle");
+        const navLinks = document.getElementById("nav-links");
 
-<section class="events-home">
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener("click", function () {
+                const isOpen = navLinks.classList.toggle("show");
 
-<div class="event-option">
-
-<img src="images/events/upcoming-events.jpg" alt="Upcoming Events">
-
-<h2>📅 Upcoming Events</h2>
-
-<p>
-
-Explore all upcoming workshops, technical sessions and public events organised by HAM Club.
-
-</p>
-
-<a href="upcoming-events.html" class="event-btn">
-
-View Upcoming Events
-
-</a>
-
-</div>
-
-<div class="event-option">
-
-<img src="images/events/past-events.jpg" alt="Past Events">
-
-<h2>🏆 Past Events</h2>
-
-<p>
-
-View our completed events, workshops, competitions and memorable moments with photo galleries.
-
-</p>
-
-<a href="past-events.html" class="event-btn">
-
-View Past Events
-
-</a>
-
-</div>
-
-</section>
-
-<script src="js/navbar.js"></script>
-
+                menuToggle.setAttribute("aria-expanded", String(isOpen));
+                menuToggle.setAttribute(
+                    "aria-label",
+                    isOpen ? "Close navigation menu" : "Open navigation menu"
+                );
+            });
+        }
+    </script>
 
 </body>
-
 </html>
