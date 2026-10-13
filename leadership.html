@@ -1929,7 +1929,19 @@ const members = Array.isArray(payload) ? payload :
     Array.isArray(payload.teamMembers) ? payload.teamMembers : []);
 
             if (!Array.isArray(members)) throw new Error("Team API response did not contain a member list.");
-            cards.forEach(card => setButton(card, findMember(members, cardName(card))));
+            cards.forEach(card => {
+    const member = findMember(members, cardName(card));
+
+    setButton(card, member);
+
+    const photo = card.querySelector(
+        ".profile-photo img, .domain-head-photo img"
+    );
+
+    if (photo && member && member.image) {
+        photo.src = member.image;
+    }
+});
         } catch (error) {
             console.error("Could not load existing member QR IDs for leadership profiles:", error);
             cards.forEach(card => {
